@@ -1,0 +1,30 @@
+{
+  "name": "@oxy7o/platform-workflow",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "bundle": "ncc build lib/action-entry.js -o dist/action",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint src tests",
+    "test": "npm run build && node --test tests/**/*.test.mjs"
+  },
+  "dependencies": {
+    "@actions/core": "3.0.1",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "yaml": "2.9.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "26.4.0",
+    "@vercel/ncc": "0.45.0",
+    "eslint": "10.9.1",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.68.0"
+  }
+}
