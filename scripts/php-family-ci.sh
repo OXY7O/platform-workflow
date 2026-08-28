@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+# shellcheck source=scripts/lib/result.sh
 source "$(dirname "$0")/lib/result.sh"
 
 working_directory="${1:-}"
