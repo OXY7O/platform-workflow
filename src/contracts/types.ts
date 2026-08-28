@@ -34,3 +34,18 @@ export interface CheckResult {
   failureCategory: FailureCategory | null;
   safeDiagnostic: string | null;
 }
+
+export interface SafeEvidence {
+  schemaVersion: "1.0";
+  governanceVersion: "v1.1.0";
+  catalogueVersion: "1.1.0";
+  profileKey: "php-laravel";
+  sourceSha: string;
+  workflowSha: string;
+  contractDigest: string;
+  runnerClass: string;
+  runnerImage: string;
+  checks: CheckResult[];
+  artifact: null | {id: string; name: string; type: "application-package"; digest: string; manifestDigest: string};
+  evidenceReference: string | null;
+}
