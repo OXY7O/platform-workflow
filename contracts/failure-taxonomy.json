@@ -1,0 +1,4 @@
+{
+  "schemaVersion": "1.0",
+  "categories": ["contract", "configuration", "dependency", "quality", "test", "security", "artifact", "runner", "tooling-transient", "platform-internal"]
+}
