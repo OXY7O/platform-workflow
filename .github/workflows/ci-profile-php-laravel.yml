@@ -79,7 +79,8 @@ jobs:
       - name: Build verified application package
         id: build
         run: |
-          export INPUT_BUILD_INPUT="$(node -e 'JSON.parse(process.argv[1]); console.log(JSON.stringify({workingDirectory:process.argv[2],outputDirectory:process.env.RUNNER_TEMP+"/artifacts",sourceSha:process.env.GITHUB_SHA,workflowSha:process.env.GITHUB_WORKFLOW_SHA,contractDigest:process.argv[3],lockDigest:process.argv[4],retentionDays:Number(process.argv[5])}))' '${{ inputs.contract-json }}' '${{ inputs.working-directory }}' '${{ needs.family.outputs.contract-digest }}' '${{ steps.lock.outputs.digest }}' '${{ inputs.retention-days }}')"
+          INPUT_BUILD_INPUT="$(node -e 'JSON.parse(process.argv[1]); console.log(JSON.stringify({workingDirectory:process.argv[2],outputDirectory:process.env.RUNNER_TEMP+"/artifacts",sourceSha:process.env.GITHUB_SHA,workflowSha:process.env.GITHUB_WORKFLOW_SHA,contractDigest:process.argv[3],lockDigest:process.argv[4],retentionDays:Number(process.argv[5])}))' '${{ inputs.contract-json }}' '${{ inputs.working-directory }}' '${{ needs.family.outputs.contract-digest }}' '${{ steps.lock.outputs.digest }}' '${{ inputs.retention-days }}')"
+          export INPUT_BUILD_INPUT
           node .platform-workflow/dist/build-artifact/index.js
       - name: Upload qualified package
         id: upload

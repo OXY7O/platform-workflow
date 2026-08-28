@@ -27,6 +27,7 @@ test("Laravel package binds the real lock digest and artifact evidence", () => {
   assert.match(source, /sha256sum.*composer\.lock/);
   assert.doesNotMatch(source, /"0"\.repeat\(64\)/);
   assert.match(source, /"artifact":\{"artifactId":/);
+  assert.doesNotMatch(source, /export INPUT_BUILD_INPUT="\$\(/);
 });
 
 test("all external actions are pinned to a full commit SHA", () => {
