@@ -1,0 +1,56 @@
+name: Reusable PHP family CI
+
+on:
+  workflow_call:
+    inputs:
+      contract-json: {required: true, type: string}
+      php-version: {required: true, type: string}
+      working-directory: {required: false, type: string, default: "."}
+    outputs:
+      contract-digest:
+        description: Validated caller contract digest
+        value: ${{ jobs.php-family.outputs.contract-digest }}
+      checks-json:
+        description: Normalized PHP family checks
+        value: ${{ jobs.php-family.outputs.checks-json }}
+
+permissions:
+  contents: read
+
+jobs:
+  php-family:
+    runs-on: ubuntu-24.04
+    outputs:
+      contract-digest: ${{ steps.contract.outputs.contract-digest }}
+      checks-json: ${{ steps.results.outputs.checks-json }}
+    steps:
+      - name: Checkout caller source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Checkout platform workflow implementation
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: OXY7O/platform-workflow
+          ref: ${{ github.workflow_sha }}
+          path: .platform-workflow
+      - name: Validate caller contract
+        id: contract
+        env:
+          INPUT_CONTRACT: ${{ inputs.contract-json }}
+        run: node .platform-workflow/dist/validate-contract/index.js
+      - name: Configure PHP runtime
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
+        with:
+          php-version: ${{ inputs.php-version }}
+          tools: composer
+          coverage: none
+      - name: Run PHP family checks
+        env:
+          RUNNER_TEMP: ${{ runner.temp }}
+        run: .platform-workflow/scripts/php-family-ci.sh "${{ inputs.working-directory }}" composer-frozen
+      - name: Export family result
+        id: results
+        if: always()
+        shell: bash
+        run: |
+          checks="$(tr '\n' ',' < "${RUNNER_TEMP}/platform-results/checks.jsonl" | sed 's/,$//')"
+          echo "checks-json=[$checks]" >> "$GITHUB_OUTPUT"

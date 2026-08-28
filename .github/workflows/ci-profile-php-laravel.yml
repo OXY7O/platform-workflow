@@ -1,0 +1,99 @@
+name: Reusable PHP Laravel CI
+
+on:
+  workflow_call:
+    inputs:
+      contract-json: {required: true, type: string}
+      php-version: {required: true, type: string}
+      test-profile: {required: false, type: string, default: phpunit}
+      working-directory: {required: false, type: string, default: "."}
+      coverage-threshold: {required: false, type: number, default: 80}
+      retention-days: {required: false, type: number, default: 14}
+    outputs:
+      readiness:
+        value: ${{ jobs.package.outputs.readiness }}
+      failure-category:
+        value: ${{ jobs.package.outputs.failure-category }}
+      artifact-id:
+        value: ${{ jobs.package.outputs.artifact-id }}
+      artifact-name:
+        value: ${{ jobs.package.outputs.artifact-name }}
+      artifact-digest:
+        value: ${{ jobs.package.outputs.artifact-digest }}
+      manifest-digest:
+        value: ${{ jobs.package.outputs.manifest-digest }}
+      evidence-metadata:
+        value: ${{ jobs.package.outputs.evidence-metadata }}
+
+permissions:
+  contents: read
+
+jobs:
+  family:
+    uses: ./.github/workflows/ci-family-php.yml
+    permissions:
+      contents: read
+    with:
+      contract-json: ${{ inputs.contract-json }}
+      php-version: ${{ inputs.php-version }}
+      working-directory: ${{ inputs.working-directory }}
+
+  package:
+    needs: family
+    runs-on: ubuntu-24.04
+    outputs:
+      readiness: ${{ steps.normalize.outputs.readiness }}
+      failure-category: ${{ steps.normalize.outputs.failure-category }}
+      artifact-id: ${{ steps.build.outputs.artifact-id }}
+      artifact-name: ${{ steps.build.outputs.artifact-name }}
+      artifact-digest: ${{ steps.build.outputs.digest }}
+      manifest-digest: ${{ steps.build.outputs.manifest-digest }}
+      evidence-metadata: ${{ steps.normalize.outputs.evidence-metadata }}
+    steps:
+      - name: Checkout caller source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Checkout platform workflow implementation
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: OXY7O/platform-workflow
+          ref: ${{ github.workflow_sha }}
+          path: .platform-workflow
+      - name: Configure PHP runtime
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
+        with:
+          php-version: ${{ inputs.php-version }}
+          tools: composer
+          coverage: xdebug
+      - name: Recreate frozen dependencies
+        env:
+          RUNNER_TEMP: ${{ runner.temp }}
+        run: .platform-workflow/scripts/php-family-ci.sh "${{ inputs.working-directory }}" composer-frozen
+      - name: Run Laravel profile checks
+        env:
+          RUNNER_TEMP: ${{ runner.temp }}
+        run: .platform-workflow/scripts/laravel-profile-ci.sh "${{ inputs.working-directory }}" "${{ inputs.test-profile }}" "${{ inputs.coverage-threshold }}"
+      - name: Build verified application package
+        id: build
+        run: |
+          export INPUT_BUILD_INPUT="$(node -e 'const c=JSON.parse(process.argv[1]); console.log(JSON.stringify({workingDirectory:process.argv[2],outputDirectory:process.env.RUNNER_TEMP+"/artifacts",sourceSha:process.env.GITHUB_SHA,workflowSha:process.env.GITHUB_WORKFLOW_SHA,contractDigest:process.argv[3],lockDigest:"sha256:"+"0".repeat(64),retentionDays:Number(process.argv[4])}))' '${{ inputs.contract-json }}' '${{ inputs.working-directory }}' '${{ needs.family.outputs.contract-digest }}' '${{ inputs.retention-days }}')"
+          node .platform-workflow/dist/build-artifact/index.js
+      - name: Upload qualified package
+        id: upload
+        if: steps.build.outputs.readiness == 'ci-qualified'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ${{ steps.build.outputs.artifact-name }}
+          path: |
+            ${{ steps.build.outputs.artifact-path }}
+            ${{ steps.build.outputs.manifest-path }}
+          retention-days: ${{ inputs.retention-days }}
+          if-no-files-found: error
+      - name: Normalize result and evidence
+        id: normalize
+        if: always()
+        env:
+          INPUT_CHECKS: >-
+            [{"id":"artifact-verify","required":true,"status":"${{ steps.build.outcome == 'success' && 'passed' || 'failed' }}","failureCategory":${{ steps.build.outcome == 'success' && 'null' || '"artifact"' }},"safeDiagnostic":null}]
+          INPUT_EVIDENCE: >-
+            {"schemaVersion":"1.0","governanceVersion":"v1.1.0","catalogueVersion":"1.1.0","profileKey":"php-laravel","sourceSha":"${{ github.sha }}","workflowSha":"${{ github.workflow_sha }}","contractDigest":"${{ needs.family.outputs.contract-digest }}","runnerClass":"linux-x64","runnerImage":"ubuntu-24.04","artifact":null,"evidenceReference":null}
+        run: node .platform-workflow/dist/normalize-results/index.js
