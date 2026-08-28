@@ -1,0 +1,41 @@
+name: Validate Platform Workflow
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Configure Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Validate contracts and workflow policy
+        run: npm run validate:repository
+      - name: Type-check
+        run: npm run typecheck
+      - name: Lint source
+        run: npm run lint
+      - name: Run tests
+        run: npm test
+      - name: Validate shell syntax
+        run: bash -n scripts/*.sh scripts/lib/*.sh
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@00b27aa7cb85167568cb48a3838b75f4265f2bca
+      - name: Run actionlint
+        uses: raven-actions/actionlint@3d39aea434753780c3b3d4a1a31c854b4dbf49d7
+      - name: Verify committed action bundles
+        run: |
+          npm run bundle:all
+          git diff --exit-code -- dist

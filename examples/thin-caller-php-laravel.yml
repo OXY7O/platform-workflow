@@ -1,0 +1,21 @@
+name: Laravel CI
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  php-laravel-ci:
+    uses: OXY7O/platform-workflow/.github/workflows/ci-profile-php-laravel.yml@3564c22a09b553eeb1352522a651784074cb7417
+    permissions:
+      contents: read
+    with:
+      contract-json: >-
+        {"governanceVersion":"v1.1.0","catalogueVersion":"1.1.0","profileKey":"php-laravel","phpVersion":"8.3","dependencyMode":"composer-frozen","testCommandProfile":"phpunit","artifactType":"application-package","extensions":[],"workingDirectory":".","coverageThreshold":80,"retentionDays":14,"evidenceMode":"safe-metadata"}
+      php-version: "8.3"
+      test-profile: phpunit
+      working-directory: "."
+      coverage-threshold: 80
+      retention-days: 14

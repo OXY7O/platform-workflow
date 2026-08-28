@@ -72,10 +72,14 @@ jobs:
         env:
           RUNNER_TEMP: ${{ runner.temp }}
         run: .platform-workflow/scripts/laravel-profile-ci.sh "${{ inputs.working-directory }}" "${{ inputs.test-profile }}" "${{ inputs.coverage-threshold }}"
+      - name: Resolve dependency lock digest
+        id: lock
+        working-directory: ${{ inputs.working-directory }}
+        run: echo "digest=sha256:$(sha256sum composer.lock | cut -d ' ' -f1)" >> "$GITHUB_OUTPUT"
       - name: Build verified application package
         id: build
         run: |
-          export INPUT_BUILD_INPUT="$(node -e 'const c=JSON.parse(process.argv[1]); console.log(JSON.stringify({workingDirectory:process.argv[2],outputDirectory:process.env.RUNNER_TEMP+"/artifacts",sourceSha:process.env.GITHUB_SHA,workflowSha:process.env.GITHUB_WORKFLOW_SHA,contractDigest:process.argv[3],lockDigest:"sha256:"+"0".repeat(64),retentionDays:Number(process.argv[4])}))' '${{ inputs.contract-json }}' '${{ inputs.working-directory }}' '${{ needs.family.outputs.contract-digest }}' '${{ inputs.retention-days }}')"
+          export INPUT_BUILD_INPUT="$(node -e 'JSON.parse(process.argv[1]); console.log(JSON.stringify({workingDirectory:process.argv[2],outputDirectory:process.env.RUNNER_TEMP+"/artifacts",sourceSha:process.env.GITHUB_SHA,workflowSha:process.env.GITHUB_WORKFLOW_SHA,contractDigest:process.argv[3],lockDigest:process.argv[4],retentionDays:Number(process.argv[5])}))' '${{ inputs.contract-json }}' '${{ inputs.working-directory }}' '${{ needs.family.outputs.contract-digest }}' '${{ steps.lock.outputs.digest }}' '${{ inputs.retention-days }}')"
           node .platform-workflow/dist/build-artifact/index.js
       - name: Upload qualified package
         id: upload
@@ -95,5 +99,5 @@ jobs:
           INPUT_CHECKS: >-
             [{"id":"artifact-verify","required":true,"status":"${{ steps.build.outcome == 'success' && 'passed' || 'failed' }}","failureCategory":${{ steps.build.outcome == 'success' && 'null' || '"artifact"' }},"safeDiagnostic":null}]
           INPUT_EVIDENCE: >-
-            {"schemaVersion":"1.0","governanceVersion":"v1.1.0","catalogueVersion":"1.1.0","profileKey":"php-laravel","sourceSha":"${{ github.sha }}","workflowSha":"${{ github.workflow_sha }}","contractDigest":"${{ needs.family.outputs.contract-digest }}","runnerClass":"linux-x64","runnerImage":"ubuntu-24.04","artifact":null,"evidenceReference":null}
+            {"schemaVersion":"1.0","governanceVersion":"v1.1.0","catalogueVersion":"1.1.0","profileKey":"php-laravel","sourceSha":"${{ github.sha }}","workflowSha":"${{ github.workflow_sha }}","contractDigest":"${{ needs.family.outputs.contract-digest }}","runnerClass":"linux-x64","runnerImage":"ubuntu-24.04","artifact":{"artifactId":"${{ steps.build.outputs.artifact-id }}","artifactName":"${{ steps.build.outputs.artifact-name }}","digest":"${{ steps.build.outputs.digest }}","manifestDigest":"${{ steps.build.outputs.manifest-digest }}","retentionDays":${{ inputs.retention-days }}},"evidenceReference":null}
         run: node .platform-workflow/dist/normalize-results/index.js

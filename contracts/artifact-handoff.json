@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "1.0",
+  "requiredReadiness": "ci-qualified",
+  "requiredReferences": [
+    "artifactId",
+    "artifactDigest",
+    "manifestDigest",
+    "sourceSha",
+    "workflowSha"
+  ],
+  "sameDigestRequired": true,
+  "rebuildAllowed": false,
+  "deploymentExecutedHere": false
+}

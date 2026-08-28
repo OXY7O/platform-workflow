@@ -22,6 +22,13 @@ test("Laravel profile exposes governed artifact outputs", () => {
   }
 });
 
+test("Laravel package binds the real lock digest and artifact evidence", () => {
+  const source = fs.readFileSync(paths[1], "utf8");
+  assert.match(source, /sha256sum.*composer\.lock/);
+  assert.doesNotMatch(source, /"0"\.repeat\(64\)/);
+  assert.match(source, /"artifact":\{"artifactId":/);
+});
+
 test("all external actions are pinned to a full commit SHA", () => {
   for (const path of paths) {
     const workflow = load(path);
