@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   php-laravel-ci:
-    uses: OXY7O/platform-workflow/.github/workflows/ci-profile-php-laravel.yml@3564c22a09b553eeb1352522a651784074cb7417
+    uses: OXY7O/platform-workflow/.github/workflows/ci-profile-php-laravel.yml@142900a25ba8f2d967fc14d9ce16a129c29a3252
     permissions:
       contents: read
     with:
