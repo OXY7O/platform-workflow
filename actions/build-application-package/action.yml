@@ -1,0 +1,15 @@
+name: Build application package
+description: Build and verify a deterministic Laravel application package
+inputs:
+  build-input: {description: Typed artifact build input JSON, required: true}
+outputs:
+  artifact-path: {description: Local verified package path}
+  artifact-id: {description: Stable artifact ID}
+  artifact-name: {description: Conventional artifact filename}
+  digest: {description: SHA-256 package digest}
+  manifest-path: {description: Local manifest path}
+  manifest-digest: {description: SHA-256 manifest digest}
+  readiness: {description: ci-qualified after successful verification}
+runs:
+  using: node24
+  main: ../../dist/build-artifact/index.js
