@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["readiness", "failureCategory", "artifact", "evidence"],
+  "properties": {
+    "readiness": {"enum": ["passed", "failed", "conditionally-passed"]},
+    "failureCategory": {"type": ["string", "null"]},
+    "artifact": {"type": ["object", "null"]},
+    "evidence": {"type": "object"}
+  }
+}

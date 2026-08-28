@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ " $* " == *" test:phpunit "* && "$PWD" == *"laravel-test-failure"* ]]; then exit 1; fi
+exit 0

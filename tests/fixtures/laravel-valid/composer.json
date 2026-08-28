@@ -1,0 +1,1 @@
+{"name":"oxy7o/fixture","scripts":{"test:phpunit":"fixture-pass","test:pest":"fixture-pass"}}

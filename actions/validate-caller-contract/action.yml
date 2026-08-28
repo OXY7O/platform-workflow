@@ -1,0 +1,16 @@
+name: Validate caller contract
+description: Validate typed platform workflow input without exposing values
+inputs:
+  contract:
+    description: JSON caller contract
+    required: true
+outputs:
+  resolved-profile:
+    description: Resolved technology profile key
+  resolved-extensions:
+    description: Resolved extension keys as JSON
+  contract-digest:
+    description: SHA-256 digest of canonical caller contract
+runs:
+  using: node24
+  main: ../../dist/validate-contract/index.js

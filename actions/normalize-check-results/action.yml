@@ -1,0 +1,12 @@
+name: Normalize check results
+description: Aggregate governed checks and emit safe evidence metadata
+inputs:
+  checks: {description: CheckResult JSON array, required: true}
+  evidence: {description: Safe evidence base JSON, required: true}
+outputs:
+  readiness: {description: Normalized readiness}
+  failure-category: {description: Canonical failure category}
+  evidence-metadata: {description: Sanitized evidence metadata JSON}
+runs:
+  using: node24
+  main: ../../dist/normalize-results/index.js

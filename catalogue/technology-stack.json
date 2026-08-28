@@ -1,0 +1,14 @@
+{
+  "governanceVersion": "v1.1.0",
+  "catalogueVersion": "1.1.0",
+  "families": {"php": {"status": "planned", "supportTier": "standard"}},
+  "profiles": {
+    "php-laravel": {
+      "family": "php",
+      "status": "planned",
+      "compatibility": "not-validated",
+      "artifactTypes": ["application-package"],
+      "extensions": ["database-migration", "openapi-validation", "integration-test", "container-build", "sbom-generation", "artifact-signing", "deploy-kubernetes", "deploy-vm-native", "laravel-queue-worker", "laravel-scheduler", "laravel-octane"]
+    }
+  }
+}
