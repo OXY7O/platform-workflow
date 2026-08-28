@@ -40,3 +40,9 @@ test("all external actions are pinned to a full commit SHA", () => {
     }
   }
 });
+
+test("self-validation limits ShellCheck to repository scripts", () => {
+  const workflow = load(".github/workflows/validate-platform-workflow.yml");
+  const step = workflow.jobs.validate.steps.find((candidate) => candidate.name === "Run ShellCheck");
+  assert.equal(step.with.scandir, "scripts");
+});
