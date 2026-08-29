@@ -2,7 +2,7 @@
 
 Implementasi teknis reusable GitHub Actions yang mengikuti `platform-governance@v1.1.0`.
 
-Versi awal `v0.1.0` adalah pilot untuk profil `php-laravel`. Cakupannya adalah validasi kontrak, pemeriksaan CI, pembuatan `application-package`, manifest, digest, dan metadata evidence yang aman. Repository ini **tidak melakukan deployment** ke development, staging, atau production.
+Baseline pilot saat ini adalah `v0.1.1` untuk profil `php-laravel`. Cakupannya adalah validasi kontrak, pemeriksaan CI, pembuatan `application-package`, manifest, digest, dan metadata evidence yang aman. Repository ini **tidak melakukan deployment** ke development, staging, atau production.
 
 ## Mulai menggunakan
 
