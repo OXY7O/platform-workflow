@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+case "${1:-}" in
+  version)
+    echo "go version go1.26.7 linux/amd64"
+    ;;
+  mod)
+    exit 0
+    ;;
+  fmt)
+    exit 0
+    ;;
+  vet)
+    exit 0
+    ;;
+  test)
+    for argument in "$@"; do
+      if [[ "$argument" == -coverprofile=* ]]; then
+        printf 'mode: atomic\nexample.go:1.1,1.2 1 1\n' > "${argument#-coverprofile=}"
+      fi
+    done
+    exit 0
+    ;;
+  tool)
+    if [[ "${2:-}" == "cover" ]]; then
+      echo 'total: (statements) 92.0%'
+    fi
+    exit 0
+    ;;
+  build)
+    output=""
+    while (($#)); do
+      if [[ "$1" == "-o" ]]; then
+        shift
+        output="$1"
+      fi
+      shift || true
+    done
+    mkdir -p "$(dirname "$output")"
+    printf '#!/bin/sh\nexit 0\n' > "$output"
+    chmod 755 "$output"
+    ;;
+  *)
+    exit 0
+    ;;
+esac

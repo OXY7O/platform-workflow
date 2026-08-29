@@ -1,0 +1,22 @@
+name: Run Go Service profile check
+description: Build a controlled Linux amd64 Go Service binary
+inputs:
+  working-directory:
+    description: Relative application working directory
+    required: true
+  main-package:
+    description: Relative governed main package
+    required: true
+  binary-output:
+    description: Controlled binary output path
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Run bundled Go Service profile check
+      shell: bash
+      env:
+        INPUT_WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        INPUT_MAIN_PACKAGE: ${{ inputs.main-package }}
+        INPUT_BINARY_OUTPUT: ${{ inputs.binary-output }}
+      run: '"$GITHUB_ACTION_PATH/../../scripts/go-service-ci.sh" "$INPUT_WORKING_DIRECTORY" "$INPUT_MAIN_PACKAGE" "$INPUT_BINARY_OUTPUT"'

@@ -51,6 +51,15 @@ for (const file of [
   if (!fs.existsSync(file)) errors.push(`${file}: required Go Service contract file is missing`);
 }
 
+for (const file of [
+  "scripts/go-family-ci.sh",
+  "scripts/go-service-ci.sh",
+  "actions/go-family-check/action.yml",
+  "actions/go-service-check/action.yml"
+]) {
+  if (!fs.existsSync(file)) errors.push(`${file}: required Go executor file is missing`);
+}
+
 if (errors.length) {
   console.error(errors.join("\n"));
   process.exit(1);
