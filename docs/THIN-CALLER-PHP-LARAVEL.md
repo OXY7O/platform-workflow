@@ -1,14 +1,8 @@
-# Thin Caller PHP Laravel
+# Thin Caller PHP/Laravel
 
-Thin caller hanya memilih parameter yang diizinkan. Urutan pemeriksaan, command, taxonomy, dan proses packaging tetap dimiliki platform workflow.
+Dokumentasi ini telah dipindahkan ke
+[landing page profile PHP/Laravel](profiles/php-laravel/README.md) agar katalog,
+kontrak, onboarding, dan contoh implementasi dapat dibaca melalui satu alur.
 
-Gunakan [contoh caller](../examples/thin-caller-php-laravel.yml), kemudian tetapkan versi PHP, test profile (`phpunit` atau `pest`), working directory relatif, coverage 0–100, retention 1–30 hari, serta extension dari allowlist schema.
-
-Caller wajib memakai full commit SHA. Tag membantu discovery release, tetapi tidak menggantikan pin immutable. Jangan tambahkan arbitrary command atau `secrets: inherit`. Output `ci-qualified` hanya menyatakan artifact lolos kontrak CI; output itu bukan izin deployment.
-
-## Dua jalur caller
-
-- **Canonical artifact:** memanggil `ci-profile-php-laravel.yml`; hanya lane ini yang membangun dan mengunggah `application-package`.
-- **Compatibility-only:** matrix memanggil `ci-compatibility-php-laravel.yml`; output hanya readiness, kategori kegagalan, digest kontrak/lock, dan safe evidence metadata.
-
-Compatibility caller tidak menerima secret, environment, command bebas, retention, maupun konfigurasi packaging. Catalogue diproses oleh `generate-compatibility-matrix` dan setiap lane divalidasi kembali oleh `validate-compatibility-contract`.
+Panduan parameter caller tersedia di
+[Thin Caller PHP/Laravel](profiles/php-laravel/THIN-CALLER.md).

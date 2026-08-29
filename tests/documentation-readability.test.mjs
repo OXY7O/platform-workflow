@@ -3,35 +3,41 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 
 const read = (path) => fs.readFileSync(path, "utf8");
+const escape = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-test("README guides PHP Laravel consumers from purpose to adoption", () => {
+test("README is a cross-stack workflow portal", () => {
   const readme = read("README.md");
-
   for (const text of [
-    "Versi release",
-    "Status CI",
-    "Profil PHP/Laravel",
-    "Tanpa deployment",
-    "Siapa yang menggunakan repository ini?",
-    "Alur kerja dalam satu tampilan",
-    "Pilih workflow yang tepat",
-    "Mulai cepat",
-    "Dukungan versi PHP dan Laravel",
-    "Output yang diterima caller",
-    "Batasan penting",
-    "Jika pemeriksaan gagal",
+    "Governance baseline", "Katalog tech stack", "Available", "Planned",
+    "PHP/Laravel", "Go", ".NET", "Python", "TypeScript/Node.js",
+    "Java/Spring Boot", "Cara memilih profile", "Alur onboarding",
   ]) {
-    assert.match(readme, new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.match(readme, new RegExp(escape(text)));
   }
 
-  assert.match(readme, /releases\/tag\/v0\.2\.1/);
-  assert.match(readme, /actions\/workflows\/validate-platform-workflow\.yml/);
+  const header = readme.split("\n").slice(0, 12).join("\n");
+  assert.equal((header.match(/!\[/g) ?? []).length, 4);
+  assert.match(header, /Versi release/);
+  assert.match(header, /Status CI/);
+  assert.match(header, /Governance baseline/);
+  assert.match(header, /Tanpa deployment/);
+  assert.doesNotMatch(header, /Profil PHP\/Laravel/);
 });
 
-test("v0.2.1 release note explains user impact and adoption", () => {
+test("PHP Laravel detail preserves technical depth and onboarding", () => {
+  const profile = read("docs/profiles/php-laravel/README.md");
+  for (const text of [
+    "Status profile", "Workflow yang tersedia", "Compatibility matrix",
+    "Kontrak input", "Output dan artifact", "Safe evidence metadata",
+    "Onboarding checklist", "Troubleshooting", "example-app-laravel",
+    "ci-qualified",
+  ]) {
+    assert.match(profile, new RegExp(escape(text)));
+  }
+});
+
+test("v0.2.1 release note remains available as history", () => {
   const changelog = read("CHANGELOG.md");
   assert.match(changelog, /## \[0\.2\.1\]/);
-  assert.match(changelog, /Dampak bagi pengguna/);
-  assert.match(changelog, /Cara mengadopsi/);
   assert.match(changelog, /Tidak ada perubahan kontrak/);
 });

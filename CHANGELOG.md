@@ -2,6 +2,37 @@
 
 Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflow`. Istilah teknis dipertahankan ketika merupakan bagian dari kontrak platform.
 
+## [0.3.0] - 2026-08-29
+
+### Ditambahkan
+
+- landing page lintas technology stack yang memisahkan profile tersedia dan
+  profile yang masih planned;
+- katalog machine-readable untuk PHP/Laravel, Go, .NET, Python/Django,
+  TypeScript/Node.js, serta Java/Spring Boot;
+- landing page profile PHP/Laravel, panduan thin caller, troubleshooting, dan
+  tautan menuju repository contoh canonical.
+
+### Diubah
+
+- README repository menjadi portal onboarding umum, bukan halaman khusus PHP;
+- terminology implementasi dinormalisasi dari `demo` menjadi `example`;
+- governance baseline dokumentasi diperbarui ke `platform-governance@v1.2.0`.
+
+### Dampak bagi pengguna
+
+- developer dapat memulai dari katalog umum, masuk ke detail profile, lalu
+  membuka contoh implementasi tanpa menebak lokasi dokumen;
+- label `Available` hanya menyatakan implementasi tersedia dan bukan klaim
+  support, compatibility, atau operational compliance;
+- profile planned tidak memiliki tautan workflow yang dapat dieksekusi.
+
+### Batas perubahan
+
+- reusable workflow, compatibility matrix, artifact contract, dan deployment
+  behavior tidak berubah dari `v0.2.1`;
+- deployment tetap di luar scope rilis ini.
+
 ## [0.2.1] - 2026-08-29
 
 ### Dokumentasi
