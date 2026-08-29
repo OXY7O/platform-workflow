@@ -1,0 +1,24 @@
+name: Build Go binary artifact
+description: Package one verified Linux amd64 binary with deterministic metadata
+inputs:
+  build-input:
+    description: JSON verified binary artifact input
+    required: true
+outputs:
+  artifact-id:
+    description: Governed artifact identity
+  artifact-name:
+    description: Deterministic archive name
+  artifact-path:
+    description: Local archive path
+  digest:
+    description: Archive SHA-256 digest
+  manifest-path:
+    description: Local manifest path
+  manifest-digest:
+    description: Manifest SHA-256 digest
+  readiness:
+    description: Artifact readiness state
+runs:
+  using: node24
+  main: ../../dist/build-go-binary-artifact/index.js

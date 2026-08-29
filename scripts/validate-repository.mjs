@@ -39,6 +39,8 @@ for (const file of [
   "contracts/go-service-input.schema.json",
   "contracts/go-compatibility-input.schema.json",
   "contracts/go-compatibility-catalogue.schema.json",
+  "contracts/go-binary-artifact-input.schema.json",
+  "contracts/go-binary-manifest.schema.json",
   "catalogue/technology-stack.json"
 ]) JSON.parse(fs.readFileSync(file, "utf8"));
 
@@ -49,6 +51,15 @@ for (const file of [
   "dist/validate-go-service-contract/index.js"
 ]) {
   if (!fs.existsSync(file)) errors.push(`${file}: required Go Service contract file is missing`);
+}
+
+for (const file of [
+  "src/build-go-binary-artifact.ts",
+  "src/action-build-go-binary-artifact.ts",
+  "actions/build-go-binary-artifact/action.yml",
+  "dist/build-go-binary-artifact/index.js"
+]) {
+  if (!fs.existsSync(file)) errors.push(`${file}: required Go binary artifact file is missing`);
 }
 
 for (const file of [

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["binaryPath", "outputDirectory", "binaryName", "applicationVersion", "sourceSha", "workflowSha", "contractDigest", "moduleDigest", "goVersion", "targetOs", "targetArch", "retentionDays"],
+  "properties": {
+    "binaryPath": {"type": "string", "minLength": 1},
+    "outputDirectory": {"type": "string", "minLength": 1},
+    "binaryName": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,62}$"},
+    "applicationVersion": {"type": "string", "pattern": "^(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)$"},
+    "sourceSha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "workflowSha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "contractDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "moduleDigest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "goVersion": {"const": "1.26.7"},
+    "targetOs": {"const": "linux"},
+    "targetArch": {"const": "amd64"},
+    "retentionDays": {"type": "integer", "minimum": 1, "maximum": 30},
+    "createdAt": {"type": "string"}
+  }
+}
