@@ -11,7 +11,9 @@ const canonical = (value: unknown): string => Array.isArray(value) ? `[${value.m
 
 export function validateCompatibilityContract(input: unknown): CompatibilityInput {
   if (!validate(input)) throw new Error(`Compatibility contract invalid: ${errors(validate.errors)}`);
-  return structuredClone(input) as CompatibilityInput;
+  const value=structuredClone(input) as CompatibilityInput;
+  if(value.laneId!==`laravel-${value.frameworkMajor}-php-${value.phpVersion}`) throw new Error("Compatibility contract invalid: lane identity contradicts frameworkMajor/phpVersion");
+  return value;
 }
 export function calculateCompatibilityContractDigest(input: unknown): string {
   return `sha256:${createHash("sha256").update(canonical(validateCompatibilityContract(input))).digest("hex")}`;

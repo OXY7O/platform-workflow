@@ -39101,7 +39101,10 @@ const canonical = (value) => Array.isArray(value) ? `[${value.map(canonical).joi
 function validateCompatibilityContract(input) {
     if (!validate(input))
         throw new Error(`Compatibility contract invalid: ${errors(validate.errors)}`);
-    return structuredClone(input);
+    const value = structuredClone(input);
+    if (value.laneId !== `laravel-${value.frameworkMajor}-php-${value.phpVersion}`)
+        throw new Error("Compatibility contract invalid: lane identity contradicts frameworkMajor/phpVersion");
+    return value;
 }
 function calculateCompatibilityContractDigest(input) {
     return `sha256:${(0,external_node_crypto_.createHash)("sha256").update(canonical(validateCompatibilityContract(input))).digest("hex")}`;

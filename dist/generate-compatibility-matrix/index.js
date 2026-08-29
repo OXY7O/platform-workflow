@@ -39103,7 +39103,10 @@ const canonical = (value) => Array.isArray(value) ? `[${value.map(canonical).joi
 function validateCompatibilityContract(input) {
     if (!validate(input))
         throw new Error(`Compatibility contract invalid: ${errors(validate.errors)}`);
-    return structuredClone(input);
+    const value = structuredClone(input);
+    if (value.laneId !== `laravel-${value.frameworkMajor}-php-${value.phpVersion}`)
+        throw new Error("Compatibility contract invalid: lane identity contradicts frameworkMajor/phpVersion");
+    return value;
 }
 function calculateCompatibilityContractDigest(input) {
     return `sha256:${createHash("sha256").update(canonical(validateCompatibilityContract(input))).digest("hex")}`;
@@ -39115,6 +39118,8 @@ function calculateCompatibilityContractDigest(input) {
 
 const generate_compatibility_matrix_schema = JSON.parse(external_node_fs_namespaceObject.readFileSync(__nccwpck_require__.ab + "compatibility-catalogue.schema.json", "utf8"));
 const generate_compatibility_matrix_validate = new _2020["default"]({ allErrors: true, strict: true }).compile(generate_compatibility_matrix_schema);
+const required = new Set(["laravel-12-php-8.2", "laravel-12-php-8.3", "laravel-12-php-8.4", "laravel-12-php-8.5", "laravel-13-php-8.4", "laravel-13-php-8.5"]);
+const versionParts = (version) => version.split(".").map(Number);
 function generateCompatibilityMatrix(catalogue, options) {
     if (!generate_compatibility_matrix_validate(catalogue))
         throw new Error(`Compatibility catalogue invalid: ${JSON.stringify(generate_compatibility_matrix_validate.errors)}`);
@@ -39126,9 +39131,20 @@ function generateCompatibilityMatrix(catalogue, options) {
             throw new Error(`Duplicate laneId: ${id}`);
         ids.add(id);
     }
+    for (const id of required) {
+        const lane = lanes.find(x => x.laneId === id);
+        if (!lane)
+            throw new Error(`Required lane missing: ${id}`);
+        if (!lane.blocking)
+            throw new Error(`Required lane must be blocking: ${id}`);
+    }
+    for (const lane of lanes) {
+        if (lane.lifecycle === "preview" && lane.blocking)
+            throw new Error(`Preview lane must be non-blocking: ${lane.laneId}`);
+    }
     const include = lanes.filter(x => x.eligible && x.executionMode === "compatibility-only" && x.lifecycle !== "legacy-eol" && (options.includePreview || x.lifecycle !== "preview"))
         .map((entry) => { const lane = Object.fromEntries(Object.entries(entry).filter(([key]) => key !== "eligible")); return validateCompatibilityContract({ schemaVersion: "1.0", profileKey: "php-laravel", ...lane }); })
-        .sort((a, b) => a.frameworkMajor - b.frameworkMajor || Number(a.phpVersion) - Number(b.phpVersion) || a.laneId.localeCompare(b.laneId));
+        .sort((a, b) => { const [am, an] = versionParts(a.phpVersion); const [bm, bn] = versionParts(b.phpVersion); return a.frameworkMajor - b.frameworkMajor || am - bm || an - bn || a.laneId.localeCompare(b.laneId); });
     return { include };
 }
 //# sourceMappingURL=generate-compatibility-matrix.js.map
@@ -39139,8 +39155,10 @@ function generateCompatibilityMatrix(catalogue, options) {
 
 try {
     const relative = getInput("catalogue-path", { required: true });
-    const resolved = external_node_path_namespaceObject.resolve(relative);
-    const root = external_node_path_namespaceObject.resolve(".");
+    if (external_node_path_namespaceObject.isAbsolute(relative))
+        throw new Error("Catalogue path must be relative");
+    const resolved = external_node_fs_namespaceObject.realpathSync(external_node_path_namespaceObject.resolve(relative));
+    const root = external_node_fs_namespaceObject.realpathSync(external_node_path_namespaceObject.resolve("."));
     if (resolved !== root && !resolved.startsWith(`${root}${external_node_path_namespaceObject.sep}`))
         throw new Error("Catalogue path must remain within repository");
     const matrix = generateCompatibilityMatrix(JSON.parse(external_node_fs_namespaceObject.readFileSync(resolved, "utf8")), { includePreview: getInput("include-preview") === "true" });

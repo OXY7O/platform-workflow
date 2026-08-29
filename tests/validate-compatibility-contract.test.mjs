@@ -20,3 +20,7 @@ test("digest is independent of object key order", () => {
   const input = fixture();
   assert.equal(calculateCompatibilityContractDigest(input), calculateCompatibilityContractDigest(Object.fromEntries(Object.entries(input).reverse())));
 });
+
+test("rejects a lane identifier that contradicts its versions", () => {
+  assert.throws(() => validateCompatibilityContract({...fixture(), laneId:"laravel-99-php-9.9"}), /identity/i);
+});
