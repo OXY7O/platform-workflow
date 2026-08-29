@@ -1,0 +1,14 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "type":"object","additionalProperties":false,
+  "required":["schemaVersion","profileKey","laneId","frameworkMajor","phpVersion","workingDirectory","dependencyMode","testCommandProfile","executionMode","lifecycle","blocking"],
+  "properties":{
+    "schemaVersion":{"const":"1.0"},"profileKey":{"const":"php-laravel"},
+    "laneId":{"type":"string","pattern":"^laravel-[0-9]+-php-[0-9]+\\.[0-9]+$"},
+    "frameworkMajor":{"type":"integer","minimum":1},"phpVersion":{"type":"string","pattern":"^[0-9]+\\.[0-9]+$"},
+    "workingDirectory":{"type":"string","pattern":"^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"},
+    "dependencyMode":{"const":"composer-frozen"},"testCommandProfile":{"enum":["phpunit","pest"]},
+    "executionMode":{"enum":["compatibility-only","exception-only"]},
+    "lifecycle":{"enum":["active","security-only","preview","legacy-eol"]},"blocking":{"type":"boolean"}
+  }
+}

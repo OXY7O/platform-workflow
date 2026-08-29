@@ -1,0 +1,1 @@
+{"schemaVersion":"1.0","profileKey":"php-laravel","laneId":"laravel-12-php-8.2","frameworkMajor":12,"phpVersion":"8.2","workingDirectory":"compatibility/laravel-12","dependencyMode":"composer-frozen","testCommandProfile":"phpunit","executionMode":"compatibility-only","lifecycle":"security-only","blocking":true}
