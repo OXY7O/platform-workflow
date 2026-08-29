@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "go-compatibility-input.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["laneId", "goVersion", "targetOs", "targetArch", "workingDirectory", "executionMode", "lifecycle", "blocking", "eligible", "artifact"],
+  "properties": {
+    "laneId": {"type": "string", "pattern": "^go-1\\.(?:26\\.7|27\\.0)-linux-amd64$"},
+    "goVersion": {"enum": ["1.26.7", "1.27.0"]},
+    "targetOs": {"const": "linux"},
+    "targetArch": {"const": "amd64"},
+    "workingDirectory": {"type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?:\\.|[A-Za-z0-9._/-]+)$"},
+    "executionMode": {"enum": ["canonical-artifact", "compatibility-only"]},
+    "lifecycle": {"enum": ["active", "preview", "legacy-eol"]},
+    "blocking": {"type": "boolean"},
+    "eligible": {"type": "boolean"},
+    "artifact": {"type": "boolean"}
+  }
+}

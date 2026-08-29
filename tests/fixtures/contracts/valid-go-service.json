@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "1.0",
+  "governanceVersion": "v1.2.0",
+  "catalogueVersion": "1.2.0",
+  "profileKey": "go-service",
+  "goVersion": "1.26.7",
+  "modulePath": "github.com/OXY7O/example-app-go",
+  "binaryName": "example-api",
+  "applicationVersion": "0.1.0",
+  "mainPackage": "./cmd/api",
+  "artifactType": "binary",
+  "targetOs": "linux",
+  "targetArch": "amd64",
+  "workingDirectory": ".",
+  "coverageThreshold": 80,
+  "retentionDays": 14,
+  "evidenceMode": "safe-metadata"
+}
