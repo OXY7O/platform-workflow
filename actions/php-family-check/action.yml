@@ -1,0 +1,19 @@
+name: Run PHP family check
+description: Install frozen Composer dependencies using the bundled governed script
+inputs:
+  working-directory:
+    description: Relative application working directory
+    required: true
+  dependency-mode:
+    description: Controlled dependency installation preset
+    required: false
+    default: composer-frozen
+runs:
+  using: composite
+  steps:
+    - name: Run bundled PHP family check
+      shell: bash
+      env:
+        INPUT_WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        INPUT_DEPENDENCY_MODE: ${{ inputs.dependency-mode }}
+      run: '"$GITHUB_ACTION_PATH/../../scripts/php-family-ci.sh" "$INPUT_WORKING_DIRECTORY" "$INPUT_DEPENDENCY_MODE"'

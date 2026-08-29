@@ -1,0 +1,24 @@
+name: Run Laravel profile check
+description: Validate Laravel structure and execute its controlled test preset
+inputs:
+  working-directory:
+    description: Relative application working directory
+    required: true
+  test-profile:
+    description: Controlled Composer test preset
+    required: false
+    default: phpunit
+  coverage-threshold:
+    description: Minimum accepted coverage percentage
+    required: false
+    default: "80"
+runs:
+  using: composite
+  steps:
+    - name: Run bundled Laravel profile check
+      shell: bash
+      env:
+        INPUT_WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        INPUT_TEST_PROFILE: ${{ inputs.test-profile }}
+        INPUT_COVERAGE_THRESHOLD: ${{ inputs.coverage-threshold }}
+      run: '"$GITHUB_ACTION_PATH/../../scripts/laravel-profile-ci.sh" "$INPUT_WORKING_DIRECTORY" "$INPUT_TEST_PROFILE" "$INPUT_COVERAGE_THRESHOLD"'
