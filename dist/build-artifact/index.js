@@ -28242,10 +28242,14 @@ var external_node_zlib_ = __nccwpck_require__(8522);
 
 const privateKey = /-----BEGIN [A-Z ]*PRIVATE KEY-----/;
 const sha = (data) => (0,external_node_crypto_.createHash)("sha256").update(data).digest("hex");
-function prohibited(relative) {
+function forbidden(relative) {
     const segments = relative.split("/");
     const name = segments.at(-1) ?? "";
-    return name.startsWith(".env") || /\.(pem|key)$/i.test(name) || /^id_rsa/i.test(name) || segments.some((part) => [".git", "node_modules", "tests"].includes(part));
+    return (name.startsWith(".env") && name !== ".env.example") || /\.(pem|key)$/i.test(name) || /^id_rsa/i.test(name);
+}
+function excluded(relative) {
+    const segments = relative.split("/");
+    return relative === ".env.example" || segments.some((part) => [".git", "node_modules", "tests"].includes(part)) || relative.startsWith("build/coverage/");
 }
 function filesUnder(root, current = "") {
     const directory = external_node_path_namespaceObject.join(root, current);
@@ -28253,6 +28257,8 @@ function filesUnder(root, current = "") {
         const relative = current ? `${current}/${entry.name}` : entry.name;
         if (entry.isSymbolicLink())
             throw new Error(`Prohibited symbolic link: ${relative}`);
+        if (entry.isDirectory() && excluded(relative))
+            return [];
         return entry.isDirectory() ? filesUnder(root, relative) : [relative];
     }).sort();
 }
@@ -28260,8 +28266,8 @@ async function buildArtifact(input) {
     const root = external_node_path_namespaceObject.resolve(input.workingDirectory);
     const files = filesUnder(root);
     const payload = {};
-    const fileRecords = files.map((relative) => {
-        if (prohibited(relative))
+    const fileRecords = files.filter((relative) => !excluded(relative)).map((relative) => {
+        if (forbidden(relative))
             throw new Error(`Prohibited artifact path: ${relative}`);
         const content = external_node_fs_namespaceObject.readFileSync(external_node_path_namespaceObject.join(root, relative));
         if (privateKey.test(content.toString("utf8")))

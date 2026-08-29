@@ -6,7 +6,7 @@ test("declares machine-readable governance and pilot boundary", () => {
   const policy = JSON.parse(fs.readFileSync("repository-policy.json", "utf8"));
   assert.deepEqual(policy, {
     governanceBaseline: "platform-governance@v1.1.0",
-    release: "v0.1.1",
+    release: "v0.1.2",
     maturity: "pilot",
     capabilities: ["ci", "artifact"],
     deploymentEnabled: false
