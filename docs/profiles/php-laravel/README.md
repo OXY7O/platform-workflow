@@ -17,7 +17,7 @@ evidence, troubleshooting, dan contoh implementasi.
 | Availability | `Available` |
 | Governance lifecycle | `pilot` |
 | Compatibility state | `not-validated` |
-| Governance baseline | `platform-governance@v1.1.0` |
+| Governance baseline | `platform-governance@v1.2.0` |
 | Deployment | Tidak tersedia |
 
 `Available` berarti reusable workflow dan example dapat dipakai untuk pilot.

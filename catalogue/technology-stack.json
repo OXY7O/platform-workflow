@@ -1,5 +1,5 @@
 {
-  "governanceVersion": "v1.1.0",
+  "governanceVersion": "v1.2.0",
   "catalogueVersion": "1.1.0",
   "availabilitySemantics": {
     "available": "Implementasi workflow dan example tersedia; bukan klaim support atau compliance.",
