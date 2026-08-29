@@ -9,10 +9,15 @@ export interface BuildArtifactResult {artifactPath: string; artifactId: string; 
 const privateKey = /-----BEGIN [A-Z ]*PRIVATE KEY-----/;
 const sha = (data: string | Buffer) => createHash("sha256").update(data).digest("hex");
 
-function prohibited(relative: string): boolean {
+function forbidden(relative: string): boolean {
   const segments = relative.split("/");
   const name = segments.at(-1) ?? "";
-  return name.startsWith(".env") || /\.(pem|key)$/i.test(name) || /^id_rsa/i.test(name) || segments.some((part) => [".git", "node_modules", "tests"].includes(part));
+  return (name.startsWith(".env") && name !== ".env.example") || /\.(pem|key)$/i.test(name) || /^id_rsa/i.test(name);
+}
+
+function excluded(relative: string): boolean {
+  const segments = relative.split("/");
+  return relative === ".env.example" || segments.some((part) => [".git", "node_modules", "tests"].includes(part)) || relative.startsWith("build/coverage/");
 }
 
 function filesUnder(root: string, current = ""): string[] {
@@ -20,6 +25,7 @@ function filesUnder(root: string, current = ""): string[] {
   return fs.readdirSync(directory, {withFileTypes: true}).flatMap((entry) => {
     const relative = current ? `${current}/${entry.name}` : entry.name;
     if (entry.isSymbolicLink()) throw new Error(`Prohibited symbolic link: ${relative}`);
+    if (entry.isDirectory() && excluded(relative)) return [];
     return entry.isDirectory() ? filesUnder(root, relative) : [relative];
   }).sort();
 }
@@ -28,8 +34,8 @@ export async function buildArtifact(input: BuildArtifactInput): Promise<BuildArt
   const root = path.resolve(input.workingDirectory);
   const files = filesUnder(root);
   const payload: Record<string, string> = {};
-  const fileRecords = files.map((relative) => {
-    if (prohibited(relative)) throw new Error(`Prohibited artifact path: ${relative}`);
+  const fileRecords = files.filter((relative) => !excluded(relative)).map((relative) => {
+    if (forbidden(relative)) throw new Error(`Prohibited artifact path: ${relative}`);
     const content = fs.readFileSync(path.join(root, relative));
     if (privateKey.test(content.toString("utf8"))) throw new Error(`Private key material detected: ${relative}`);
     payload[relative] = content.toString("base64");

@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.2] - 2026-08-29
+
+### Fixed
+
+- Memisahkan file source yang wajib menggagalkan packaging dari file non-runtime yang harus dikecualikan.
+- Mengecualikan `.env.example`, test source, Git metadata, `node_modules`, dan coverage output dari application package.
+- Tetap menggagalkan build ketika `.env` aktual, key file, private-key material, atau symbolic link ditemukan.
+
 ## [0.1.1] - 2026-08-29
 
 ### Fixed
