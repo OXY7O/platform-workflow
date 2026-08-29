@@ -2,110 +2,119 @@
 
 [![Versi release](https://img.shields.io/badge/release-v0.2.1-0969da?label=Versi%20release)](https://github.com/OXY7O/platform-workflow/releases/tag/v0.2.1)
 [![Status CI](https://github.com/OXY7O/platform-workflow/actions/workflows/validate-platform-workflow.yml/badge.svg)](https://github.com/OXY7O/platform-workflow/actions/workflows/validate-platform-workflow.yml)
-![Profil PHP/Laravel](https://img.shields.io/badge/profil-PHP%20%2F%20Laravel-777bb4?label=Profil%20PHP%2FLaravel)
-![Lifecycle pilot](https://img.shields.io/badge/lifecycle-pilot-f59e0b?label=Lifecycle)
+[![Governance baseline](https://img.shields.io/badge/governance-v1.1.0-8250df?label=Governance%20baseline)](https://github.com/OXY7O/platform-governance/releases/tag/v1.1.0)
 ![Tanpa deployment](https://img.shields.io/badge/deployment-tidak%20tersedia-6b7280?label=Tanpa%20deployment)
 
-Reusable GitHub Actions untuk menjalankan CI PHP/Laravel secara konsisten berdasarkan `platform-governance@v1.1.0`. Release `v0.2.1` mempertahankan kontrak teknis `v0.2.0` dan menyempurnakan dokumentasinya agar lebih mudah diadopsi.
+Pusat implementasi reusable GitHub Actions untuk berbagai tech stack. Repository ini menerjemahkan policy, lifecycle, control, dan evidence requirement dari `platform-governance` menjadi workflow yang dapat digunakan repository aplikasi melalui thin caller.
 
-Repository ini memvalidasi kontrak, menguji aplikasi, menghasilkan tepat satu `application-package` dari canonical lane, dan memeriksa kompatibilitas beberapa versi PHP/Laravel tanpa membuat artifact tambahan. Repository ini **tidak melakukan deployment**.
+`platform-workflow` bukan aplikasi contoh dan bukan tempat menyimpan konfigurasi aplikasi. Developer memilih profile yang tersedia, membaca kontraknya, melihat contoh implementasi, lalu mengadopsi thin caller tanpa menduplikasi logika CI pusat.
+
+## Posisi dalam platform
+
+```text
+platform-governance
+  policy, lifecycle, rule, control, evidence requirement
+        |
+platform-workflow
+  reusable workflow, contract, validator, artifact, safe evidence metadata
+        |
+example-app-<profile>
+  contoh implementasi teknis dari sisi consumer
+        |
+repository aplikasi
+  thin caller dan konfigurasi yang diizinkan
+```
 
 ## Siapa yang menggunakan repository ini?
 
-- **Developer aplikasi** memakai thin caller untuk mengaktifkan CI standar tanpa menyalin seluruh implementasi.
-- **Project lead** memilih profil, versi, coverage threshold, dan retention yang sudah diizinkan.
-- **Platform team** memelihara kontrak, reusable workflow, taxonomy kegagalan, dan proses packaging.
-- **Auditor atau reviewer** memakai safe evidence metadata dan digest untuk menelusuri hasil CI.
+| Pengguna | Mulai dari | Tujuan |
+|---|---|---|
+| Developer | [Katalog tech stack](#katalog-tech-stack) | Menemukan workflow dan contoh yang sesuai |
+| Project lead | [Cara memilih profile](#cara-memilih-profile) | Memastikan stack, lifecycle, dan artifact tepat |
+| Platform team | [Peta repository](#peta-repository) | Memelihara kontrak dan reusable implementation |
+| Security atau auditor | [Batas kontrol](#batas-kontrol) | Menelusuri permission, evidence, dan klaim compliance |
 
-## Alur kerja dalam satu tampilan
+## Cara kerja
+
+1. Governance menetapkan apa yang wajib, boleh, dilarang, dan diaudit.
+2. Platform workflow menerapkan kontrol tersebut dalam reusable workflow.
+3. Repository aplikasi hanya memiliki thin caller dan input yang tervalidasi.
+4. Canonical lane dapat menghasilkan artifact; compatibility lane hanya memvalidasi kombinasi versi.
+5. Workflow mengembalikan normalized result dan safe evidence metadata.
+6. Deployment memakai kontrak dan approval terpisah; merge atau status `ci-qualified` bukan izin deployment.
+
+## Katalog tech stack
+
+`Available` berarti implementasi workflow dan example sudah dapat dipelajari dan diuji. Status ini **bukan** klaim bahwa profile sudah `supported` atau `operationally compliant`. Stack `Planned` belum memiliki link executable.
+
+| Family | Profile | Status | Detail workflow | Contoh implementasi |
+|---|---|---|---|---|
+| PHP | PHP/Laravel | **Available** | [Buka profile PHP/Laravel](docs/profiles/php-laravel/README.md) | [OXY7O/example-app-laravel](https://github.com/OXY7O/example-app-laravel) |
+| Go | Go Service | **Planned** | Belum tersedia | Belum tersedia |
+| .NET | .NET Web API | **Planned** | Belum tersedia | Belum tersedia |
+| Python | Python/Django | **Planned** | Belum tersedia | Belum tersedia |
+| TypeScript/Node.js | Node.js Service | **Planned** | Belum tersedia | Belum tersedia |
+| Java | Java/Spring Boot | **Planned** | Belum tersedia | Belum tersedia |
+
+Lihat [indeks profile](docs/profiles/README.md) untuk status dan batas setiap profile.
+
+## Cara memilih profile
+
+1. Cocokkan bahasa, framework, dan workload aplikasi dengan katalog.
+2. Pilih hanya profile berstatus `Available`.
+3. Baca lifecycle runtime dan compatibility matrix pada halaman profile.
+4. Pastikan artifact type yang dihasilkan sesuai kebutuhan handoff berikutnya.
+5. Periksa batas runner, security, secret, dan deployment.
+6. Bila tidak ada profile yang sesuai, ajukan profile baru melalui governance; jangan membuat variasi workflow sendiri tanpa review.
+
+## Alur onboarding
 
 ```text
-Pull request aplikasi
-        |
-        +--> canonical lane --> lint/test/security/quality --> 1 application-package
-        |
-        +--> compatibility matrix --> test setiap versi --> metadata saja
-                                                        (tanpa artifact)
+Pilih profile Available
+  -> baca kontrak dan compatibility
+  -> buka example app
+  -> jalankan validasi lokal
+  -> salin thin caller
+  -> pin workflow ke full commit SHA
+  -> buka pull request
+  -> verifikasi required checks, artifact, dan evidence
 ```
 
-Artifact yang lolos CI baru berstatus `ci-qualified`. Status tersebut **bukan** persetujuan promotion atau deployment.
+Checklist teknis berada pada landing page masing-masing profile. Untuk implementasi pertama, gunakan [onboarding PHP/Laravel](docs/profiles/php-laravel/README.md#onboarding-checklist).
 
-## Pilih workflow yang tepat
+## Konsep yang berlaku untuk semua profile
 
-| Kebutuhan | Workflow | Hasil |
-|---|---|---|
-| Kontrol umum keluarga PHP | `ci-family-php.yml` | Pemeriksaan baseline PHP |
-| CI utama Laravel | `ci-profile-php-laravel.yml` | Pemeriksaan lengkap dan satu `application-package` |
-| Uji banyak versi | `ci-compatibility-php-laravel.yml` | Readiness dan safe evidence metadata tanpa artifact |
+- **Reusable workflow:** implementasi pusat yang memiliki kontrak input/output.
+- **Thin caller:** workflow kecil pada repository aplikasi yang hanya memilih input yang diizinkan.
+- **Immutable pin:** referensi reusable workflow harus memakai full commit SHA, bukan branch bergerak.
+- **Canonical lane:** jalur utama yang dapat menghasilkan artifact.
+- **Compatibility lane:** pemeriksaan versi tambahan tanpa artifact dan tanpa deployment.
+- **Safe evidence metadata:** bukti yang dapat diaudit tanpa membawa secret atau data sensitif.
 
-Untuk repository aplikasi, mulai dari [contoh thin caller](examples/thin-caller-php-laravel.yml), bukan dengan memanggil action internal satu per satu.
+## Batas kontrol
 
-## Mulai cepat
-
-1. Salin `examples/thin-caller-php-laravel.yml` ke repository aplikasi sebagai `.github/workflows/ci.yml`.
-2. Sesuaikan input terkontrol: versi PHP, test profile, working directory, coverage threshold, retention, dan extension dari allowlist.
-3. Ganti referensi reusable workflow dengan **full commit SHA** release yang sudah divalidasi. Jangan memakai branch bergerak seperti `main`.
-4. Pastikan `composer.lock` sudah dikomit dan sesuai dengan versi PHP/Laravel yang dipilih.
-5. Buka pull request dan pastikan seluruh required check lulus.
-
-Workflow pilot tidak membutuhkan secret aplikasi. Jangan menambahkan `secrets: inherit`.
-
-Panduan parameter dan dua jalur caller tersedia di [Thin Caller PHP Laravel](docs/THIN-CALLER-PHP-LARAVEL.md).
-
-## Dukungan versi PHP dan Laravel
-
-| Laravel | PHP | Mode | Lifecycle | Blocking | Menghasilkan artifact |
-|---|---|---|---|---|---|
-| 13 | 8.3 | canonical | active | Ya | Ya, tepat satu |
-| 13 | 8.4–8.5 | compatibility-only | active | Ya | Tidak |
-| 12 | 8.2–8.5 | compatibility-only | security-only | Ya | Tidak |
-| 13 | 8.6 | compatibility-only | preview | Tidak; opt-in | Tidak |
-| 8 | 7.4 | exception-only | legacy/EOL | Tidak | Tidak |
-
-Preview tidak boleh menjadi blocking gate. Legacy/EOL hanya boleh digunakan melalui exception yang memiliki owner, alasan, masa berlaku, dan migration plan.
-
-## Output yang diterima caller
-
-- status readiness dan kategori kegagalan;
-- digest kontrak dan `composer.lock`;
-- safe evidence metadata untuk audit;
-- manifest serta digest `application-package` dari canonical lane;
-- penanda `ci-qualified` setelah seluruh gate wajib berhasil.
-
-Nilai secret, environment file, private key, dan credential tidak boleh masuk ke output atau artifact.
-
-## Batasan penting
-
-- Belum mendukung deployment ke development, staging, atau production.
-- Belum memberikan status `operationally compliant`; status itu memerlukan audit organisasi dan remediasi gap.
-- Compatibility lane tidak boleh menghasilkan artifact atau menjalankan proses promotion.
-- Caller tidak boleh mengirim arbitrary command, absolute path, path traversal, atau secret inheritance.
-- Tag release membantu discovery, tetapi caller produksi tetap harus menggunakan full commit SHA.
-
-## Jika pemeriksaan gagal
-
-1. Buka failed check dan identifikasi kategori kegagalannya.
-2. Periksa kontrak input, `composer.lock`, versi runtime, test, coverage, serta file terlarang.
-3. Jangan mematikan gate untuk melewati kegagalan.
-4. Gunakan [panduan pemecahan masalah](docs/TROUBLESHOOTING.md) dan [kategori kegagalan](docs/FAILURE-TAXONOMY.md).
-5. Eskalasikan platform failure kepada platform team dengan run URL dan safe evidence metadata—tanpa menyalin secret.
+- Repository ini tidak melakukan deployment ke development, staging, atau production.
+- Caller tidak boleh mengirim arbitrary command, path traversal, absolute path, atau `secrets: inherit`.
+- Secret aplikasi, credential, private key, dan environment file tidak boleh masuk artifact atau evidence.
+- `Available` hanya menyatakan implementasi tersedia; governance support/compliance tetap mengikuti catalogue, TCV, EVD, audit, dan remediation.
+- Tag release membantu discovery, tetapi consumer tetap mem-pin full commit SHA yang disetujui.
 
 ## Peta repository
 
 | Lokasi | Fungsi |
 |---|---|
-| `.github/workflows/` | Reusable workflow yang dipanggil consumer |
-| `profiles/` | Baseline dan larangan profil teknologi |
-| `contracts/` | Schema input/output, manifest, taxonomy, dan handoff artifact |
-| `actions/` dan `dist/` | Action internal dan bundle yang telah dikomit |
-| `scripts/` | Executor deterministik dan validasi repository |
-| `examples/` | Thin caller minimal yang siap diadopsi |
+| `.github/workflows/` | Reusable workflow publik untuk consumer |
+| `profiles/` | Baseline family dan profile |
+| `catalogue/` | Snapshot machine-readable ketersediaan implementasi |
+| `contracts/` | Schema input/output, manifest, taxonomy, dan handoff |
+| `actions/` dan `dist/` | Action internal dan bundle immutable |
+| `examples/` | Thin caller minimal |
+| `docs/profiles/` | Landing page dan onboarding per profile |
 
-## Dokumentasi lanjutan
+## Dokumentasi umum
 
-- [Thin Caller PHP Laravel](docs/THIN-CALLER-PHP-LARAVEL.md)
+- [Indeks profile](docs/profiles/README.md)
 - [Handoff artifact](docs/ARTIFACT-HANDOFF.md)
 - [Kategori kegagalan](docs/FAILURE-TAXONOMY.md)
-- [Pemecahan masalah](docs/TROUBLESHOOTING.md)
+- [Pemecahan masalah umum](docs/TROUBLESHOOTING.md)
 - [Riwayat perubahan](CHANGELOG.md)
-- [Release v0.2.1](https://github.com/OXY7O/platform-workflow/releases/tag/v0.2.1)

@@ -73,8 +73,11 @@ Katalog menampilkan status secara tekstual, bukan badge per baris.
 | Java | `java-spring-boot` | Planned | belum ada link implementasi | direncanakan |
 
 Status `Planned` tidak boleh memiliki link yang memberi kesan bahwa workflow
-sudah tersedia. Status berubah menjadi `Available` hanya setelah workflow,
-example, pengujian, evidence, dan release tersedia.
+sudah tersedia. Status katalog README berubah menjadi `Available` setelah
+workflow, example, pengujian, evidence, dan release tersedia. `Available`
+menyatakan ketersediaan implementasi, bukan status support/compliance. Status
+governance tetap `pilot/not-validated` sampai template repository, TCV, EVD,
+dan audit yang diwajibkan tersedia.
 
 ### 3.3 Halaman detail profile
 

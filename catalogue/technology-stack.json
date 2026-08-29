@@ -1,14 +1,33 @@
 {
   "governanceVersion": "v1.1.0",
   "catalogueVersion": "1.1.0",
-  "families": {"php": {"status": "planned", "supportTier": "standard"}},
+  "availabilitySemantics": {
+    "available": "Implementasi workflow dan example tersedia; bukan klaim support atau compliance.",
+    "planned": "Terdaftar pada roadmap dan belum memiliki resource executable."
+  },
+  "families": {
+    "php": {"availability": "available", "lifecycle": "pilot", "supportTier": "standard"},
+    "go": {"availability": "planned", "lifecycle": "planned", "supportTier": "standard"},
+    "dotnet": {"availability": "planned", "lifecycle": "planned", "supportTier": "standard"},
+    "python": {"availability": "planned", "lifecycle": "planned", "supportTier": "standard"},
+    "node-typescript": {"availability": "planned", "lifecycle": "planned", "supportTier": "standard"},
+    "java": {"availability": "planned", "lifecycle": "planned", "supportTier": "standard"}
+  },
   "profiles": {
     "php-laravel": {
       "family": "php",
-      "status": "planned",
+      "availability": "available",
+      "lifecycle": "pilot",
       "compatibility": "not-validated",
+      "workflowReference": "OXY7O/platform-workflow/.github/workflows/ci-profile-php-laravel.yml@6cd3458cceec36d738265a8b5ebefa5d4e19766c",
+      "exampleRepository": "https://github.com/OXY7O/example-app-laravel",
       "artifactTypes": ["application-package"],
       "extensions": ["database-migration", "openapi-validation", "integration-test", "container-build", "sbom-generation", "artifact-signing", "deploy-kubernetes", "deploy-vm-native", "laravel-queue-worker", "laravel-scheduler", "laravel-octane"]
-    }
+    },
+    "go-service": {"family": "go", "availability": "planned", "lifecycle": "planned", "compatibility": "not-validated", "workflowReference": null, "exampleRepository": null},
+    "dotnet-webapi": {"family": "dotnet", "availability": "planned", "lifecycle": "planned", "compatibility": "not-validated", "workflowReference": null, "exampleRepository": null},
+    "python-django": {"family": "python", "availability": "planned", "lifecycle": "planned", "compatibility": "not-validated", "workflowReference": null, "exampleRepository": null},
+    "node-service": {"family": "node-typescript", "availability": "planned", "lifecycle": "planned", "compatibility": "not-validated", "workflowReference": null, "exampleRepository": null},
+    "java-spring-boot": {"family": "java", "availability": "planned", "lifecycle": "planned", "compatibility": "not-validated", "workflowReference": null, "exampleRepository": null}
   }
 }

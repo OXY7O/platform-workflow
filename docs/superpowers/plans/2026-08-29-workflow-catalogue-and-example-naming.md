@@ -36,7 +36,7 @@
 
 **Interfaces:**
 - Consumes: governance profile schema and catalogue version `1.1.0`.
-- Produces: field `implementation.example_repository`, PHP/Laravel status `pilot/verified`, workflow reference, and canonical example repository URL.
+- Produces: field `implementation.example_repository`, PHP/Laravel status `pilot/not-validated`, workflow reference, and canonical example repository URL.
 
 - [ ] **Step 1: Write the failing governance terminology test**
 
@@ -59,7 +59,7 @@ test("PHP Laravel catalogue records the verified implementation", () => {
   const catalogue = JSON.parse(fs.readFileSync("catalogues/technology-stack/profiles.json", "utf8"));
   const profile = catalogue.profiles.find((entry) => entry.profile_key === "php-laravel");
   assert.equal(profile.lifecycle_status, "pilot");
-  assert.equal(profile.compatibility_state, "verified");
+  assert.equal(profile.compatibility_state, "not-validated");
   assert.equal(profile.implementation.example_repository, "OXY7O/example-app-laravel");
   assert.match(profile.implementation.workflow_reference, /^OXY7O\/platform-workflow\/.+@[a-f0-9]{40}$/);
   assert.equal("demo_repository" in profile.implementation, false);
@@ -70,14 +70,15 @@ test("PHP Laravel catalogue records the verified implementation", () => {
 
 Run: `node --test tests/example-naming-and-implementation-map.test.mjs` from `platform-governance`.
 
-Expected: FAIL because active files still use `demo`, the schema requires `demo_repository`, and PHP/Laravel remains `planned/not-validated`.
+Expected: FAIL because active files still use `demo`, the schema requires `demo_repository`, and PHP/Laravel remains `planned` without implementation references.
 
 - [ ] **Step 3: Update schema, catalogue, and implementation map**
 
 Change `implementation.required` and its property from `demo_repository` to
 `example_repository`. Update every profile object to use that field. Set the
-PHP family and PHP/Laravel profile lifecycle to `pilot`; set PHP/Laravel
-compatibility to `verified`; record:
+PHP family and PHP/Laravel profile lifecycle to `pilot`; retain PHP/Laravel
+compatibility as `not-validated` until template repository, TCV, EVD, and audit
+requirements are complete; record:
 
 ```json
 {
@@ -133,7 +134,7 @@ git commit -m "docs: standardize example implementation naming"
 
 **Interfaces:**
 - Consumes: governance status and implementation reference from Task 1.
-- Produces: general catalogue entry and PHP/Laravel profile landing page used by developers and example onboarding.
+- Produces: general catalogue entry and PHP/Laravel profile landing page used by developers and example onboarding. README status `Available` means implementation available, not governance support/compliance.
 
 - [ ] **Step 1: Replace the old README-focused test with failing portal tests**
 
@@ -185,8 +186,8 @@ duplicate active landing page at the old path.
 
 - [ ] **Step 5: Make the machine catalogue reflect current availability**
 
-Set PHP family/profile to `pilot`, PHP/Laravel compatibility to `verified`,
-and add the canonical workflow and example references. Add planned catalogue
+Set PHP family/profile to `pilot`, retain PHP/Laravel compatibility as
+`not-validated`, and add the canonical workflow and example references. Add planned catalogue
 entries for Go, .NET, Python, Node.js/TypeScript, and Java without executable
 workflow or example links.
 
