@@ -19,6 +19,12 @@ for (const name of workflowFiles) {
 
   if (/secrets:\s*inherit/.test(source)) errors.push(`${file}: secrets inheritance is prohibited`);
   if (/\b(deploy|deployment)\b/i.test(name)) errors.push(`${file}: deployment workflow is outside v0.1.0 scope`);
+  if (name === "ci-compatibility-php-laravel.yml") {
+    const workflow=parse(source); const serialized=JSON.stringify(workflow);
+    if (/upload-artifact|build-application-package/i.test(serialized)) errors.push(`${file}: compatibility workflow must be artifactless`);
+    if (/"(?:environment|secrets)"\s*:/.test(serialized)) errors.push(`${file}: privileged context is prohibited`);
+    if (Object.keys(workflow.on.workflow_call.outputs ?? {}).some(key=>/artifact/i.test(key))) errors.push(`${file}: artifact outputs are prohibited`);
+  }
 }
 
 for (const file of [
@@ -27,6 +33,9 @@ for (const file of [
   "contracts/artifact-manifest.schema.json",
   "contracts/failure-taxonomy.json",
   "contracts/artifact-handoff.json",
+  "contracts/compatibility-input.schema.json",
+  "contracts/compatibility-catalogue.schema.json",
+  "contracts/compatibility-output.schema.json",
   "catalogue/technology-stack.json"
 ]) JSON.parse(fs.readFileSync(file, "utf8"));
 

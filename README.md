@@ -2,7 +2,7 @@
 
 Implementasi teknis reusable GitHub Actions yang mengikuti `platform-governance@v1.1.0`.
 
-Baseline pilot saat ini adalah `v0.1.2` untuk profil `php-laravel`. Cakupannya adalah validasi kontrak, pemeriksaan CI, pembuatan `application-package`, manifest, digest, dan metadata evidence yang aman. Repository ini **tidak melakukan deployment** ke development, staging, atau production.
+Baseline pilot saat ini adalah `v0.2.0` untuk profil `php-laravel`. Cakupannya adalah validasi kontrak, pemeriksaan CI canonical, pembuatan tepat satu `application-package`, serta matrix compatibility-only multi-versi yang tidak menghasilkan artifact. Repository ini **tidak melakukan deployment** ke development, staging, atau production.
 
 ## Mulai menggunakan
 
@@ -17,6 +17,7 @@ Panduan lengkap tersedia di [Thin Caller PHP Laravel](docs/THIN-CALLER-PHP-LARAV
 
 - `.github/workflows/ci-family-php.yml`: kontrol umum keluarga PHP.
 - `.github/workflows/ci-profile-php-laravel.yml`: pemeriksaan Laravel dan paket aplikasi.
+- `.github/workflows/ci-compatibility-php-laravel.yml`: pemeriksaan kompatibilitas multi-versi tanpa artifact.
 - `profiles/`: baseline pemeriksaan dan larangan per profil.
 - `contracts/`: schema input/output, manifest, taxonomy, dan handoff artifact.
 - `actions/` dan `dist/`: action internal beserta bundle yang telah dikomit.
