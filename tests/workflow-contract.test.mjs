@@ -43,7 +43,7 @@ test("all external actions are pinned to a full commit SHA", () => {
 });
 
 test("reusable workflows consume their private implementation as immutable actions", () => {
-  const implementationSha = "e6918317a7edd16f01e629578277ef5dc173a1f6";
+  const implementationSha = "fad8e01af4804b84e1b0cac9d551875340dd6d26";
 
   for (const path of paths) {
     const workflow = load(path);
