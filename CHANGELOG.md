@@ -1,5 +1,26 @@
 # Changelog
 
+Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflow`. Istilah teknis dipertahankan ketika merupakan bagian dari kontrak platform.
+
+## [0.2.1] - 2026-08-29
+
+### Dokumentasi
+
+- Menyusun ulang README berdasarkan perjalanan pengguna: memahami fungsi repository, memilih workflow, mengadopsi thin caller, membaca output, lalu menangani kegagalan.
+- Menambahkan badge untuk Versi release, Status CI, Profil PHP/Laravel, lifecycle pilot, dan batas Tanpa deployment.
+- Menambahkan tabel dukungan Laravel/PHP, pembagian canonical dan compatibility lane, serta batas preview dan legacy/EOL.
+
+### Dampak bagi pengguna
+
+- Pengguna baru dapat menemukan langkah adopsi dan batasan utama dari satu halaman.
+- Platform team dan reviewer memperoleh rujukan ringkas mengenai ownership, output, serta jalur troubleshooting.
+- Tidak ada perubahan kontrak, reusable workflow, compatibility matrix, artifact, atau perilaku keamanan dari `v0.2.0`.
+
+### Cara mengadopsi
+
+- Consumer yang sudah dipin ke commit `v0.2.0` tidak perlu mengubah workflow.
+- Gunakan dokumentasi `v0.2.1` sebagai panduan terbaru; untuk eksekusi, tetap pin reusable workflow ke full commit SHA yang sudah disetujui.
+
 ## [0.2.0] - 2026-08-29
 
 ### Added
