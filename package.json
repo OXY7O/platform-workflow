@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "bundle:all": "npm run build && ncc build lib/action-validate-contract.js -o dist/validate-contract && ncc build lib/action-validate-compatibility-contract.js -o dist/validate-compatibility-contract && ncc build lib/action-normalize-results.js -o dist/normalize-results && ncc build lib/action-build-artifact.js -o dist/build-artifact",
+    "bundle:all": "npm run build && ncc build lib/action-validate-contract.js -o dist/validate-contract && ncc build lib/action-validate-compatibility-contract.js -o dist/validate-compatibility-contract && ncc build lib/action-generate-compatibility-matrix.js -o dist/generate-compatibility-matrix && ncc build lib/action-normalize-results.js -o dist/normalize-results && ncc build lib/action-build-artifact.js -o dist/build-artifact",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "eslint src tests scripts/*.mjs",
     "validate:repository": "node scripts/validate-repository.mjs",

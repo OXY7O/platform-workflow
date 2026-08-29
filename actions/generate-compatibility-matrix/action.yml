@@ -1,0 +1,10 @@
+name: Generate compatibility matrix
+description: Generate a deterministic governed compatibility matrix
+inputs:
+  catalogue-path: {description: Relative path to compatibility catalogue, required: true}
+  include-preview: {description: Include non-blocking preview lanes, required: false, default: "false"}
+outputs:
+  matrix-json: {description: Compact GitHub Actions matrix JSON}
+runs:
+  using: node24
+  main: ../../dist/generate-compatibility-matrix/index.js
