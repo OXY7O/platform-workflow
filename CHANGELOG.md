@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0] - 2026-08-29
+
+### Added
+
+- Kontrak compatibility PHP/Laravel bertipe ketat dan digest canonical.
+- Generator matrix deterministik untuk enam lane wajib serta preview opt-in non-blocking.
+- Reusable workflow compatibility-only yang read-only, secretless, dan tidak menghasilkan artifact.
+
+### Security
+
+- Menolak arbitrary command, path traversal, identitas lane yang kontradiktif, lane wajib yang hilang, dan preview blocking.
+
 ## [0.1.2] - 2026-08-29
 
 ### Fixed
