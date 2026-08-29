@@ -1,0 +1,13 @@
+name: Validate compatibility contract
+description: Validate a governed compatibility-only lane
+inputs:
+  contract:
+    description: JSON compatibility contract
+    required: true
+outputs:
+  lane-id: {description: Validated lane identifier}
+  blocking: {description: Whether the lane is required}
+  contract-digest: {description: SHA-256 digest of the canonical contract}
+runs:
+  using: node24
+  main: ../../dist/validate-compatibility-contract/index.js

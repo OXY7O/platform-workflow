@@ -1,5 +1,19 @@
 export type Readiness = "passed" | "failed" | "conditionally-passed";
 
+export interface CompatibilityInput {
+  schemaVersion: "1.0";
+  profileKey: "php-laravel";
+  laneId: string;
+  frameworkMajor: number;
+  phpVersion: string;
+  workingDirectory: string;
+  dependencyMode: "composer-frozen";
+  testCommandProfile: "phpunit" | "pest";
+  executionMode: "compatibility-only" | "exception-only";
+  lifecycle: "active" | "security-only" | "preview" | "legacy-eol";
+  blocking: boolean;
+}
+
 export type FailureCategory =
   | "contract"
   | "configuration"
