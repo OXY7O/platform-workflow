@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.1] - 2026-08-29
+
+### Fixed
+
+- Menghapus checkout manual lintas private repository yang memakai SHA caller secara keliru.
+- Menjalankan implementasi internal melalui private actions yang dipin ke full commit SHA.
+- Menjaga workflow tetap read-only, secretless, dan kompatibel dengan caller private repository.
+
 ## [0.1.0] - 2026-08-28
 
 ### Added

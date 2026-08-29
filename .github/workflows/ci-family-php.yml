@@ -26,17 +26,11 @@ jobs:
     steps:
       - name: Checkout caller source
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-      - name: Checkout platform workflow implementation
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-        with:
-          repository: OXY7O/platform-workflow
-          ref: ${{ github.workflow_sha }}
-          path: .platform-workflow
       - name: Validate caller contract
         id: contract
-        env:
-          INPUT_CONTRACT: ${{ inputs.contract-json }}
-        run: node .platform-workflow/dist/validate-contract/index.js
+        uses: OXY7O/platform-workflow/actions/validate-caller-contract@e6918317a7edd16f01e629578277ef5dc173a1f6
+        with:
+          contract: ${{ inputs.contract-json }}
       - name: Configure PHP runtime
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
         with:
@@ -44,13 +38,18 @@ jobs:
           tools: composer
           coverage: none
       - name: Run PHP family checks
-        env:
-          RUNNER_TEMP: ${{ runner.temp }}
-        run: .platform-workflow/scripts/php-family-ci.sh "${{ inputs.working-directory }}" composer-frozen
+        uses: OXY7O/platform-workflow/actions/php-family-check@e6918317a7edd16f01e629578277ef5dc173a1f6
+        with:
+          working-directory: ${{ inputs.working-directory }}
+          dependency-mode: composer-frozen
       - name: Export family result
         id: results
         if: always()
         shell: bash
         run: |
-          checks="$(tr '\n' ',' < "${RUNNER_TEMP}/platform-results/checks.jsonl" | sed 's/,$//')"
+          results_file="${RUNNER_TEMP}/platform-results/checks.jsonl"
+          checks=""
+          if [[ -f "$results_file" ]]; then
+            checks="$(tr '\n' ',' < "$results_file" | sed 's/,$//')"
+          fi
           echo "checks-json=[$checks]" >> "$GITHUB_OUTPUT"

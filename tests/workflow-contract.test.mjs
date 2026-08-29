@@ -42,6 +42,30 @@ test("all external actions are pinned to a full commit SHA", () => {
   }
 });
 
+test("reusable workflows consume their private implementation as immutable actions", () => {
+  const implementationSha = "e6918317a7edd16f01e629578277ef5dc173a1f6";
+
+  for (const path of paths) {
+    const workflow = load(path);
+    for (const job of Object.values(workflow.jobs)) {
+      for (const step of job.steps ?? []) {
+        assert.notEqual(step.with?.repository, "OXY7O/platform-workflow", `${path}: ${step.name}`);
+      }
+    }
+  }
+
+  const family = load(paths[0]);
+  const familyUses = family.jobs["php-family"].steps.map((step) => step.uses).filter(Boolean);
+  assert.ok(familyUses.includes(`OXY7O/platform-workflow/actions/validate-caller-contract@${implementationSha}`));
+  assert.ok(familyUses.includes(`OXY7O/platform-workflow/actions/php-family-check@${implementationSha}`));
+
+  const profile = load(paths[1]);
+  const packageUses = profile.jobs.package.steps.map((step) => step.uses).filter(Boolean);
+  assert.ok(packageUses.includes(`OXY7O/platform-workflow/actions/laravel-profile-check@${implementationSha}`));
+  assert.ok(packageUses.includes(`OXY7O/platform-workflow/actions/build-application-package@${implementationSha}`));
+  assert.ok(packageUses.includes(`OXY7O/platform-workflow/actions/normalize-check-results@${implementationSha}`));
+});
+
 test("self-validation limits ShellCheck to repository scripts", () => {
   const workflow = load(".github/workflows/validate-platform-workflow.yml");
   const step = workflow.jobs.validate.steps.find((candidate) => candidate.name === "Run ShellCheck");
