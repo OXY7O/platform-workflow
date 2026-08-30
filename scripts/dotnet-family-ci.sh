@@ -73,13 +73,13 @@ if [[ "$coverage" -lt "$coverage_threshold" ]]; then
   emit_result coverage true failed quality "coverage below threshold"; exit 1
 fi
 
-if ! dotnet package list "$project_path" --vulnerable --include-transitive --format json > "$vulnerable_json"; then
+if ! dotnet package list --project "$project_path" --vulnerable --include-transitive --format json --no-restore > "$vulnerable_json"; then
   emit_result vulnerability true failed security "vulnerability query failed"; exit 1
 fi
 if ! node -e 'const x=require(process.argv[1]);for(const p of x.projects??[])for(const f of p.frameworks??[])if((f.topLevelPackages??[]).length||(f.transitivePackages??[]).length)process.exit(1)' "$vulnerable_json"; then
   emit_result vulnerability true failed security "vulnerable dependency found"; exit 1
 fi
-if ! dotnet package list "$project_path" --deprecated --include-transitive --format json > "$deprecated_json"; then
+if ! dotnet package list --project "$project_path" --deprecated --include-transitive --format json --no-restore > "$deprecated_json"; then
   emit_result deprecated true failed dependency "deprecated package query failed"; exit 1
 fi
 if ! node -e 'const x=require(process.argv[1]);for(const p of x.projects??[])for(const f of p.frameworks??[])if((f.topLevelPackages??[]).length||(f.transitivePackages??[]).length)process.exit(1)' "$deprecated_json"; then

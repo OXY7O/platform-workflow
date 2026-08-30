@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   ci:
-    uses: OXY7O/platform-workflow/.github/workflows/ci-profile-dotnet-webapi.yml@299a4763f49481e0cd4d93c03805823dbf5ce91b
+    uses: OXY7O/platform-workflow/.github/workflows/ci-profile-dotnet-webapi.yml@5bcb4f8110597667919ff4d65a89660f06e69b6f
     with:
       contract-json: >-
         {"schemaVersion":"1.0","governanceVersion":"v1.3.0","catalogueVersion":"1.3.0","profileKey":"dotnet-webapi","sdkVersion":"10.0.110","targetFramework":"net10.0","solutionPath":"Example.App.Dotnet.slnx","projectPath":"src/Example.Api/Example.Api.csproj","testProjectPath":"tests/Example.Api.Tests/Example.Api.Tests.csproj","artifactName":"example-api","applicationVersion":"0.1.0","runtimeIdentifier":"linux-x64","publishMode":"framework-dependent","coverageThreshold":80,"retentionDays":14,"evidenceMode":"safe-metadata","extensions":[]}

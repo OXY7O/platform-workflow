@@ -43,7 +43,7 @@ test(".NET Web API is an in-progress pilot with workflow but no example claim", 
   assert.equal(profile.exampleAvailability, "planned");
   assert.equal(profile.lifecycle, "pilot");
   assert.equal(profile.compatibility, "not-validated");
-  assert.match(profile.workflowReference, /ci-profile-dotnet-webapi\.yml@299a4763f49481e0cd4d93c03805823dbf5ce91b$/);
+  assert.match(profile.workflowReference, /ci-profile-dotnet-webapi\.yml@5bcb4f8110597667919ff4d65a89660f06e69b6f$/);
   assert.equal(profile.exampleRepository, null);
 });
 

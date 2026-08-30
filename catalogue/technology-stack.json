@@ -44,7 +44,7 @@
       "exampleAvailability": "planned",
       "lifecycle": "pilot",
       "compatibility": "not-validated",
-      "workflowReference": "OXY7O/platform-workflow/.github/workflows/ci-profile-dotnet-webapi.yml@299a4763f49481e0cd4d93c03805823dbf5ce91b",
+      "workflowReference": "OXY7O/platform-workflow/.github/workflows/ci-profile-dotnet-webapi.yml@5bcb4f8110597667919ff4d65a89660f06e69b6f",
       "exampleRepository": null,
       "artifactTypes": ["application-package"],
       "extensions": []

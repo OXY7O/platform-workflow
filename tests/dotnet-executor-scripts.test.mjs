@@ -41,8 +41,8 @@ test(".NET family executes the governed checks in order", () => {
     ["format", "tests/fixtures/dotnet-webapi-valid/Example.App.Dotnet.slnx", "--verify-no-changes"],
     ["build", "tests/fixtures/dotnet-webapi-valid/Example.App.Dotnet.slnx", "--configuration"],
     ["test", "tests/fixtures/dotnet-webapi-valid/tests/Example.Api.Tests/Example.Api.Tests.csproj", "--configuration"],
-    ["package", "list", "tests/fixtures/dotnet-webapi-valid/src/Example.Api/Example.Api.csproj"],
-    ["package", "list", "tests/fixtures/dotnet-webapi-valid/src/Example.Api/Example.Api.csproj"],
+    ["package", "list", "--project"],
+    ["package", "list", "--project"],
   ]);
 });
 
