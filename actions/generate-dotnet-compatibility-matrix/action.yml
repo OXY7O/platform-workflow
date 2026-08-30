@@ -1,0 +1,8 @@
+name: Generate .NET compatibility matrix
+description: Generate the opt-in governed .NET Web API compatibility matrix
+inputs:
+  catalogue-path: {description: Relative path to the .NET compatibility catalogue, required: true}
+  include-preview: {description: Opt in to the non-blocking preview lane, required: false, default: "false"}
+outputs:
+  matrix-json: {description: Validated artifactless compatibility matrix}
+runs: {using: node24, main: ../../dist/generate-dotnet-compatibility-matrix/index.js}

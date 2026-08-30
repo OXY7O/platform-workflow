@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "profileKey", "lanes"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"}, "profileKey": {"const": "dotnet-webapi"},
+    "lanes": {"type": "array", "minItems": 2, "items": {"$ref": "dotnet-compatibility-input.schema.json"}}
+  }
+}

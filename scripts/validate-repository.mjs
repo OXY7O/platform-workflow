@@ -59,10 +59,22 @@ for (const file of [
   "contracts/dotnet-webapi-input.schema.json",
   "contracts/dotnet-application-artifact-input.schema.json",
   "contracts/dotnet-application-manifest.schema.json",
+  "contracts/dotnet-compatibility-input.schema.json",
+  "contracts/dotnet-compatibility-catalogue.schema.json",
   "catalogue/technology-stack.json"
 ]) JSON.parse(fs.readFileSync(file, "utf8"));
 
 JSON.parse(fs.readFileSync("catalogue/go-service.json", "utf8"));
+JSON.parse(fs.readFileSync("catalogue/dotnet-webapi.json", "utf8"));
+
+for (const file of [
+  "src/validate-dotnet-compatibility-contract.ts", "src/action-validate-dotnet-compatibility-contract.ts",
+  "actions/validate-dotnet-compatibility-contract/action.yml", "dist/validate-dotnet-compatibility-contract/index.js",
+  "src/generate-dotnet-compatibility-matrix.ts", "src/action-generate-dotnet-compatibility-matrix.ts",
+  "actions/generate-dotnet-compatibility-matrix/action.yml", "dist/generate-dotnet-compatibility-matrix/index.js"
+]) {
+  if (!fs.existsSync(file)) errors.push(`${file}: required .NET compatibility file is missing`);
+}
 
 for (const file of [
   "src/build-dotnet-application-artifact.ts",
