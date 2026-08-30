@@ -22,7 +22,6 @@ permissions:
 jobs:
   compatibility:
     runs-on: ubuntu-24.04
-    continue-on-error: true
     outputs:
       readiness: ${{ steps.normalize.outputs.readiness }}
       failure-category: ${{ steps.normalize.outputs.failure-category }}
@@ -40,11 +39,18 @@ jobs:
       - name: Configure exact .NET 11 preview SDK
         uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
         with:
-          dotnet-version: 11.0.100-preview.6.26359.118
+          dotnet-version: |
+            10.0.110
+            11.0.100-preview.6.26359.118
           cache: true
           cache-dependency-path: '**/packages.lock.json'
+      - name: Select exact preview SDK for compatibility execution
+        shell: bash
+        run: |
+          node -e 'const fs=require("fs");const value=JSON.parse(fs.readFileSync("global.json","utf8"));value.sdk.version="11.0.100-preview.6.26359.118";value.sdk.allowPrerelease=true;fs.writeFileSync("global.json", `${JSON.stringify(value, null, 2)}\n`);'
       - name: Run preview family checks
         id: family
+        continue-on-error: true
         uses: OXY7O/platform-workflow/actions/dotnet-family-check@6e8335bd6bdbb829cf7fed468b0517e8a54a7c73
         with:
           solution-path: ${{ fromJSON(inputs.contract-json).solutionPath }}
@@ -54,6 +60,7 @@ jobs:
           coverage-threshold: ${{ fromJSON(inputs.contract-json).coverageThreshold }}
       - name: Validate preview Web API publish
         id: profile
+        continue-on-error: true
         uses: OXY7O/platform-workflow/actions/dotnet-webapi-check@6e8335bd6bdbb829cf7fed468b0517e8a54a7c73
         with:
           project-path: ${{ fromJSON(inputs.contract-json).projectPath }}

@@ -38,7 +38,7 @@ if [[ "$resolved_output" != "$runner_root"/* || -L "$publish_directory" ]]; then
 fi
 mkdir -p "$publish_directory"
 
-if ! dotnet publish "$project_path" --configuration Release --no-build --no-restore --framework net10.0 --runtime linux-x64 --self-contained false --output "$publish_directory"; then
+if ! dotnet publish "$project_path" --configuration Release --no-restore --framework net10.0 --runtime linux-x64 --self-contained false --output "$publish_directory"; then
   emit_result publish true failed artifact "framework-dependent publish failed"; exit 1
 fi
 if [[ -L "$publish_directory" || -z "$(find "$publish_directory" -type f -print -quit)" ]]; then

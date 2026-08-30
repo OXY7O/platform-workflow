@@ -34,7 +34,11 @@ test("preview workflow is exact, non-blocking, and artifactless", () => {
   assert.match(serialized, /11\.0\.100-preview\.6\.26359\.118/);
   assert.doesNotMatch(serialized, /upload-artifact|build-dotnet-application-artifact/);
   assert.equal(Object.keys(workflow.on.workflow_call.outputs).some((key) => /artifact/i.test(key)), false);
-  assert.equal(workflow.jobs.compatibility["continue-on-error"], true);
+  assert.equal(workflow.jobs.compatibility["continue-on-error"], undefined);
+  assert.equal(workflow.jobs.compatibility.steps.find((step) => step.id === "family")["continue-on-error"], true);
+  assert.equal(workflow.jobs.compatibility.steps.find((step) => step.id === "profile")["continue-on-error"], true);
+  assert.match(serialized, /10\.0\.110/);
+  assert.match(serialized, /global\.json/);
   const profile = parse(fs.readFileSync(files[2], "utf8"));
   assert.match(JSON.stringify(profile.jobs["prepare-compatibility"]), /include-preview/);
 });
