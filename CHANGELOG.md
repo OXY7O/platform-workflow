@@ -2,6 +2,36 @@
 
 Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflow`. Istilah teknis dipertahankan ketika merupakan bagian dari kontrak platform.
 
+## [0.5.0] - 2026-08-30
+
+### Ditambahkan
+
+- typed caller contract untuk profile `.NET Web API` dengan SDK canonical tepat
+  `10.0.110`, target `net10.0`, dan runtime `linux-x64`;
+- locked restore, format verification, Release build, unit/integration test,
+  machine-readable coverage, serta pemeriksaan package vulnerable dan deprecated;
+- deterministic framework-dependent application package beserta manifest,
+  SHA-256 digest, normalized metadata, dan status `ci-qualified`;
+- opt-in .NET 11 preview lane `11.0.100-preview.6.26359.118` yang non-blocking
+  dan tidak menghasilkan artifact;
+- landing page profile, thin caller, troubleshooting, dan katalog onboarding.
+
+### Keamanan dan batas
+
+- caller dan reusable workflow hanya memakai `contents: read`, tanpa secret,
+  OIDC, privileged environment, atau deployment;
+- contract menolak arbitrary command, MSBuild property bebas, NuGet source,
+  test filter, cache key, absolute path, traversal, dan extension di luar allowlist;
+- canonical lane mengunggah tepat satu artifact; preview mengunggah nol artifact;
+- .NET Worker, .NET 8 legacy, self-contained, Windows, arm64, OCI, dan deployment
+  belum termasuk dalam rilis ini.
+
+### Status adopsi
+
+- profile tetap `In progress/pilot/not-validated` sampai `example-app-dotnet`,
+  actual pilot evidence, dan release example tersedia;
+- perubahan ini tidak mengubah perilaku executable PHP/Laravel atau Go.
+
 ## [0.4.1] - 2026-08-30
 
 ### Dokumentasi dan katalog
