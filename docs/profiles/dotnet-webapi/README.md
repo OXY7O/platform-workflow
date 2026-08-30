@@ -2,10 +2,10 @@
 
 ![Profile](https://img.shields.io/badge/profile-dotnet--webapi-512bd4)
 ![Lifecycle](https://img.shields.io/badge/lifecycle-pilot-f59e0b)
-![Availability](https://img.shields.io/badge/availability-in%20progress-d97706)
+![Availability](https://img.shields.io/badge/availability-available-1f883d)
 ![Tanpa deployment](https://img.shields.io/badge/deployment-tidak%20tersedia-6b7280)
 
-Landing page reusable CI untuk HTTP API berbasis ASP.NET Core controllers. Workflow sudah menjadi kandidat pilot, tetapi `example-app-dotnet` dan actual pilot evidence belum tersedia. Karena itu statusnya masih **In progress**, bukan baseline `Available`.
+Landing page reusable CI untuk HTTP API berbasis ASP.NET Core controllers. Workflow, [`example-app-dotnet`](https://github.com/OXY7O/example-app-dotnet), release contoh `v0.1.0`, dan actual pilot evidence sudah tersedia. Statusnya **Available**, sementara lifecycle tetap `pilot` dan compatibility tetap `not-validated`.
 
 ## Status profile
 
@@ -13,17 +13,17 @@ Landing page reusable CI untuk HTTP API berbasis ASP.NET Core controllers. Workf
 |---|---|
 | Profile key | `dotnet-webapi` |
 | Family | `.NET` |
-| Availability | `In progress` |
+| Availability | `Available` |
 | Governance lifecycle | `pilot` |
 | Compatibility | `not-validated` |
 | Canonical SDK | `.NET SDK 10.0.110` |
 | Target | `net10.0` / `linux-x64` |
 | Package | framework-dependent application package |
-| Example | Belum tersedia |
+| Example | [`OXY7O/example-app-dotnet@v0.1.0`](https://github.com/OXY7O/example-app-dotnet/releases/tag/v0.1.0) |
 | Governance baseline | `platform-governance@v1.3.0` |
 | Deployment | Tidak tersedia |
 
-Status ini hanya menyatakan implementasi workflow sedang dipilotkan. Ini bukan klaim `supported`, compatibility `verified`, atau `operationally compliant`.
+Status ini hanya menyatakan workflow dan contoh implementasi tersedia. Ini bukan klaim `supported`, compatibility `verified`, atau `operationally compliant`.
 
 ## Use case dan batas
 
@@ -85,7 +85,7 @@ Evidence aman dapat menyimpan source SHA, immutable workflow SHA, contract/depen
 - [ ] Pertahankan `permissions: contents: read`; jangan teruskan secret.
 - [ ] Gunakan preview hanya untuk observasi compatibility.
 - [ ] Konfirmasi canonical menghasilkan satu package dan preview nol artifact.
-- [ ] Tunggu `example-app-dotnet` serta actual pilot evidence sebelum mengubah status menjadi `Available`.
+- [ ] Bandingkan struktur caller dengan [`example-app-dotnet`](https://github.com/OXY7O/example-app-dotnet).
 
 ## Troubleshooting
 
@@ -100,8 +100,12 @@ Evidence aman dapat menyimpan source SHA, immutable workflow SHA, contract/depen
 ## Tautan teknis
 
 - [Thin caller](THIN-CALLER.md)
+- [Example .NET Web API](https://github.com/OXY7O/example-app-dotnet)
+- [Release example v0.1.0](https://github.com/OXY7O/example-app-dotnet/releases/tag/v0.1.0)
+- [Actual pilot run 33317740112](https://github.com/OXY7O/example-app-dotnet/actions/runs/33317740112)
+- [Actual pilot evidence](../../results/2026-08-30-dotnet-webapi-pilot.json)
 - [Handoff artifact](../../ARTIFACT-HANDOFF.md)
 - [Failure taxonomy](../../FAILURE-TAXONOMY.md)
 - [Kembali ke katalog](../README.md)
 
-`example-app-dotnet` akan menjadi bukti consumer pada tahap berikutnya. Sampai repository dan evidence tersebut dirilis, profile ini tetap `In progress`.
+Pilot membuktikan canonical CI/package dan preview observation pada satu example. Assessment organisasi tetap diperlukan sebelum status dapat dinaikkan dari `pilot/not-validated`.

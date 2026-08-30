@@ -56,8 +56,11 @@ test(".NET Web API detail explains the pilot contract without overstating availa
     "application package", "Failure taxonomy", "Troubleshooting", "Thin caller",
     "example-app-dotnet", "ci-qualified", "Safe evidence metadata", "Tanpa deployment",
   ]) assert.match(profile, new RegExp(escape(text)));
-  assert.match(profile, /In progress/i);
-  assert.match(profile, /belum tersedia/i);
+  assert.match(profile, /Available/i);
+  assert.match(profile, /example-app-dotnet/);
+  assert.match(profile, /33317740112/);
+  assert.match(profile, /bukan klaim `supported`/i);
+  assert.match(profile, /not-validated/i);
 });
 
 test("v0.2.1 release note remains available as history", () => {

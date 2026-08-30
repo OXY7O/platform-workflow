@@ -9,7 +9,7 @@
   "families": {
     "php": {"availability": "available", "lifecycle": "pilot", "supportTier": "standard"},
     "go": {"availability": "in-progress", "lifecycle": "pilot", "supportTier": "standard"},
-    "dotnet": {"availability": "in-progress", "lifecycle": "pilot", "supportTier": "standard"},
+    "dotnet": {"availability": "available", "lifecycle": "pilot", "supportTier": "standard"},
     "python": {"availability": "planned", "lifecycle": "planned", "supportTier": "standard"},
     "node-typescript": {"availability": "planned", "lifecycle": "planned", "supportTier": "standard"},
     "java": {"availability": "planned", "lifecycle": "planned", "supportTier": "standard"}
@@ -39,13 +39,13 @@
     },
     "dotnet-webapi": {
       "family": "dotnet",
-      "availability": "in-progress",
-      "workflowAvailability": "in-progress",
-      "exampleAvailability": "planned",
+      "availability": "available",
+      "workflowAvailability": "available",
+      "exampleAvailability": "available",
       "lifecycle": "pilot",
       "compatibility": "not-validated",
-      "workflowReference": "OXY7O/platform-workflow/.github/workflows/ci-profile-dotnet-webapi.yml@5bcb4f8110597667919ff4d65a89660f06e69b6f",
-      "exampleRepository": null,
+      "workflowReference": "OXY7O/platform-workflow/.github/workflows/ci-profile-dotnet-webapi.yml@451f980e3f4b9d926b7b340b42f7f611d75db1d2",
+      "exampleRepository": "https://github.com/OXY7O/example-app-dotnet",
       "artifactTypes": ["application-package"],
       "extensions": []
     },

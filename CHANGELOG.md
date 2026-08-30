@@ -2,6 +2,23 @@
 
 Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflow`. Istilah teknis dipertahankan ketika merupakan bagian dari kontrak platform.
 
+## [0.5.3] - 2026-08-31
+
+### Dokumentasi dan katalog
+
+- menandai `.NET Web API` sebagai `Available` setelah reusable workflow,
+  example repository, actual pilot evidence, dan release contoh tersedia;
+- menautkan `OXY7O/example-app-dotnet@v0.1.0`, actual pilot run, serta evidence
+  artifact yang sudah diverifikasi dari portal dan landing page profile;
+- memperbarui thin caller ke immutable workflow pin `451f980e3f4b9d926b7b340b42f7f611d75db1d2`.
+
+### Batas
+
+- tidak ada perubahan executable contract setelah `v0.5.2`;
+- lifecycle tetap `pilot`, compatibility tetap `not-validated`, dan deployment
+  tetap tidak tersedia;
+- `Available` bukan klaim `supported` atau `operationally compliant`.
+
 ## [0.5.2] - 2026-08-30
 
 ### Diperbaiki

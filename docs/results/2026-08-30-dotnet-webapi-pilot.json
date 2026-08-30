@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "1.0",
+  "profileKey": "dotnet-webapi",
+  "runId": 33317740112,
+  "runUrl": "https://github.com/OXY7O/example-app-dotnet/actions/runs/33317740112",
+  "event": "pull_request",
+  "headBranch": "feat/dotnet-webapi-example",
+  "headSha": "d53efde127256baed58818459649537775b12c8d",
+  "sourceSha": "3034b6ed65e5232af59cf0d9ab8e4186cc115cb9",
+  "workflowCallerSha": "451f980e3f4b9d926b7b340b42f7f611d75db1d2",
+  "workflowImplementationSha": "1d2b41de856a485075a52c21be2222688fa3428e",
+  "runner": {"os": "Ubuntu 24.04", "architecture": "linux-x64", "image": "ubuntu-24.04"},
+  "jobs": {
+    "prepareCompatibility": {"id": 99274161643, "conclusion": "success"},
+    "canonicalFamily": {"id": 99274161746, "conclusion": "success"},
+    "previewCompatibility": {"id": 99274183232, "conclusion": "success"},
+    "canonicalPackage": {"id": 99274278962, "conclusion": "success"}
+  },
+  "canonical": {
+    "readiness": "ci-qualified",
+    "sdkVersion": "10.0.110",
+    "targetFramework": "net10.0",
+    "runtimeIdentifier": "linux-x64",
+    "publishMode": "framework-dependent",
+    "contractDigest": "sha256:36b47ac805fbc571a69554b0617f8f40560252084b2d4d7206051501939ee125",
+    "dependencyDigest": "sha256:ebfdc686dd0a8fde00cb4d68bd9b27486c059bb8bd16a992e020af49dcb43a28",
+    "checks": ["locked-restore", "format", "release-build", "test", "coverage", "vulnerable-packages", "deprecated-packages", "webapi-publish", "artifact-package"],
+    "artifact": {
+      "id": 9733989310,
+      "name": "example-api_0.1.0_net10.0_linux-x64.tar.gz",
+      "githubEnvelopeDigest": "sha256:d231a41202d31715c679621b9adfeb120bae19e181eb10b02d223aeea4c1d6d1",
+      "packageDigest": "sha256:9f479bacae508ec0e31874bc30a99e1af0256ae03f220181545a50c806c2811a",
+      "manifestDigest": "sha256:fe3eab19bfd5717ba2d4840d957ce54a69eaa3bda907ef97852151cbbe10865c",
+      "embeddedManifestDigest": "sha256:5e89dc0350bb9bb1b61a81b8a78cbcf2b5e11d97968c83e5eb9b554ba531554f",
+      "retentionDays": 14,
+      "expiresAt": "2026-09-13T14:47:19Z",
+      "fileCount": 6,
+      "prohibitedFileCount": 0
+    }
+  },
+  "preview": {
+    "sdkVersion": "11.0.100-preview.6.26359.118",
+    "conclusion": "success",
+    "blocking": false,
+    "artifactCount": 0
+  },
+  "exampleRelease": "https://github.com/OXY7O/example-app-dotnet/releases/tag/v0.1.0",
+  "compatibilityStatus": "not-validated",
+  "deploymentAuthorized": false
+}
