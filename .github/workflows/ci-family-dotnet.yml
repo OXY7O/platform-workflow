@@ -1,0 +1,53 @@
+name: Reusable .NET Family CI
+
+on:
+  workflow_call:
+    inputs:
+      contract-json: {required: true, type: string}
+    outputs:
+      contract-digest:
+        value: ${{ jobs.family.outputs.contract-digest }}
+      dependency-digest:
+        value: ${{ jobs.family.outputs.dependency-digest }}
+
+permissions:
+  contents: read
+
+jobs:
+  family:
+    runs-on: ubuntu-24.04
+    outputs:
+      contract-digest: ${{ steps.contract.outputs.contract-digest }}
+      dependency-digest: ${{ steps.dependencies.outputs.digest }}
+    steps:
+      - name: Checkout caller source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Validate .NET Web API contract
+        id: contract
+        uses: OXY7O/platform-workflow/actions/validate-dotnet-webapi-contract@59baf8ce620653029d3692b35001bf0926162fe1
+        with:
+          contract-json: ${{ inputs.contract-json }}
+      - name: Configure exact .NET SDK
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          dotnet-version: ${{ steps.contract.outputs.sdk-version }}
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+      - name: Run .NET family checks
+        uses: OXY7O/platform-workflow/actions/dotnet-family-check@59baf8ce620653029d3692b35001bf0926162fe1
+        with:
+          solution-path: ${{ fromJSON(inputs.contract-json).solutionPath }}
+          project-path: ${{ fromJSON(inputs.contract-json).projectPath }}
+          test-project-path: ${{ fromJSON(inputs.contract-json).testProjectPath }}
+          sdk-version: ${{ steps.contract.outputs.sdk-version }}
+          coverage-threshold: ${{ fromJSON(inputs.contract-json).coverageThreshold }}
+      - name: Resolve locked dependency digest
+        id: dependencies
+        env:
+          PROJECT_PATH: ${{ fromJSON(inputs.contract-json).projectPath }}
+          TEST_PROJECT_PATH: ${{ fromJSON(inputs.contract-json).testProjectPath }}
+        run: |
+          project_lock="$(dirname "$PROJECT_PATH")/packages.lock.json"
+          test_lock="$(dirname "$TEST_PROJECT_PATH")/packages.lock.json"
+          digest="$(sha256sum "$project_lock" "$test_lock" | sort -k2 | sha256sum | cut -d ' ' -f1)"
+          echo "digest=sha256:$digest" >> "$GITHUB_OUTPUT"

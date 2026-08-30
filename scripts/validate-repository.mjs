@@ -31,6 +31,12 @@ for (const name of workflowFiles) {
     if (/"(?:environment|secrets)"\s*:/.test(serialized)) errors.push(`${file}: privileged context is prohibited`);
     if (Object.keys(workflow.on.workflow_call.outputs ?? {}).some(key=>/artifact/i.test(key))) errors.push(`${file}: artifact outputs are prohibited`);
   }
+  if (name === "ci-compatibility-dotnet-webapi.yml") {
+    const workflow=parse(source); const serialized=JSON.stringify(workflow);
+    if (/upload-artifact|build-dotnet-application-artifact/i.test(serialized)) errors.push(`${file}: .NET compatibility workflow must be artifactless`);
+    if (/"(?:environment|secrets)"\s*:/.test(serialized)) errors.push(`${file}: privileged context is prohibited`);
+    if (Object.keys(workflow.on.workflow_call.outputs ?? {}).some(key=>/artifact/i.test(key))) errors.push(`${file}: artifact outputs are prohibited`);
+  }
 }
 
 for (const file of [
