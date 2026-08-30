@@ -1,0 +1,9 @@
+name: Validate .NET compatibility contract
+description: Validate a governed artifactless .NET preview lane
+inputs:
+  contract-json: {description: JSON .NET compatibility lane contract, required: true}
+outputs:
+  contract-digest: {description: SHA-256 digest of the canonical lane contract}
+  lane-id: {description: Resolved lane identity}
+  sdk-version: {description: Resolved .NET SDK version}
+runs: {using: node24, main: ../../dist/validate-dotnet-compatibility-contract/index.js}

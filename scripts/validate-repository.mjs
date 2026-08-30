@@ -31,6 +31,21 @@ for (const name of workflowFiles) {
     if (/"(?:environment|secrets)"\s*:/.test(serialized)) errors.push(`${file}: privileged context is prohibited`);
     if (Object.keys(workflow.on.workflow_call.outputs ?? {}).some(key=>/artifact/i.test(key))) errors.push(`${file}: artifact outputs are prohibited`);
   }
+  if (name === "ci-compatibility-dotnet-webapi.yml") {
+    const workflow=parse(source); const serialized=JSON.stringify(workflow);
+    if (/upload-artifact|build-dotnet-application-artifact/i.test(serialized)) errors.push(`${file}: .NET compatibility workflow must be artifactless`);
+    if (/"(?:environment|secrets)"\s*:/.test(serialized)) errors.push(`${file}: privileged context is prohibited`);
+    if (Object.keys(workflow.on.workflow_call.outputs ?? {}).some(key=>/artifact/i.test(key))) errors.push(`${file}: artifact outputs are prohibited`);
+  }
+}
+
+for (const file of [
+  "scripts/dotnet-family-ci.sh",
+  "scripts/dotnet-webapi-ci.sh",
+  "actions/dotnet-family-check/action.yml",
+  "actions/dotnet-webapi-check/action.yml"
+]) {
+  if (!fs.existsSync(file)) errors.push(`${file}: required .NET executor file is missing`);
 }
 
 for (const file of [
@@ -47,10 +62,43 @@ for (const file of [
   "contracts/go-compatibility-catalogue.schema.json",
   "contracts/go-binary-artifact-input.schema.json",
   "contracts/go-binary-manifest.schema.json",
+  "contracts/dotnet-webapi-input.schema.json",
+  "contracts/dotnet-application-artifact-input.schema.json",
+  "contracts/dotnet-application-manifest.schema.json",
+  "contracts/dotnet-compatibility-input.schema.json",
+  "contracts/dotnet-compatibility-catalogue.schema.json",
   "catalogue/technology-stack.json"
 ]) JSON.parse(fs.readFileSync(file, "utf8"));
 
 JSON.parse(fs.readFileSync("catalogue/go-service.json", "utf8"));
+JSON.parse(fs.readFileSync("catalogue/dotnet-webapi.json", "utf8"));
+
+for (const file of [
+  "src/validate-dotnet-compatibility-contract.ts", "src/action-validate-dotnet-compatibility-contract.ts",
+  "actions/validate-dotnet-compatibility-contract/action.yml", "dist/validate-dotnet-compatibility-contract/index.js",
+  "src/generate-dotnet-compatibility-matrix.ts", "src/action-generate-dotnet-compatibility-matrix.ts",
+  "actions/generate-dotnet-compatibility-matrix/action.yml", "dist/generate-dotnet-compatibility-matrix/index.js"
+]) {
+  if (!fs.existsSync(file)) errors.push(`${file}: required .NET compatibility file is missing`);
+}
+
+for (const file of [
+  "src/build-dotnet-application-artifact.ts",
+  "src/action-build-dotnet-application-artifact.ts",
+  "actions/build-dotnet-application-artifact/action.yml",
+  "dist/build-dotnet-application-artifact/index.js"
+]) {
+  if (!fs.existsSync(file)) errors.push(`${file}: required .NET application artifact file is missing`);
+}
+
+for (const file of [
+  "src/validate-dotnet-webapi-contract.ts",
+  "src/action-validate-dotnet-webapi-contract.ts",
+  "actions/validate-dotnet-webapi-contract/action.yml",
+  "dist/validate-dotnet-webapi-contract/index.js"
+]) {
+  if (!fs.existsSync(file)) errors.push(`${file}: required .NET Web API contract file is missing`);
+}
 
 for (const file of [
   "src/validate-go-service-contract.ts",

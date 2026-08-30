@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "dotnet-compatibility-input.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["laneId", "sdkVersion", "targetFramework", "runtimeIdentifier", "solutionPath", "projectPath", "testProjectPath", "coverageThreshold", "executionMode", "lifecycle", "blocking", "artifact"],
+  "properties": {
+    "laneId": {"enum": ["dotnet-sdk-10.0.110-net10.0-linux-x64", "dotnet-sdk-11.0.100-preview.6.26359.118-net10.0-linux-x64"]},
+    "sdkVersion": {"enum": ["10.0.110", "11.0.100-preview.6.26359.118"]},
+    "targetFramework": {"const": "net10.0"}, "runtimeIdentifier": {"const": "linux-x64"},
+    "solutionPath": {"$ref": "#/$defs/relativePath"}, "projectPath": {"$ref": "#/$defs/relativePath"}, "testProjectPath": {"$ref": "#/$defs/relativePath"},
+    "coverageThreshold": {"type": "number", "minimum": 0, "maximum": 100},
+    "executionMode": {"enum": ["canonical-artifact", "compatibility-only"]},
+    "lifecycle": {"enum": ["active", "preview"]}, "blocking": {"type": "boolean"},
+    "eligible": {"type": "boolean"}, "artifact": {"type": "boolean"}
+  },
+  "$defs": {"relativePath": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?![A-Za-z]:[\\\\/])(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"}}
+}

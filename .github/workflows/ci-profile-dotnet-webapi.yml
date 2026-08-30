@@ -1,0 +1,136 @@
+name: Reusable .NET Web API CI
+
+on:
+  workflow_call:
+    inputs:
+      contract-json: {required: true, type: string}
+      compatibility-catalogue-path: {required: false, type: string, default: compatibility/dotnet-webapi.json}
+      include-preview: {required: false, type: boolean, default: false}
+    outputs:
+      readiness:
+        value: ${{ jobs.package.outputs.readiness }}
+      failure-category:
+        value: ${{ jobs.package.outputs.failure-category }}
+      artifact-id:
+        value: ${{ jobs.package.outputs.artifact-id }}
+      artifact-name:
+        value: ${{ jobs.package.outputs.artifact-name }}
+      artifact-digest:
+        value: ${{ jobs.package.outputs.artifact-digest }}
+      manifest-digest:
+        value: ${{ jobs.package.outputs.manifest-digest }}
+      evidence-metadata:
+        value: ${{ jobs.package.outputs.evidence-metadata }}
+      preview-result:
+        value: ${{ jobs.compatibility.outputs.readiness }}
+
+permissions:
+  contents: read
+
+jobs:
+  family:
+    uses: ./.github/workflows/ci-family-dotnet.yml
+    permissions: {contents: read}
+    with:
+      contract-json: ${{ inputs.contract-json }}
+
+  package:
+    needs: family
+    runs-on: ubuntu-24.04
+    outputs:
+      readiness: ${{ steps.normalize.outputs.readiness }}
+      failure-category: ${{ steps.normalize.outputs.failure-category }}
+      artifact-id: ${{ steps.build.outputs.artifact-id }}
+      artifact-name: ${{ steps.build.outputs.artifact-name }}
+      artifact-digest: ${{ steps.build.outputs.digest }}
+      manifest-digest: ${{ steps.build.outputs.manifest-digest }}
+      evidence-metadata: ${{ steps.normalize.outputs.evidence-metadata }}
+    steps:
+      - name: Checkout caller source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Validate canonical contract
+        id: contract
+        uses: OXY7O/platform-workflow/actions/validate-dotnet-webapi-contract@299a4763f49481e0cd4d93c03805823dbf5ce91b
+        with:
+          contract-json: ${{ inputs.contract-json }}
+      - name: Configure canonical .NET SDK 10.0.110
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          dotnet-version: 10.0.110
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+      - name: Re-run governed family checks
+        id: family-check
+        uses: OXY7O/platform-workflow/actions/dotnet-family-check@299a4763f49481e0cd4d93c03805823dbf5ce91b
+        with:
+          solution-path: ${{ fromJSON(inputs.contract-json).solutionPath }}
+          project-path: ${{ fromJSON(inputs.contract-json).projectPath }}
+          test-project-path: ${{ fromJSON(inputs.contract-json).testProjectPath }}
+          sdk-version: 10.0.110
+          coverage-threshold: ${{ fromJSON(inputs.contract-json).coverageThreshold }}
+      - name: Publish verified Web API
+        id: profile
+        uses: OXY7O/platform-workflow/actions/dotnet-webapi-check@299a4763f49481e0cd4d93c03805823dbf5ce91b
+        with:
+          project-path: ${{ fromJSON(inputs.contract-json).projectPath }}
+          target-framework: net10.0
+          runtime-identifier: linux-x64
+          publish-directory: ${{ runner.temp }}/dotnet-canonical/publish
+      - name: Prepare application package input
+        id: artifact-input
+        env:
+          CONTRACT_JSON: ${{ inputs.contract-json }}
+          CONTRACT_DIGEST: ${{ steps.contract.outputs.contract-digest }}
+          DEPENDENCY_DIGEST: ${{ needs.family.outputs.dependency-digest }}
+        run: |
+          value="$(node -e 'const c=JSON.parse(process.env.CONTRACT_JSON); console.log(JSON.stringify({publishDirectory:process.env.RUNNER_TEMP+"/dotnet-canonical/publish",outputDirectory:process.env.RUNNER_TEMP+"/dotnet-artifacts",artifactName:c.artifactName,applicationVersion:c.applicationVersion,sourceSha:process.env.GITHUB_SHA,workflowSha:"299a4763f49481e0cd4d93c03805823dbf5ce91b",contractDigest:process.env.CONTRACT_DIGEST,dependencyDigest:process.env.DEPENDENCY_DIGEST,sdkVersion:"10.0.110",targetFramework:"net10.0",runtimeIdentifier:"linux-x64",publishMode:"framework-dependent",retentionDays:c.retentionDays}))')"
+          echo "value=$value" >> "$GITHUB_OUTPUT"
+      - name: Package verified .NET application
+        id: build
+        uses: OXY7O/platform-workflow/actions/build-dotnet-application-artifact@299a4763f49481e0cd4d93c03805823dbf5ce91b
+        with:
+          build-input: ${{ steps.artifact-input.outputs.value }}
+      - name: Upload qualified .NET application
+        if: steps.build.outputs.readiness == 'ci-qualified'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ${{ steps.build.outputs.artifact-name }}
+          path: |
+            ${{ steps.build.outputs.artifact-path }}
+            ${{ steps.build.outputs.manifest-path }}
+          retention-days: ${{ fromJSON(inputs.contract-json).retentionDays }}
+          if-no-files-found: error
+      - name: Normalize canonical result
+        id: normalize
+        if: always()
+        uses: OXY7O/platform-workflow/actions/normalize-check-results@299a4763f49481e0cd4d93c03805823dbf5ce91b
+        with:
+          checks: >-
+            [{"id":"dotnet-family","required":true,"status":"${{ steps.family-check.outcome == 'success' && 'passed' || 'failed' }}","failureCategory":${{ steps.family-check.outcome == 'success' && 'null' || '"quality"' }},"safeDiagnostic":null},{"id":"dotnet-webapi","required":true,"status":"${{ steps.profile.outcome == 'success' && 'passed' || 'failed' }}","failureCategory":${{ steps.profile.outcome == 'success' && 'null' || '"configuration"' }},"safeDiagnostic":null},{"id":"application-package","required":true,"status":"${{ steps.build.outcome == 'success' && 'passed' || 'failed' }}","failureCategory":${{ steps.build.outcome == 'success' && 'null' || '"artifact"' }},"safeDiagnostic":null}]
+          evidence: >-
+            {"schemaVersion":"1.0","governanceVersion":"v1.3.0","catalogueVersion":"1.3.0","profileKey":"dotnet-webapi","sourceSha":"${{ github.sha }}","workflowSha":"299a4763f49481e0cd4d93c03805823dbf5ce91b","contractDigest":"${{ steps.contract.outputs.contract-digest }}","runnerClass":"linux-x64","runnerImage":"ubuntu-24.04","artifact":{"artifactId":"${{ steps.build.outputs.artifact-id }}","artifactName":"${{ steps.build.outputs.artifact-name }}","digest":"${{ steps.build.outputs.digest }}","manifestDigest":"${{ steps.build.outputs.manifest-digest }}","retentionDays":${{ fromJSON(inputs.contract-json).retentionDays }},"type":"application-package"},"evidenceReference":null}
+
+  prepare-compatibility:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix-json }}
+    steps:
+      - name: Checkout caller source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Generate governed preview matrix
+        id: matrix
+        uses: OXY7O/platform-workflow/actions/generate-dotnet-compatibility-matrix@299a4763f49481e0cd4d93c03805823dbf5ce91b
+        with:
+          catalogue-path: ${{ inputs.compatibility-catalogue-path }}
+          include-preview: ${{ inputs.include-preview }}
+
+  compatibility:
+    needs: prepare-compatibility
+    if: inputs.include-preview
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare-compatibility.outputs.matrix) }}
+    uses: ./.github/workflows/ci-compatibility-dotnet-webapi.yml
+    permissions: {contents: read}
+    with:
+      contract-json: ${{ toJSON(matrix) }}

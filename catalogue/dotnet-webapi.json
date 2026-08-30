@@ -1,0 +1,6 @@
+{
+  "schemaVersion": "1.0", "profileKey": "dotnet-webapi", "lanes": [
+    {"laneId":"dotnet-sdk-10.0.110-net10.0-linux-x64","sdkVersion":"10.0.110","targetFramework":"net10.0","runtimeIdentifier":"linux-x64","solutionPath":"Example.App.Dotnet.slnx","projectPath":"src/Example.Api/Example.Api.csproj","testProjectPath":"tests/Example.Api.Tests/Example.Api.Tests.csproj","coverageThreshold":80,"executionMode":"canonical-artifact","lifecycle":"active","blocking":true,"eligible":true,"artifact":true},
+    {"laneId":"dotnet-sdk-11.0.100-preview.6.26359.118-net10.0-linux-x64","sdkVersion":"11.0.100-preview.6.26359.118","targetFramework":"net10.0","runtimeIdentifier":"linux-x64","solutionPath":"Example.App.Dotnet.slnx","projectPath":"src/Example.Api/Example.Api.csproj","testProjectPath":"tests/Example.Api.Tests/Example.Api.Tests.csproj","coverageThreshold":80,"executionMode":"compatibility-only","lifecycle":"preview","blocking":false,"eligible":true,"artifact":false}
+  ]
+}

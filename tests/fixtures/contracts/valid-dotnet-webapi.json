@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "1.0",
+  "governanceVersion": "v1.3.0",
+  "catalogueVersion": "1.3.0",
+  "profileKey": "dotnet-webapi",
+  "sdkVersion": "10.0.110",
+  "targetFramework": "net10.0",
+  "solutionPath": "Example.App.Dotnet.slnx",
+  "projectPath": "src/Example.Api/Example.Api.csproj",
+  "testProjectPath": "tests/Example.Api.Tests/Example.Api.Tests.csproj",
+  "artifactName": "example-api",
+  "applicationVersion": "0.1.0",
+  "runtimeIdentifier": "linux-x64",
+  "publishMode": "framework-dependent",
+  "coverageThreshold": 80,
+  "retentionDays": 14,
+  "evidenceMode": "safe-metadata",
+  "extensions": []
+}

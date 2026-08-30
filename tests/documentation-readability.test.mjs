@@ -48,6 +48,18 @@ test("Go Service detail documents its complete technical contract and released e
   }
 });
 
+test(".NET Web API detail explains the pilot contract without overstating availability", () => {
+  const profile = read("docs/profiles/dotnet-webapi/README.md");
+  for (const text of [
+    "Status profile", ".NET SDK 10.0.110", "net10.0", "linux-x64",
+    "11.0.100-preview.6.26359.118", "Kontrak input", "Required checks",
+    "application package", "Failure taxonomy", "Troubleshooting", "Thin caller",
+    "example-app-dotnet", "ci-qualified", "Safe evidence metadata", "Tanpa deployment",
+  ]) assert.match(profile, new RegExp(escape(text)));
+  assert.match(profile, /In progress/i);
+  assert.match(profile, /belum tersedia/i);
+});
+
 test("v0.2.1 release note remains available as history", () => {
   const changelog = read("CHANGELOG.md");
   assert.match(changelog, /## \[0\.2\.1\]/);
