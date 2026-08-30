@@ -2,6 +2,25 @@
 
 Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflow`. Istilah teknis dipertahankan ketika merupakan bagian dari kontrak platform.
 
+## [0.5.1] - 2026-08-30
+
+### Diperbaiki
+
+- menyesuaikan noun-first .NET 10 CLI menjadi
+  `dotnet package list --project <project>` untuk vulnerability dan deprecated
+  package checks;
+- menambahkan `--no-restore` agar dependency audit memakai graph yang telah
+  berhasil melalui locked restore;
+- memperketat executor test pada exact `--project` argument dan membuktikan
+  patch terhadap SDK `10.0.110` serta example nyata.
+
+### Batas
+
+- kontrak caller, artifact format, preview policy, permission, dan scope tanpa
+  deployment tidak berubah dari `v0.5.0`;
+- consumer .NET harus memakai immutable workflow pin pada patch ini atau yang
+  lebih baru, bukan implementation pin dari `v0.5.0`.
+
 ## [0.5.0] - 2026-08-30
 
 ### Ditambahkan
