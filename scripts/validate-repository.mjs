@@ -34,6 +34,15 @@ for (const name of workflowFiles) {
 }
 
 for (const file of [
+  "scripts/dotnet-family-ci.sh",
+  "scripts/dotnet-webapi-ci.sh",
+  "actions/dotnet-family-check/action.yml",
+  "actions/dotnet-webapi-check/action.yml"
+]) {
+  if (!fs.existsSync(file)) errors.push(`${file}: required .NET executor file is missing`);
+}
+
+for (const file of [
   "contracts/workflow-input.schema.json",
   "contracts/workflow-output.schema.json",
   "contracts/artifact-manifest.schema.json",

@@ -1,0 +1,26 @@
+name: Run .NET Web API profile check
+description: Validate and publish a controlled framework-dependent Web API application
+inputs:
+  project-path:
+    description: Relative application project path
+    required: true
+  target-framework:
+    description: Governed target framework
+    required: true
+  runtime-identifier:
+    description: Governed runtime identifier
+    required: true
+  publish-directory:
+    description: Absolute controlled publish directory under RUNNER_TEMP
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Run bundled .NET Web API profile check
+      shell: bash
+      env:
+        INPUT_PROJECT_PATH: ${{ inputs.project-path }}
+        INPUT_TARGET_FRAMEWORK: ${{ inputs.target-framework }}
+        INPUT_RUNTIME_IDENTIFIER: ${{ inputs.runtime-identifier }}
+        INPUT_PUBLISH_DIRECTORY: ${{ inputs.publish-directory }}
+      run: '"$GITHUB_ACTION_PATH/../../scripts/dotnet-webapi-ci.sh" "$INPUT_PROJECT_PATH" "$INPUT_TARGET_FRAMEWORK" "$INPUT_RUNTIME_IDENTIFIER" "$INPUT_PUBLISH_DIRECTORY"'

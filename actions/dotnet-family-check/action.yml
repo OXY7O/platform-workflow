@@ -1,0 +1,31 @@
+name: Run .NET family checks
+description: Validate locked restore, quality, tests, coverage, and dependencies
+inputs:
+  solution-path:
+    description: Relative solution path
+    required: true
+  project-path:
+    description: Relative application project path
+    required: true
+  test-project-path:
+    description: Relative test project path
+    required: true
+  sdk-version:
+    description: Exact governed .NET SDK version
+    required: true
+  coverage-threshold:
+    description: Minimum accepted line coverage percentage
+    required: false
+    default: "80"
+runs:
+  using: composite
+  steps:
+    - name: Run bundled .NET family checks
+      shell: bash
+      env:
+        INPUT_SOLUTION_PATH: ${{ inputs.solution-path }}
+        INPUT_PROJECT_PATH: ${{ inputs.project-path }}
+        INPUT_TEST_PROJECT_PATH: ${{ inputs.test-project-path }}
+        INPUT_SDK_VERSION: ${{ inputs.sdk-version }}
+        INPUT_COVERAGE_THRESHOLD: ${{ inputs.coverage-threshold }}
+      run: '"$GITHUB_ACTION_PATH/../../scripts/dotnet-family-ci.sh" "$INPUT_SOLUTION_PATH" "$INPUT_PROJECT_PATH" "$INPUT_TEST_PROJECT_PATH" "$INPUT_SDK_VERSION" "$INPUT_COVERAGE_THRESHOLD"'

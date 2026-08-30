@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+printf '{"args":[' >> "${DOTNET_FAKE_LOG:?}"
+separator=""
+for argument in "$@"; do
+  escaped="${argument//\\/\\\\}"; escaped="${escaped//\"/\\\"}"
+  printf '%s"%s"' "$separator" "$escaped" >> "$DOTNET_FAKE_LOG"
+  separator=,
+done
+printf ']}\n' >> "$DOTNET_FAKE_LOG"
+
+case "${1:-}" in
+  --version) printf '10.0.110\n' ;;
+  format) [[ "${DOTNET_FAKE_FAIL:-}" != format ]] ;;
+  test)
+    results=""
+    while [[ $# -gt 0 ]]; do
+      [[ "$1" = "--results-directory" ]] && { shift; results="$1"; }
+      shift || true
+    done
+    mkdir -p "$results/coverage"
+    printf '%s\n' '<?xml version="1.0"?><coverage line-rate="0.90" />' > "$results/coverage/coverage.cobertura.xml"
+    ;;
+  package)
+    printf '%s\n' '{"version":1,"parameters":"","sources":[],"projects":[{"path":"fixture","frameworks":[{"framework":"net10.0","topLevelPackages":[],"transitivePackages":[]}]}]}'
+    ;;
+  publish)
+    output=""
+    while [[ $# -gt 0 ]]; do
+      [[ "$1" = "--output" ]] && { shift; output="$1"; }
+      shift || true
+    done
+    mkdir -p "$output"
+    printf 'assembly' > "$output/Example.Api.dll"
+    printf '{}' > "$output/Example.Api.deps.json"
+    ;;
+esac
