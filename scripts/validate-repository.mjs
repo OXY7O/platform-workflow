@@ -57,10 +57,21 @@ for (const file of [
   "contracts/go-binary-artifact-input.schema.json",
   "contracts/go-binary-manifest.schema.json",
   "contracts/dotnet-webapi-input.schema.json",
+  "contracts/dotnet-application-artifact-input.schema.json",
+  "contracts/dotnet-application-manifest.schema.json",
   "catalogue/technology-stack.json"
 ]) JSON.parse(fs.readFileSync(file, "utf8"));
 
 JSON.parse(fs.readFileSync("catalogue/go-service.json", "utf8"));
+
+for (const file of [
+  "src/build-dotnet-application-artifact.ts",
+  "src/action-build-dotnet-application-artifact.ts",
+  "actions/build-dotnet-application-artifact/action.yml",
+  "dist/build-dotnet-application-artifact/index.js"
+]) {
+  if (!fs.existsSync(file)) errors.push(`${file}: required .NET application artifact file is missing`);
+}
 
 for (const file of [
   "src/validate-dotnet-webapi-contract.ts",
