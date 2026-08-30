@@ -1,0 +1,45 @@
+name: Reusable Go Family CI
+
+on:
+  workflow_call:
+    inputs:
+      contract-json: {required: true, type: string}
+    outputs:
+      contract-digest:
+        value: ${{ jobs.family.outputs.contract-digest }}
+      module-digest:
+        value: ${{ jobs.family.outputs.module-digest }}
+
+permissions:
+  contents: read
+
+jobs:
+  family:
+    runs-on: ubuntu-24.04
+    outputs:
+      contract-digest: ${{ steps.contract.outputs.contract-digest }}
+      module-digest: ${{ steps.module.outputs.digest }}
+    steps:
+      - name: Checkout caller source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Validate Go Service contract
+        id: contract
+        uses: OXY7O/platform-workflow/actions/validate-go-service-contract@c9314ac3fd75042b5e8d569a38d851419c83f258
+        with:
+          contract-json: ${{ inputs.contract-json }}
+      - name: Configure Go runtime
+        uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: ${{ steps.contract.outputs.go-version }}
+          cache: true
+          cache-dependency-path: ${{ fromJSON(inputs.contract-json).workingDirectory }}/go.sum
+      - name: Run Go family checks
+        uses: OXY7O/platform-workflow/actions/go-family-check@c9314ac3fd75042b5e8d569a38d851419c83f258
+        with:
+          working-directory: ${{ fromJSON(inputs.contract-json).workingDirectory }}
+          go-version: ${{ steps.contract.outputs.go-version }}
+          coverage-threshold: ${{ fromJSON(inputs.contract-json).coverageThreshold }}
+      - name: Resolve module digest
+        id: module
+        working-directory: ${{ fromJSON(inputs.contract-json).workingDirectory }}
+        run: echo "digest=sha256:$(sha256sum go.sum | cut -d ' ' -f1)" >> "$GITHUB_OUTPUT"

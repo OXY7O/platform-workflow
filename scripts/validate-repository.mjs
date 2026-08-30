@@ -25,6 +25,12 @@ for (const name of workflowFiles) {
     if (/"(?:environment|secrets)"\s*:/.test(serialized)) errors.push(`${file}: privileged context is prohibited`);
     if (Object.keys(workflow.on.workflow_call.outputs ?? {}).some(key=>/artifact/i.test(key))) errors.push(`${file}: artifact outputs are prohibited`);
   }
+  if (name === "ci-compatibility-go-service.yml") {
+    const workflow=parse(source); const serialized=JSON.stringify(workflow);
+    if (/upload-artifact|build-go-binary-artifact/i.test(serialized)) errors.push(`${file}: Go compatibility workflow must be artifactless`);
+    if (/"(?:environment|secrets)"\s*:/.test(serialized)) errors.push(`${file}: privileged context is prohibited`);
+    if (Object.keys(workflow.on.workflow_call.outputs ?? {}).some(key=>/artifact/i.test(key))) errors.push(`${file}: artifact outputs are prohibited`);
+  }
 }
 
 for (const file of [
@@ -36,8 +42,55 @@ for (const file of [
   "contracts/compatibility-input.schema.json",
   "contracts/compatibility-catalogue.schema.json",
   "contracts/compatibility-output.schema.json",
+  "contracts/go-service-input.schema.json",
+  "contracts/go-compatibility-input.schema.json",
+  "contracts/go-compatibility-catalogue.schema.json",
+  "contracts/go-binary-artifact-input.schema.json",
+  "contracts/go-binary-manifest.schema.json",
   "catalogue/technology-stack.json"
 ]) JSON.parse(fs.readFileSync(file, "utf8"));
+
+JSON.parse(fs.readFileSync("catalogue/go-service.json", "utf8"));
+
+for (const file of [
+  "src/validate-go-service-contract.ts",
+  "src/action-validate-go-service-contract.ts",
+  "actions/validate-go-service-contract/action.yml",
+  "dist/validate-go-service-contract/index.js"
+]) {
+  if (!fs.existsSync(file)) errors.push(`${file}: required Go Service contract file is missing`);
+}
+
+for (const file of [
+  "src/validate-go-compatibility-contract.ts",
+  "src/action-validate-go-compatibility-contract.ts",
+  "actions/validate-go-compatibility-contract/action.yml",
+  "dist/validate-go-compatibility-contract/index.js",
+  "src/generate-go-compatibility-matrix.ts",
+  "src/action-generate-go-compatibility-matrix.ts",
+  "actions/generate-go-compatibility-matrix/action.yml",
+  "dist/generate-go-compatibility-matrix/index.js"
+]) {
+  if (!fs.existsSync(file)) errors.push(`${file}: required Go compatibility file is missing`);
+}
+
+for (const file of [
+  "src/build-go-binary-artifact.ts",
+  "src/action-build-go-binary-artifact.ts",
+  "actions/build-go-binary-artifact/action.yml",
+  "dist/build-go-binary-artifact/index.js"
+]) {
+  if (!fs.existsSync(file)) errors.push(`${file}: required Go binary artifact file is missing`);
+}
+
+for (const file of [
+  "scripts/go-family-ci.sh",
+  "scripts/go-service-ci.sh",
+  "actions/go-family-check/action.yml",
+  "actions/go-service-check/action.yml"
+]) {
+  if (!fs.existsSync(file)) errors.push(`${file}: required Go executor file is missing`);
+}
 
 if (errors.length) {
   console.error(errors.join("\n"));

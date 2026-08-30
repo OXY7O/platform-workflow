@@ -1,0 +1,23 @@
+name: Run Go family checks
+description: Validate frozen Go modules, quality, tests, coverage, and vulnerabilities
+inputs:
+  working-directory:
+    description: Relative application working directory
+    required: true
+  go-version:
+    description: Exact governed Go toolchain version
+    required: true
+  coverage-threshold:
+    description: Minimum accepted coverage percentage
+    required: false
+    default: "80"
+runs:
+  using: composite
+  steps:
+    - name: Run bundled Go family checks
+      shell: bash
+      env:
+        INPUT_WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        INPUT_GO_VERSION: ${{ inputs.go-version }}
+        INPUT_COVERAGE_THRESHOLD: ${{ inputs.coverage-threshold }}
+      run: '"$GITHUB_ACTION_PATH/../../scripts/go-family-ci.sh" "$INPUT_WORKING_DIRECTORY" "$INPUT_GO_VERSION" "$INPUT_COVERAGE_THRESHOLD"'

@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "1.0",
+  "profileKey": "go-service",
+  "lanes": [
+    {"laneId":"go-1.26.7-linux-amd64","goVersion":"1.26.7","targetOs":"linux","targetArch":"amd64","workingDirectory":".","executionMode":"canonical-artifact","lifecycle":"active","blocking":true,"eligible":true,"artifact":true},
+    {"laneId":"go-1.27.0-linux-amd64","goVersion":"1.27.0","targetOs":"linux","targetArch":"amd64","workingDirectory":".","executionMode":"compatibility-only","lifecycle":"active","blocking":true,"eligible":true,"artifact":false}
+  ]
+}

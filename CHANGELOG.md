@@ -2,6 +2,38 @@
 
 Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflow`. Istilah teknis dipertahankan ketika merupakan bagian dari kontrak platform.
 
+## [0.4.0] - 2026-08-30
+
+### Ditambahkan
+
+- typed caller contract dan digest immutable untuk profile Go Service;
+- family checks untuk module integrity, format, vet, unit test, race test,
+  coverage, dan vulnerability melalui `govulncheck`;
+- canonical Go 1.26.7 workflow yang membangun tepat satu deterministic Linux
+  amd64 binary artifact beserta manifest dan SHA-256 digest;
+- blocking Go 1.27.0 compatibility lane yang read-only dan tidak menghasilkan
+  artifact;
+- landing page Go Service, compatibility catalogue, dan panduan thin caller.
+
+### Keamanan dan batas
+
+- workflow menolak arbitrary command, absolute path, path traversal, symbolic
+  link escape, target runtime yang tidak didukung, dan input di luar allowlist;
+- caller dan reusable workflow hanya memakai `contents: read`, tanpa secret,
+  OIDC, environment, atau deployment;
+- OCI image, Linux arm64, Go CLI, promotion, release production, dan deployment
+  tetap di luar scope;
+- artifact berstatus `ci-qualified`, bukan izin release atau deployment.
+
+### Cara mengadopsi
+
+- profile Go Service masih `In progress`: reusable workflow tersedia sebagai
+  kandidat pilot, sedangkan example dan evidence onboarding belum tersedia;
+- pelajari landing page Go Service dan siapkan thin caller yang dipin ke full
+  commit SHA rilis ini;
+- tunggu `example-app-go` dan evidence pilot sebelum onboarding umum;
+- profile PHP/Laravel dan kontraknya tidak berubah.
+
 ## [0.3.0] - 2026-08-29
 
 ### Ditambahkan
