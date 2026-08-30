@@ -27,13 +27,13 @@
     },
     "go-service": {
       "family": "go",
-      "availability": "in-progress",
+      "availability": "available",
       "workflowAvailability": "available",
-      "exampleAvailability": "planned",
+      "exampleAvailability": "available",
       "lifecycle": "pilot",
       "compatibility": "not-validated",
-      "workflowReference": "OXY7O/platform-workflow/.github/workflows/ci-profile-go-service.yml@01ba3658baea484247b65f54c1a8d672fa231a79",
-      "exampleRepository": null,
+      "workflowReference": "OXY7O/platform-workflow/.github/workflows/ci-profile-go-service.yml@010dee6edcdf21f813e842ef3f193f4a2c83593e",
+      "exampleRepository": "https://github.com/OXY7O/example-app-go",
       "artifactTypes": ["binary"],
       "extensions": ["openapi-validation", "integration-test", "container-build", "sbom-generation", "artifact-signing", "deploy-kubernetes", "deploy-vm-native"]
     },

@@ -2,7 +2,7 @@
 
 Thin caller menyambungkan repository aplikasi ke reusable workflow pusat tanpa
 menyalin implementasi CI. Contoh ini adalah acuan persiapan; `go-service` masih
-`In progress` sampai example dan evidence pilot tersedia.
+`Available` untuk pilot setelah example dan evidence implementasi tersedia.
 
 ```yaml
 name: CI Go Service
@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   ci:
-    uses: OXY7O/platform-workflow/.github/workflows/ci-profile-go-service.yml@01ba3658baea484247b65f54c1a8d672fa231a79
+    uses: OXY7O/platform-workflow/.github/workflows/ci-profile-go-service.yml@010dee6edcdf21f813e842ef3f193f4a2c83593e
     with:
       contract-json: >-
         {"governanceVersion":"v1.2.0","catalogueVersion":"1.2.0","profileKey":"go-service","goVersion":"1.26.7","workingDirectory":".","mainPackage":"./cmd/api","binaryName":"service-api","coverageThreshold":80,"retentionDays":7,"extensions":[]}

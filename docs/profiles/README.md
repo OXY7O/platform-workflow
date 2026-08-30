@@ -6,7 +6,7 @@ Status di sini menyatakan ketersediaan implementasi, bukan klaim compliance.
 | Profile | Family | Availability | Governance lifecycle | Compatibility | Detail |
 |---|---|---|---|---|---|
 | `php-laravel` | PHP | Available | pilot | not-validated | [PHP/Laravel](php-laravel/README.md) |
-| `go-service` | Go | In progress | pilot | not-validated | [Go Service](go-service/README.md) |
+| `go-service` | Go | Available | pilot | not-validated | [Go Service](go-service/README.md) |
 | `dotnet-webapi` | .NET | Planned | planned | not-validated | Belum tersedia |
 | `python-django` | Python | Planned | planned | not-validated | Belum tersedia |
 | `node-service` | TypeScript/Node.js | Planned | planned | not-validated | Belum tersedia |
@@ -16,8 +16,8 @@ Profile `Planned` belum boleh dipakai sebagai baseline project. Perubahan menjad
 `Available` memerlukan reusable workflow, example repository, test, evidence,
 dan release yang dapat ditelusuri.
 
-Profile `In progress` sudah memiliki kandidat reusable workflow, tetapi belum
-lengkap untuk onboarding umum. Penggunaan dibatasi pada persiapan atau pilot
-yang disetujui sampai example dan evidence implementasinya tersedia.
+Profile `Available` dapat memiliki lifecycle `pilot` dan compatibility
+`not-validated`. Availability hanya berarti workflow serta example tersedia;
+support dan compliance tetap memerlukan proses governance terpisah.
 
 Kembali ke [portal Platform Workflow](../../README.md).

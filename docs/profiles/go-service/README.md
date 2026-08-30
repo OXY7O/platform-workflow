@@ -2,12 +2,11 @@
 
 ![Profile](https://img.shields.io/badge/profile-go--service-00add8)
 ![Lifecycle](https://img.shields.io/badge/lifecycle-pilot-f59e0b)
-![Availability](https://img.shields.io/badge/availability-in%20progress-0969da)
+![Availability](https://img.shields.io/badge/availability-available-1a7f37)
 ![Tanpa deployment](https://img.shields.io/badge/deployment-tidak%20tersedia-6b7280)
 
-Landing page reusable CI untuk service atau API berbasis Go. Workflow kandidat
-sudah tersedia, sedangkan `example-app-go` belum tersedia. Karena itu profile
-ini masih `In progress` dan belum dibuka untuk onboarding umum.
+Landing page reusable CI untuk service atau API berbasis Go. Workflow dan
+`example-app-go@v0.1.0` tersedia untuk pembelajaran serta pilot onboarding.
 
 ## Status profile
 
@@ -15,17 +14,17 @@ ini masih `In progress` dan belum dibuka untuk onboarding umum.
 |---|---|
 | Profile key | `go-service` |
 | Family | `go` |
-| Availability | `In progress` |
-| Workflow | Tersedia sebagai kandidat pilot |
-| Example | Belum tersedia |
+| Availability | `Available` |
+| Workflow | `platform-workflow@v0.4.0` |
+| Example | `OXY7O/example-app-go@v0.1.0` |
 | Governance lifecycle | `pilot` |
 | Compatibility state | `not-validated` |
 | Governance baseline | `platform-governance@v1.2.0` |
 | Deployment | Tidak tersedia |
 
-`In progress` bukan klaim `Available`, `supported`, atau `operationally
-compliant`. Status dapat dinaikkan setelah example, onboarding, evidence pilot,
-dan release tervalidasi tersedia.
+`Available` menyatakan reusable workflow dan example dapat digunakan untuk
+pilot. Status ini bukan klaim `supported`, compatibility `verified`, atau
+`operationally compliant`.
 
 ## Use case dan batas
 
@@ -115,7 +114,7 @@ Lihat [handoff artifact](../../ARTIFACT-HANDOFF.md) dan
 - [ ] Baca [Thin caller](THIN-CALLER.md) dan siapkan kontrak terkontrol.
 - [ ] Pin reusable workflow ke full commit SHA yang disetujui.
 - [ ] Jangan mengirim secret atau menambahkan deployment pada caller CI.
-- [ ] Tunggu `example-app-go` dan evidence pilot sebelum onboarding umum.
+- [ ] Pelajari `example-app-go@v0.1.0` dan actual pilot evidence sebelum adopsi.
 - [ ] Verifikasi canonical lane menghasilkan tepat satu artifact.
 - [ ] Konfirmasi compatibility lane tidak menghasilkan artifact.
 - [ ] Catat bahwa `ci-qualified` bukan izin deployment.
@@ -136,8 +135,9 @@ Lihat [handoff artifact](../../ARTIFACT-HANDOFF.md) dan
 - [Thin caller](THIN-CALLER.md)
 - [Handoff artifact](../../ARTIFACT-HANDOFF.md)
 - [Failure taxonomy](../../FAILURE-TAXONOMY.md)
+- [Example App Go](https://github.com/OXY7O/example-app-go)
 - [Kembali ke katalog](../README.md)
 
-Repository `example-app-go` akan ditautkan setelah implementasi, test, dan
-evidence pilot selesai. Sampai saat itu, halaman ini adalah acuan persiapan dan
-bukan instruksi adopsi production.
+Repository `example-app-go@v0.1.0` membuktikan canonical Go 1.26.7 artifact dan
+artifactless Go 1.27.0 compatibility lane. Example tetap bukan production
+starter atau izin deployment.

@@ -12,16 +12,16 @@ test("machine catalogue separates availability from governance compliance", () =
   assert.equal(laravel.exampleRepository, "https://github.com/OXY7O/example-app-laravel");
 });
 
-test("Go Service exposes a workflow candidate without claiming complete availability", () => {
+test("Go Service exposes its released workflow and example without a compliance claim", () => {
   const catalogue = JSON.parse(fs.readFileSync("catalogue/technology-stack.json", "utf8"));
   const profile = catalogue.profiles["go-service"];
-  assert.equal(profile.availability, "in-progress");
+  assert.equal(profile.availability, "available");
   assert.equal(profile.workflowAvailability, "available");
-  assert.equal(profile.exampleAvailability, "planned");
+  assert.equal(profile.exampleAvailability, "available");
   assert.equal(profile.lifecycle, "pilot");
   assert.equal(profile.compatibility, "not-validated");
-  assert.match(profile.workflowReference, /ci-profile-go-service\.yml@[a-f0-9]{40}$/);
-  assert.equal(profile.exampleRepository, null);
+  assert.match(profile.workflowReference, /ci-profile-go-service\.yml@010dee6edcdf21f813e842ef3f193f4a2c83593e$/);
+  assert.equal(profile.exampleRepository, "https://github.com/OXY7O/example-app-go");
 });
 
 test("planned profiles do not advertise executable resources", () => {
@@ -39,8 +39,7 @@ test("README links only the available profile implementation", () => {
   assert.match(readme, /docs\/profiles\/php-laravel\/README\.md/);
   assert.match(readme, /OXY7O\/example-app-laravel/);
   assert.match(readme, /docs\/profiles\/go-service\/README\.md/);
-  assert.match(readme, /In progress/);
-  assert.doesNotMatch(readme, /OXY7O\/example-app-go/);
+  assert.match(readme, /OXY7O\/example-app-go/);
   assert.doesNotMatch(readme, /OXY7O\/example-app-dotnet/);
   assert.doesNotMatch(readme, /demo-app/);
 });
