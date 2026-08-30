@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - name: Validate .NET Web API contract
         id: contract
-        uses: OXY7O/platform-workflow/actions/validate-dotnet-webapi-contract@59baf8ce620653029d3692b35001bf0926162fe1
+        uses: OXY7O/platform-workflow/actions/validate-dotnet-webapi-contract@299a4763f49481e0cd4d93c03805823dbf5ce91b
         with:
           contract-json: ${{ inputs.contract-json }}
       - name: Configure exact .NET SDK
@@ -34,7 +34,7 @@ jobs:
           cache: true
           cache-dependency-path: '**/packages.lock.json'
       - name: Run .NET family checks
-        uses: OXY7O/platform-workflow/actions/dotnet-family-check@59baf8ce620653029d3692b35001bf0926162fe1
+        uses: OXY7O/platform-workflow/actions/dotnet-family-check@299a4763f49481e0cd4d93c03805823dbf5ce91b
         with:
           solution-path: ${{ fromJSON(inputs.contract-json).solutionPath }}
           project-path: ${{ fromJSON(inputs.contract-json).projectPath }}
