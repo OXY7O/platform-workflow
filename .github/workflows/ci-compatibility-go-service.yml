@@ -1,0 +1,75 @@
+name: Reusable Go Service Compatibility CI
+
+on:
+  workflow_call:
+    inputs:
+      contract-json: {required: true, type: string}
+      go-version: {required: true, type: string}
+      working-directory: {required: false, type: string, default: "."}
+      main-package: {required: false, type: string, default: "./cmd/api"}
+      coverage-threshold: {required: false, type: number, default: 80}
+    outputs:
+      readiness:
+        value: ${{ jobs.compatibility.outputs.readiness }}
+      failure-category:
+        value: ${{ jobs.compatibility.outputs.failure-category }}
+      contract-digest:
+        value: ${{ jobs.compatibility.outputs.contract-digest }}
+      module-digest:
+        value: ${{ jobs.compatibility.outputs.module-digest }}
+      evidence-metadata:
+        value: ${{ jobs.compatibility.outputs.evidence-metadata }}
+
+permissions:
+  contents: read
+
+jobs:
+  compatibility:
+    runs-on: ubuntu-24.04
+    outputs:
+      readiness: ${{ steps.normalize.outputs.readiness }}
+      failure-category: ${{ steps.normalize.outputs.failure-category }}
+      contract-digest: ${{ steps.contract.outputs.contract-digest }}
+      module-digest: ${{ steps.module.outputs.digest }}
+      evidence-metadata: ${{ steps.normalize.outputs.evidence-metadata }}
+    steps:
+      - name: Checkout caller source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Configure Go runtime
+        uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: ${{ inputs.go-version }}
+          cache: true
+          cache-dependency-path: ${{ inputs.working-directory }}/go.sum
+      - name: Validate compatibility contract
+        id: contract
+        uses: OXY7O/platform-workflow/actions/validate-go-compatibility-contract@e9ed5c6aa40b4639c55c88a99937b1169090a08e
+        with:
+          contract-json: ${{ inputs.contract-json }}
+      - name: Run Go family checks
+        id: family
+        uses: OXY7O/platform-workflow/actions/go-family-check@e9ed5c6aa40b4639c55c88a99937b1169090a08e
+        with:
+          working-directory: ${{ inputs.working-directory }}
+          go-version: ${{ inputs.go-version }}
+          coverage-threshold: ${{ inputs.coverage-threshold }}
+      - name: Validate Go Service build
+        id: profile
+        uses: OXY7O/platform-workflow/actions/go-service-check@e9ed5c6aa40b4639c55c88a99937b1169090a08e
+        with:
+          working-directory: ${{ inputs.working-directory }}
+          main-package: ${{ inputs.main-package }}
+          binary-output: ${{ runner.temp }}/go-compatibility/example-api
+      - name: Resolve module digest
+        id: module
+        working-directory: ${{ inputs.working-directory }}
+        run: echo "digest=sha256:$(sha256sum go.sum | cut -d ' ' -f1)" >> "$GITHUB_OUTPUT"
+      - name: Normalize compatibility result
+        id: normalize
+        if: always()
+        uses: OXY7O/platform-workflow/actions/normalize-check-results@e9ed5c6aa40b4639c55c88a99937b1169090a08e
+        with:
+          checks: >-
+            [{"id":"contract","required":true,"status":"${{ steps.contract.outcome == 'success' && 'passed' || 'failed' }}","failureCategory":${{ steps.contract.outcome == 'success' && 'null' || '"contract"' }},"safeDiagnostic":null},{"id":"go-family","required":true,"status":"${{ steps.family.outcome == 'success' && 'passed' || 'failed' }}","failureCategory":${{ steps.family.outcome == 'success' && 'null' || '"quality"' }},"safeDiagnostic":null},{"id":"go-service-build","required":true,"status":"${{ steps.profile.outcome == 'success' && 'passed' || 'failed' }}","failureCategory":${{ steps.profile.outcome == 'success' && 'null' || '"configuration"' }},"safeDiagnostic":null}]
+          evidence: >-
+            {"schemaVersion":"1.0","governanceVersion":"v1.2.0","catalogueVersion":"1.2.0","profileKey":"go-service","sourceSha":"${{ github.sha }}","workflowSha":"e9ed5c6aa40b4639c55c88a99937b1169090a08e","contractDigest":"${{ steps.contract.outputs.contract-digest }}","runnerClass":"linux-x64","runnerImage":"ubuntu-24.04","artifact":null,"evidenceReference":null}
