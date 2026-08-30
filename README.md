@@ -1,6 +1,6 @@
 # OXY7O Platform Workflow
 
-[![Versi release](https://img.shields.io/badge/release-v0.5.2-0969da?label=Versi%20release)](https://github.com/OXY7O/platform-workflow/releases/tag/v0.5.2)
+[![Versi release](https://img.shields.io/badge/release-v0.5.3-0969da?label=Versi%20release)](https://github.com/OXY7O/platform-workflow/releases/tag/v0.5.3)
 [![Status CI](https://github.com/OXY7O/platform-workflow/actions/workflows/validate-platform-workflow.yml/badge.svg)](https://github.com/OXY7O/platform-workflow/actions/workflows/validate-platform-workflow.yml)
 [![Governance baseline](https://img.shields.io/badge/governance-v1.3.0-8250df?label=Governance%20baseline)](https://github.com/OXY7O/platform-governance/releases/tag/v1.3.0)
 ![Tanpa deployment](https://img.shields.io/badge/deployment-tidak%20tersedia-6b7280?label=Tanpa%20deployment)
@@ -51,7 +51,7 @@ repository aplikasi
 |---|---|---|---|---|
 | PHP | PHP/Laravel | **Available** | [Buka profile PHP/Laravel](docs/profiles/php-laravel/README.md) | [OXY7O/example-app-laravel](https://github.com/OXY7O/example-app-laravel) |
 | Go | Go Service | **Available** | [Buka profile Go Service](docs/profiles/go-service/README.md) | [OXY7O/example-app-go](https://github.com/OXY7O/example-app-go) |
-| .NET | .NET Web API | **In progress** | [Buka profile .NET Web API](docs/profiles/dotnet-webapi/README.md) | Belum tersedia |
+| .NET | .NET Web API | **Available** | [Buka profile .NET Web API](docs/profiles/dotnet-webapi/README.md) | [OXY7O/example-app-dotnet](https://github.com/OXY7O/example-app-dotnet) |
 | Python | Python/Django | **Planned** | Belum tersedia | Belum tersedia |
 | TypeScript/Node.js | Node.js Service | **Planned** | Belum tersedia | Belum tersedia |
 | Java | Java/Spring Boot | **Planned** | Belum tersedia | Belum tersedia |
@@ -80,7 +80,7 @@ Pilih profile Available
   -> verifikasi required checks, artifact, dan evidence
 ```
 
-Checklist teknis berada pada landing page masing-masing profile. Gunakan [onboarding PHP/Laravel](docs/profiles/php-laravel/README.md#onboarding-checklist), [onboarding Go Service](docs/profiles/go-service/README.md#onboarding-checklist), atau [persiapan pilot .NET Web API](docs/profiles/dotnet-webapi/README.md#onboarding-checklist). Example .NET belum tersedia sehingga profile tersebut belum boleh diperlakukan sebagai `Available`.
+Checklist teknis berada pada landing page masing-masing profile. Gunakan [onboarding PHP/Laravel](docs/profiles/php-laravel/README.md#onboarding-checklist), [onboarding Go Service](docs/profiles/go-service/README.md#onboarding-checklist), atau [onboarding .NET Web API](docs/profiles/dotnet-webapi/README.md#onboarding-checklist). Example .NET dan evidence pilot sudah tersedia; lifecycle tetap `pilot` dan compatibility tetap `not-validated`.
 
 ## Konsep yang berlaku untuk semua profile
 

@@ -34,17 +34,17 @@ test("planned profiles do not advertise executable resources", () => {
   }
 });
 
-test(".NET Web API is an in-progress pilot with workflow but no example claim", () => {
+test(".NET Web API exposes its released workflow, example, and pilot boundary", () => {
   const catalogue = JSON.parse(fs.readFileSync("catalogue/technology-stack.json", "utf8"));
   const profile = catalogue.profiles["dotnet-webapi"];
-  assert.equal(catalogue.families.dotnet.availability, "in-progress");
-  assert.equal(profile.availability, "in-progress");
-  assert.equal(profile.workflowAvailability, "in-progress");
-  assert.equal(profile.exampleAvailability, "planned");
+  assert.equal(catalogue.families.dotnet.availability, "available");
+  assert.equal(profile.availability, "available");
+  assert.equal(profile.workflowAvailability, "available");
+  assert.equal(profile.exampleAvailability, "available");
   assert.equal(profile.lifecycle, "pilot");
   assert.equal(profile.compatibility, "not-validated");
-  assert.match(profile.workflowReference, /ci-profile-dotnet-webapi\.yml@5bcb4f8110597667919ff4d65a89660f06e69b6f$/);
-  assert.equal(profile.exampleRepository, null);
+  assert.match(profile.workflowReference, /ci-profile-dotnet-webapi\.yml@451f980e3f4b9d926b7b340b42f7f611d75db1d2$/);
+  assert.equal(profile.exampleRepository, "https://github.com/OXY7O/example-app-dotnet");
 });
 
 test("README links only the available profile implementation", () => {
@@ -54,6 +54,6 @@ test("README links only the available profile implementation", () => {
   assert.match(readme, /docs\/profiles\/go-service\/README\.md/);
   assert.match(readme, /OXY7O\/example-app-go/);
   assert.match(readme, /docs\/profiles\/dotnet-webapi\/README\.md/);
-  assert.doesNotMatch(readme, /OXY7O\/example-app-dotnet/);
+  assert.match(readme, /OXY7O\/example-app-dotnet/);
   assert.doesNotMatch(readme, /demo-app/);
 });
