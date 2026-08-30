@@ -35,6 +35,7 @@ test("rejects unsupported identity, version, target, and numeric bounds", () => 
   const invalidValues = [
     {binaryName: "INVALID_name"},
     {goVersion: "1.25.0"},
+    {goVersion: "1.27.0"},
     {targetOs: "windows"},
     {targetArch: "arm64"},
     {retentionDays: 0},

@@ -3,7 +3,7 @@ export interface GoServiceInput {
   governanceVersion: "v1.2.0";
   catalogueVersion: "1.2.0";
   profileKey: "go-service";
-  goVersion: "1.26.7" | "1.27.0";
+  goVersion: "1.26.7";
   modulePath: string;
   binaryName: string;
   applicationVersion: string;
