@@ -32,8 +32,7 @@ runner_root="$(cd "${RUNNER_TEMP:?RUNNER_TEMP is required}" && pwd -P)"
 if [[ "$publish_directory" != /* ]]; then
   emit_result contract true failed contract "publish directory must be an absolute RUNNER_TEMP path"; exit 2
 fi
-mkdir -p "$(dirname "$publish_directory")"
-resolved_output="$(cd "$(dirname "$publish_directory")" && pwd -P)/$(basename "$publish_directory")"
+resolved_output="$(node -e 'const path=require("path");process.stdout.write(path.resolve(process.argv[1]))' "$publish_directory")"
 if [[ "$resolved_output" != "$runner_root"/* || -L "$publish_directory" ]]; then
   emit_result contract true failed contract "publish directory escapes runner temp"; exit 2
 fi
