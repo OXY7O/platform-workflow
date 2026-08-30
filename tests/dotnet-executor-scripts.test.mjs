@@ -76,7 +76,7 @@ test(".NET Web API validates target and publishes framework-dependent output", (
   assert.equal(fs.existsSync(path.join(output, "Example.Api.dll")), true);
   assert.deepEqual(commands().at(-1).args, [
     "publish", "tests/fixtures/dotnet-webapi-valid/src/Example.Api/Example.Api.csproj",
-    "--configuration", "Release", "--no-build", "--no-restore",
+    "--configuration", "Release", "--no-restore",
     "--framework", "net10.0", "--runtime", "linux-x64",
     "--self-contained", "false", "--output", output,
   ]);

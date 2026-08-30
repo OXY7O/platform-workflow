@@ -2,6 +2,25 @@
 
 Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflow`. Istilah teknis dipertahankan ketika merupakan bagian dari kontrak platform.
 
+## [0.5.2] - 2026-08-30
+
+### Diperbaiki
+
+- mengizinkan tahap publish membangun keluaran khusus runtime setelah locked
+  restore, sehingga framework-dependent `linux-x64` package tidak bergantung
+  pada keluaran build umum;
+- memasang SDK canonical dan preview sebelum cache resolution, lalu memilih SDK
+  preview secara eksplisit hanya untuk compatibility execution;
+- memindahkan sifat non-blocking ke langkah pemeriksaan preview sehingga hasil
+  gagal tetap tercatat pada normalized evidence tanpa menghasilkan failing PR
+  check atau artifact.
+
+### Batas
+
+- canonical CI, test, package, dan artifact tetap blocking;
+- preview tetap opt-in, artifactless, dan bukan dasar release atau deployment;
+- kontrak caller dan permission `contents: read` tidak berubah.
+
 ## [0.5.1] - 2026-08-30
 
 ### Diperbaiki
