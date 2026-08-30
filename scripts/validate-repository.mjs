@@ -47,10 +47,20 @@ for (const file of [
   "contracts/go-compatibility-catalogue.schema.json",
   "contracts/go-binary-artifact-input.schema.json",
   "contracts/go-binary-manifest.schema.json",
+  "contracts/dotnet-webapi-input.schema.json",
   "catalogue/technology-stack.json"
 ]) JSON.parse(fs.readFileSync(file, "utf8"));
 
 JSON.parse(fs.readFileSync("catalogue/go-service.json", "utf8"));
+
+for (const file of [
+  "src/validate-dotnet-webapi-contract.ts",
+  "src/action-validate-dotnet-webapi-contract.ts",
+  "actions/validate-dotnet-webapi-contract/action.yml",
+  "dist/validate-dotnet-webapi-contract/index.js"
+]) {
+  if (!fs.existsSync(file)) errors.push(`${file}: required .NET Web API contract file is missing`);
+}
 
 for (const file of [
   "src/validate-go-service-contract.ts",
