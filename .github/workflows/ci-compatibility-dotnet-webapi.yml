@@ -47,7 +47,7 @@ jobs:
       - name: Select exact preview SDK for compatibility execution
         shell: bash
         run: |
-          node -e 'const fs=require("fs");const value=JSON.parse(fs.readFileSync("global.json","utf8"));value.sdk.version="11.0.100-preview.6.26359.118";value.sdk.allowPrerelease=true;fs.writeFileSync("global.json", `${JSON.stringify(value, null, 2)}\n`);'
+          node -e 'const fs=require("fs");const value=JSON.parse(fs.readFileSync("global.json","utf8"));value.sdk.version="11.0.100-preview.6.26359.118";value.sdk.allowPrerelease=true;fs.writeFileSync("global.json", JSON.stringify(value, null, 2) + String.fromCharCode(10));'
       - name: Run preview family checks
         id: family
         continue-on-error: true
