@@ -7,7 +7,7 @@ Status di sini menyatakan ketersediaan implementasi, bukan klaim compliance.
 |---|---|---|---|---|---|
 | `php-laravel` | PHP | Available | pilot | not-validated | [PHP/Laravel](php-laravel/README.md) |
 | `go-service` | Go | Available | pilot | not-validated | [Go Service](go-service/README.md) |
-| `dotnet-webapi` | .NET | Planned | planned | not-validated | Belum tersedia |
+| `dotnet-webapi` | .NET | In progress | pilot | not-validated | [.NET Web API](dotnet-webapi/README.md) |
 | `python-django` | Python | Planned | planned | not-validated | Belum tersedia |
 | `node-service` | TypeScript/Node.js | Planned | planned | not-validated | Belum tersedia |
 | `java-spring-boot` | Java | Planned | planned | not-validated | Belum tersedia |

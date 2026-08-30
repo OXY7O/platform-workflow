@@ -27,11 +27,24 @@ test("Go Service exposes its released workflow and example without a compliance 
 test("planned profiles do not advertise executable resources", () => {
   const catalogue = JSON.parse(fs.readFileSync("catalogue/technology-stack.json", "utf8"));
   const planned = Object.values(catalogue.profiles).filter((profile) => profile.availability === "planned");
-  assert.equal(planned.length, 4);
+  assert.equal(planned.length, 3);
   for (const profile of planned) {
     assert.equal(profile.workflowReference, null);
     assert.equal(profile.exampleRepository, null);
   }
+});
+
+test(".NET Web API is an in-progress pilot with workflow but no example claim", () => {
+  const catalogue = JSON.parse(fs.readFileSync("catalogue/technology-stack.json", "utf8"));
+  const profile = catalogue.profiles["dotnet-webapi"];
+  assert.equal(catalogue.families.dotnet.availability, "in-progress");
+  assert.equal(profile.availability, "in-progress");
+  assert.equal(profile.workflowAvailability, "in-progress");
+  assert.equal(profile.exampleAvailability, "planned");
+  assert.equal(profile.lifecycle, "pilot");
+  assert.equal(profile.compatibility, "not-validated");
+  assert.match(profile.workflowReference, /ci-profile-dotnet-webapi\.yml@299a4763f49481e0cd4d93c03805823dbf5ce91b$/);
+  assert.equal(profile.exampleRepository, null);
 });
 
 test("README links only the available profile implementation", () => {
@@ -40,6 +53,7 @@ test("README links only the available profile implementation", () => {
   assert.match(readme, /OXY7O\/example-app-laravel/);
   assert.match(readme, /docs\/profiles\/go-service\/README\.md/);
   assert.match(readme, /OXY7O\/example-app-go/);
+  assert.match(readme, /docs\/profiles\/dotnet-webapi\/README\.md/);
   assert.doesNotMatch(readme, /OXY7O\/example-app-dotnet/);
   assert.doesNotMatch(readme, /demo-app/);
 });

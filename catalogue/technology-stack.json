@@ -9,7 +9,7 @@
   "families": {
     "php": {"availability": "available", "lifecycle": "pilot", "supportTier": "standard"},
     "go": {"availability": "in-progress", "lifecycle": "pilot", "supportTier": "standard"},
-    "dotnet": {"availability": "planned", "lifecycle": "planned", "supportTier": "standard"},
+    "dotnet": {"availability": "in-progress", "lifecycle": "pilot", "supportTier": "standard"},
     "python": {"availability": "planned", "lifecycle": "planned", "supportTier": "standard"},
     "node-typescript": {"availability": "planned", "lifecycle": "planned", "supportTier": "standard"},
     "java": {"availability": "planned", "lifecycle": "planned", "supportTier": "standard"}
@@ -37,7 +37,18 @@
       "artifactTypes": ["binary"],
       "extensions": ["openapi-validation", "integration-test", "container-build", "sbom-generation", "artifact-signing", "deploy-kubernetes", "deploy-vm-native"]
     },
-    "dotnet-webapi": {"family": "dotnet", "availability": "planned", "lifecycle": "planned", "compatibility": "not-validated", "workflowReference": null, "exampleRepository": null},
+    "dotnet-webapi": {
+      "family": "dotnet",
+      "availability": "in-progress",
+      "workflowAvailability": "in-progress",
+      "exampleAvailability": "planned",
+      "lifecycle": "pilot",
+      "compatibility": "not-validated",
+      "workflowReference": "OXY7O/platform-workflow/.github/workflows/ci-profile-dotnet-webapi.yml@299a4763f49481e0cd4d93c03805823dbf5ce91b",
+      "exampleRepository": null,
+      "artifactTypes": ["application-package"],
+      "extensions": []
+    },
     "python-django": {"family": "python", "availability": "planned", "lifecycle": "planned", "compatibility": "not-validated", "workflowReference": null, "exampleRepository": null},
     "node-service": {"family": "node-typescript", "availability": "planned", "lifecycle": "planned", "compatibility": "not-validated", "workflowReference": null, "exampleRepository": null},
     "java-spring-boot": {"family": "java", "availability": "planned", "lifecycle": "planned", "compatibility": "not-validated", "workflowReference": null, "exampleRepository": null}

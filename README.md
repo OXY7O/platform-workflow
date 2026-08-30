@@ -51,7 +51,7 @@ repository aplikasi
 |---|---|---|---|---|
 | PHP | PHP/Laravel | **Available** | [Buka profile PHP/Laravel](docs/profiles/php-laravel/README.md) | [OXY7O/example-app-laravel](https://github.com/OXY7O/example-app-laravel) |
 | Go | Go Service | **Available** | [Buka profile Go Service](docs/profiles/go-service/README.md) | [OXY7O/example-app-go](https://github.com/OXY7O/example-app-go) |
-| .NET | .NET Web API | **Planned** | Belum tersedia | Belum tersedia |
+| .NET | .NET Web API | **In progress** | [Buka profile .NET Web API](docs/profiles/dotnet-webapi/README.md) | Belum tersedia |
 | Python | Python/Django | **Planned** | Belum tersedia | Belum tersedia |
 | TypeScript/Node.js | Node.js Service | **Planned** | Belum tersedia | Belum tersedia |
 | Java | Java/Spring Boot | **Planned** | Belum tersedia | Belum tersedia |
@@ -80,7 +80,7 @@ Pilih profile Available
   -> verifikasi required checks, artifact, dan evidence
 ```
 
-Checklist teknis berada pada landing page masing-masing profile. Gunakan [onboarding PHP/Laravel](docs/profiles/php-laravel/README.md#onboarding-checklist) atau [onboarding Go Service](docs/profiles/go-service/README.md#onboarding-checklist), lalu pelajari example canonical masing-masing.
+Checklist teknis berada pada landing page masing-masing profile. Gunakan [onboarding PHP/Laravel](docs/profiles/php-laravel/README.md#onboarding-checklist), [onboarding Go Service](docs/profiles/go-service/README.md#onboarding-checklist), atau [persiapan pilot .NET Web API](docs/profiles/dotnet-webapi/README.md#onboarding-checklist). Example .NET belum tersedia sehingga profile tersebut belum boleh diperlakukan sebagai `Available`.
 
 ## Konsep yang berlaku untuk semua profile
 
