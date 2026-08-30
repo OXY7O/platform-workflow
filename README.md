@@ -1,6 +1,6 @@
 # OXY7O Platform Workflow
 
-[![Versi release](https://img.shields.io/badge/release-v0.4.0-0969da?label=Versi%20release)](https://github.com/OXY7O/platform-workflow/releases/tag/v0.4.0)
+[![Versi release](https://img.shields.io/badge/release-v0.4.1-0969da?label=Versi%20release)](https://github.com/OXY7O/platform-workflow/releases/tag/v0.4.1)
 [![Status CI](https://github.com/OXY7O/platform-workflow/actions/workflows/validate-platform-workflow.yml/badge.svg)](https://github.com/OXY7O/platform-workflow/actions/workflows/validate-platform-workflow.yml)
 [![Governance baseline](https://img.shields.io/badge/governance-v1.2.0-8250df?label=Governance%20baseline)](https://github.com/OXY7O/platform-governance/releases/tag/v1.2.0)
 ![Tanpa deployment](https://img.shields.io/badge/deployment-tidak%20tersedia-6b7280?label=Tanpa%20deployment)
@@ -50,7 +50,7 @@ repository aplikasi
 | Family | Profile | Status | Detail workflow | Contoh implementasi |
 |---|---|---|---|---|
 | PHP | PHP/Laravel | **Available** | [Buka profile PHP/Laravel](docs/profiles/php-laravel/README.md) | [OXY7O/example-app-laravel](https://github.com/OXY7O/example-app-laravel) |
-| Go | Go Service | **In progress** | [Buka profile Go Service](docs/profiles/go-service/README.md) | Belum tersedia |
+| Go | Go Service | **Available** | [Buka profile Go Service](docs/profiles/go-service/README.md) | [OXY7O/example-app-go](https://github.com/OXY7O/example-app-go) |
 | .NET | .NET Web API | **Planned** | Belum tersedia | Belum tersedia |
 | Python | Python/Django | **Planned** | Belum tersedia | Belum tersedia |
 | TypeScript/Node.js | Node.js Service | **Planned** | Belum tersedia | Belum tersedia |
@@ -61,7 +61,7 @@ Lihat [indeks profile](docs/profiles/README.md) untuk status dan batas setiap pr
 ## Cara memilih profile
 
 1. Cocokkan bahasa, framework, dan workload aplikasi dengan katalog.
-2. Pilih profile `Available`; profile `In progress` hanya untuk persiapan atau pilot yang disetujui.
+2. Pilih profile `Available`; status ini tetap bukan klaim support atau compliance.
 3. Baca lifecycle runtime dan compatibility matrix pada halaman profile.
 4. Pastikan artifact type yang dihasilkan sesuai kebutuhan handoff berikutnya.
 5. Periksa batas runner, security, secret, dan deployment.
@@ -80,7 +80,7 @@ Pilih profile Available
   -> verifikasi required checks, artifact, dan evidence
 ```
 
-Checklist teknis berada pada landing page masing-masing profile. Gunakan [onboarding PHP/Laravel](docs/profiles/php-laravel/README.md#onboarding-checklist) untuk profile yang sudah lengkap atau [persiapan Go Service](docs/profiles/go-service/README.md#onboarding-checklist) untuk kandidat pilot.
+Checklist teknis berada pada landing page masing-masing profile. Gunakan [onboarding PHP/Laravel](docs/profiles/php-laravel/README.md#onboarding-checklist) atau [onboarding Go Service](docs/profiles/go-service/README.md#onboarding-checklist), lalu pelajari example canonical masing-masing.
 
 ## Konsep yang berlaku untuk semua profile
 

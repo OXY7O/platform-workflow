@@ -2,6 +2,24 @@
 
 Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflow`. Istilah teknis dipertahankan ketika merupakan bagian dari kontrak platform.
 
+## [0.4.1] - 2026-08-30
+
+### Dokumentasi dan katalog
+
+- menandai Go Service sebagai `Available` setelah workflow, example, test,
+  actual pilot evidence, dan release tersedia;
+- menautkan `OXY7O/example-app-go@v0.1.0` dari portal dan landing page profile;
+- mengganti referensi workflow pra-merge dengan immutable release SHA
+  `010dee6edcdf21f813e842ef3f193f4a2c83593e`;
+- memperbarui thin caller guide ke pin yang sama.
+
+### Batas
+
+- tidak ada perubahan executable workflow atau artifact contract dari `v0.4.0`;
+- lifecycle tetap `pilot`, compatibility tetap `not-validated`, dan deployment
+  tetap tidak tersedia;
+- `Available` bukan klaim supported atau operationally compliant.
+
 ## [0.4.0] - 2026-08-30
 
 ### Ditambahkan

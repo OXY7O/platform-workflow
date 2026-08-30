@@ -36,12 +36,12 @@ test("PHP Laravel detail preserves technical depth and onboarding", () => {
   }
 });
 
-test("Go Service detail documents its complete technical contract and pending example", () => {
+test("Go Service detail documents its complete technical contract and released example", () => {
   const profile = read("docs/profiles/go-service/README.md");
   for (const text of [
     "Status profile", "Go 1.26.7", "Go 1.27.0", "Kontrak input",
     "Required checks", "Binary artifact", "Failure taxonomy",
-    "Troubleshooting", "Thin caller", "example-app-go", "belum tersedia",
+    "Troubleshooting", "Thin caller", "example-app-go", "v0.1.0",
     "ci-qualified", "Tanpa deployment",
   ]) {
     assert.match(profile, new RegExp(escape(text)));
