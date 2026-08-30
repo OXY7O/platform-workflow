@@ -1,13 +1,14 @@
 {
   "governanceVersion": "v1.2.0",
-  "catalogueVersion": "1.1.0",
+  "catalogueVersion": "1.2.0",
   "availabilitySemantics": {
     "available": "Implementasi workflow dan example tersedia; bukan klaim support atau compliance.",
+    "in-progress": "Implementasi workflow tersedia sebagai kandidat pilot, tetapi example dan onboarding belum lengkap.",
     "planned": "Terdaftar pada roadmap dan belum memiliki resource executable."
   },
   "families": {
     "php": {"availability": "available", "lifecycle": "pilot", "supportTier": "standard"},
-    "go": {"availability": "planned", "lifecycle": "planned", "supportTier": "standard"},
+    "go": {"availability": "in-progress", "lifecycle": "pilot", "supportTier": "standard"},
     "dotnet": {"availability": "planned", "lifecycle": "planned", "supportTier": "standard"},
     "python": {"availability": "planned", "lifecycle": "planned", "supportTier": "standard"},
     "node-typescript": {"availability": "planned", "lifecycle": "planned", "supportTier": "standard"},
@@ -24,7 +25,18 @@
       "artifactTypes": ["application-package"],
       "extensions": ["database-migration", "openapi-validation", "integration-test", "container-build", "sbom-generation", "artifact-signing", "deploy-kubernetes", "deploy-vm-native", "laravel-queue-worker", "laravel-scheduler", "laravel-octane"]
     },
-    "go-service": {"family": "go", "availability": "planned", "lifecycle": "planned", "compatibility": "not-validated", "workflowReference": null, "exampleRepository": null},
+    "go-service": {
+      "family": "go",
+      "availability": "in-progress",
+      "workflowAvailability": "available",
+      "exampleAvailability": "planned",
+      "lifecycle": "pilot",
+      "compatibility": "not-validated",
+      "workflowReference": "OXY7O/platform-workflow/.github/workflows/ci-profile-go-service.yml@01ba3658baea484247b65f54c1a8d672fa231a79",
+      "exampleRepository": null,
+      "artifactTypes": ["binary"],
+      "extensions": ["openapi-validation", "integration-test", "container-build", "sbom-generation", "artifact-signing", "deploy-kubernetes", "deploy-vm-native"]
+    },
     "dotnet-webapi": {"family": "dotnet", "availability": "planned", "lifecycle": "planned", "compatibility": "not-validated", "workflowReference": null, "exampleRepository": null},
     "python-django": {"family": "python", "availability": "planned", "lifecycle": "planned", "compatibility": "not-validated", "workflowReference": null, "exampleRepository": null},
     "node-service": {"family": "node-typescript", "availability": "planned", "lifecycle": "planned", "compatibility": "not-validated", "workflowReference": null, "exampleRepository": null},

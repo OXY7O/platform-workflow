@@ -36,6 +36,18 @@ test("PHP Laravel detail preserves technical depth and onboarding", () => {
   }
 });
 
+test("Go Service detail documents its complete technical contract and pending example", () => {
+  const profile = read("docs/profiles/go-service/README.md");
+  for (const text of [
+    "Status profile", "Go 1.26.7", "Go 1.27.0", "Kontrak input",
+    "Required checks", "Binary artifact", "Failure taxonomy",
+    "Troubleshooting", "Thin caller", "example-app-go", "belum tersedia",
+    "ci-qualified", "Tanpa deployment",
+  ]) {
+    assert.match(profile, new RegExp(escape(text)));
+  }
+});
+
 test("v0.2.1 release note remains available as history", () => {
   const changelog = read("CHANGELOG.md");
   assert.match(changelog, /## \[0\.2\.1\]/);
