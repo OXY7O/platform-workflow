@@ -44,6 +44,8 @@ for (const file of [
   "catalogue/technology-stack.json"
 ]) JSON.parse(fs.readFileSync(file, "utf8"));
 
+JSON.parse(fs.readFileSync("catalogue/go-service.json", "utf8"));
+
 for (const file of [
   "src/validate-go-service-contract.ts",
   "src/action-validate-go-service-contract.ts",
@@ -51,6 +53,19 @@ for (const file of [
   "dist/validate-go-service-contract/index.js"
 ]) {
   if (!fs.existsSync(file)) errors.push(`${file}: required Go Service contract file is missing`);
+}
+
+for (const file of [
+  "src/validate-go-compatibility-contract.ts",
+  "src/action-validate-go-compatibility-contract.ts",
+  "actions/validate-go-compatibility-contract/action.yml",
+  "dist/validate-go-compatibility-contract/index.js",
+  "src/generate-go-compatibility-matrix.ts",
+  "src/action-generate-go-compatibility-matrix.ts",
+  "actions/generate-go-compatibility-matrix/action.yml",
+  "dist/generate-go-compatibility-matrix/index.js"
+]) {
+  if (!fs.existsSync(file)) errors.push(`${file}: required Go compatibility file is missing`);
 }
 
 for (const file of [

@@ -1,0 +1,12 @@
+name: Generate Go compatibility matrix
+description: Generate the deterministic governed Go Service compatibility matrix
+inputs:
+  catalogue-path:
+    description: Relative path to the Go Service compatibility catalogue
+    required: true
+outputs:
+  matrix-json:
+    description: Validated artifactless compatibility matrix
+runs:
+  using: node24
+  main: ../../dist/generate-go-compatibility-matrix/index.js

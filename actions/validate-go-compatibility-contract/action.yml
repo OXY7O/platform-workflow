@@ -1,0 +1,16 @@
+name: Validate Go compatibility contract
+description: Validate a governed artifactless Go compatibility lane
+inputs:
+  contract-json:
+    description: JSON Go compatibility lane contract
+    required: true
+outputs:
+  contract-digest:
+    description: SHA-256 digest of the canonical lane contract
+  lane-id:
+    description: Resolved lane identity
+  go-version:
+    description: Resolved Go toolchain version
+runs:
+  using: node24
+  main: ../../dist/validate-go-compatibility-contract/index.js
