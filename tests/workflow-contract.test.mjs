@@ -26,7 +26,8 @@ test("Laravel package binds the real lock digest and artifact evidence", () => {
   const source = fs.readFileSync(paths[1], "utf8");
   assert.match(source, /sha256sum.*composer\.lock/);
   assert.doesNotMatch(source, /"0"\.repeat\(64\)/);
-  assert.match(source, /"artifact":\{"artifactId":/);
+  assert.match(source, /const artifact = uploaded \? \{/);
+  assert.match(source, /artifact,\n\s+evidenceReference/);
   assert.doesNotMatch(source, /export INPUT_BUILD_INPUT="\$\(/);
 });
 
@@ -34,13 +35,18 @@ test("Laravel normalized result consumes granular executed checks", () => {
   const workflow = load(paths[1]);
   const steps = workflow.jobs.package.steps;
   const collector = steps.find((step) => step.id === "checks");
+  const evidence = steps.find((step) => step.id === "evidence");
   const normalize = steps.find((step) => step.id === "normalize");
 
   assert.ok(collector, "granular check collector is required");
   assert.equal(collector.if, "always()");
   assert.equal(collector.env.UPLOAD_OUTCOME, "${{ steps.upload.outcome }}");
   assert.match(collector.run, /UPLOAD_OUTCOME.*success/);
+  assert.equal(evidence.if, "always()");
+  assert.match(evidence.run, /uploaded \? \{/);
+  assert.match(evidence.run, /: null/);
   assert.equal(normalize.with.checks, "${{ steps.checks.outputs.checks-json }}");
+  assert.equal(normalize.with.evidence, "${{ steps.evidence.outputs.evidence-json }}");
 });
 
 test("Laravel keeps contract validation and failure normalization in one job", () => {
@@ -49,6 +55,7 @@ test("Laravel keeps contract validation and failure normalization in one job", (
   const steps = workflow.jobs.package.steps;
   assert.ok(steps.find((step) => step.id === "contract"));
   assert.ok(steps.find((step) => step.id === "checks"));
+  assert.ok(steps.find((step) => step.id === "evidence"));
   assert.ok(steps.find((step) => step.id === "normalize"));
 });
 

@@ -118,11 +118,48 @@ jobs:
             });
             fs.appendFileSync(process.env.GITHUB_OUTPUT, `checks-json=${JSON.stringify(results)}\n`);
           '
+      - name: Build safe evidence
+        id: evidence
+        if: always()
+        shell: bash
+        env:
+          UPLOAD_OUTCOME: ${{ steps.upload.outcome }}
+          CONTRACT_DIGEST: ${{ steps.contract.outputs.contract-digest }}
+          ARTIFACT_ID: ${{ steps.build.outputs.artifact-id }}
+          ARTIFACT_NAME: ${{ steps.build.outputs.artifact-name }}
+          ARTIFACT_DIGEST: ${{ steps.build.outputs.digest }}
+          MANIFEST_DIGEST: ${{ steps.build.outputs.manifest-digest }}
+          RETENTION_DAYS: ${{ inputs.retention-days }}
+        run: |
+          node -e '
+            const fs = require("node:fs");
+            const uploaded = process.env.UPLOAD_OUTCOME === "success";
+            const artifact = uploaded ? {
+              artifactId: process.env.ARTIFACT_ID,
+              artifactName: process.env.ARTIFACT_NAME,
+              digest: process.env.ARTIFACT_DIGEST,
+              manifestDigest: process.env.MANIFEST_DIGEST,
+              retentionDays: Number(process.env.RETENTION_DAYS),
+            } : null;
+            const evidence = {
+              schemaVersion: "1.0",
+              governanceVersion: "v1.5.1",
+              catalogueVersion: "1.4.0",
+              profileKey: "php-laravel",
+              sourceSha: process.env.GITHUB_SHA,
+              workflowSha: "45f3dcd7f751097afc9459752dac67d28c29a37a",
+              contractDigest: process.env.CONTRACT_DIGEST,
+              runnerClass: "linux-x64",
+              runnerImage: "ubuntu-24.04",
+              artifact,
+              evidenceReference: null,
+            };
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `evidence-json=${JSON.stringify(evidence)}\n`);
+          '
       - name: Normalize result and evidence
         id: normalize
         if: always()
         uses: OXY7O/platform-workflow/actions/normalize-check-results@40e05f3836057235b31b2423a3808e565fccca75
         with:
           checks: ${{ steps.checks.outputs.checks-json }}
-          evidence: >-
-            {"schemaVersion":"1.0","governanceVersion":"v1.5.1","catalogueVersion":"1.4.0","profileKey":"php-laravel","sourceSha":"${{ github.sha }}","workflowSha":"40e05f3836057235b31b2423a3808e565fccca75","contractDigest":"${{ steps.contract.outputs.contract-digest }}","runnerClass":"linux-x64","runnerImage":"ubuntu-24.04","artifact":{"artifactId":"${{ steps.build.outputs.artifact-id }}","artifactName":"${{ steps.build.outputs.artifact-name }}","digest":"${{ steps.build.outputs.digest }}","manifestDigest":"${{ steps.build.outputs.manifest-digest }}","retentionDays":${{ inputs.retention-days }}},"evidenceReference":null}
+          evidence: ${{ steps.evidence.outputs.evidence-json }}
