@@ -30,6 +30,28 @@ test("Laravel package binds the real lock digest and artifact evidence", () => {
   assert.doesNotMatch(source, /export INPUT_BUILD_INPUT="\$\(/);
 });
 
+test("Laravel normalized result consumes granular executed checks", () => {
+  const workflow = load(paths[1]);
+  const steps = workflow.jobs.package.steps;
+  const collector = steps.find((step) => step.id === "checks");
+  const normalize = steps.find((step) => step.id === "normalize");
+
+  assert.ok(collector, "granular check collector is required");
+  assert.equal(collector.if, "always()");
+  assert.equal(collector.env.UPLOAD_OUTCOME, "${{ steps.upload.outcome }}");
+  assert.match(collector.run, /UPLOAD_OUTCOME.*success/);
+  assert.equal(normalize.with.checks, "${{ steps.checks.outputs.checks-json }}");
+});
+
+test("Laravel keeps contract validation and failure normalization in one job", () => {
+  const workflow = load(paths[1]);
+  assert.deepEqual(Object.keys(workflow.jobs), ["package"]);
+  const steps = workflow.jobs.package.steps;
+  assert.ok(steps.find((step) => step.id === "contract"));
+  assert.ok(steps.find((step) => step.id === "checks"));
+  assert.ok(steps.find((step) => step.id === "normalize"));
+});
+
 test("all external actions are pinned to a full commit SHA", () => {
   for (const path of paths) {
     const workflow = load(path);

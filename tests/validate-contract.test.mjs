@@ -19,6 +19,19 @@ test("rejects extensions outside the profile allowlist", async () => {
   assert.throws(() => validateCaller({...validInput, extensions: ["unknown"]}), /extension/i);
 });
 
+test("rejects declared extensions until an executor is available", async () => {
+  const {validateCaller} = await import("../lib/validate-contract.js");
+  assert.throws(
+    () => validateCaller({...validInput, extensions: ["integration-test"]}),
+    /extension/i,
+  );
+});
+
+test("rejects coverage claims until an enforcement executor is available", async () => {
+  const {validateCaller} = await import("../lib/validate-contract.js");
+  assert.throws(() => validateCaller({...validInput, coverageThreshold: 80}), /additional propert/i);
+});
+
 test("rejects working-directory traversal", async () => {
   const {validateCaller} = await import("../lib/validate-contract.js");
   assert.throws(() => validateCaller({...validInput, workingDirectory: "../escape"}), /workingDirectory/i);

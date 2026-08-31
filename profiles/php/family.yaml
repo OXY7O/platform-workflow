@@ -3,4 +3,4 @@ runtime: php
 dependency_manager: composer
 dependency_mode: composer-frozen
 cache_key_dimensions: [repository, trust-level, php-version, runner-image, composer-lock-digest]
-required_checks: [php-syntax, composer-lock, dependency-audit, secret-scan, sast]
+required_checks: [sensitive-material-guard, php-syntax, composer-lock, dependency-audit]

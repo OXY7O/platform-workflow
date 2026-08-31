@@ -38,7 +38,7 @@ jobs:
         with: {working-directory: "${{ inputs.working-directory }}", dependency-mode: composer-frozen}
       - name: Run Laravel checks
         uses: OXY7O/platform-workflow/actions/laravel-profile-check@94cd54f1bceaa3ee334c10f14c68f768123e828e
-        with: {working-directory: "${{ inputs.working-directory }}", test-profile: "${{ inputs.test-profile }}", coverage-threshold: "80"}
+        with: {working-directory: "${{ inputs.working-directory }}", test-profile: "${{ inputs.test-profile }}"}
       - name: Resolve lock digest
         id: lock
         working-directory: "${{ inputs.working-directory }}"

@@ -2,7 +2,7 @@ profile_key: php-laravel
 family_key: php
 structure_markers: [artisan, bootstrap/app.php, composer.json, composer.lock]
 test_presets: [phpunit, pest]
-required_checks: [unit-test, coverage, artifact-verify]
+required_checks: [unit-test, artifact-verify]
 artifact_type: application-package
 prohibited_artifact_patterns:
   - "**/.env*"

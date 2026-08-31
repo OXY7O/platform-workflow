@@ -4,6 +4,32 @@ Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflo
 
 ## Unreleased
 
+### Laravel CI blueprint
+
+- menambahkan blueprint Laravel CI yang memisahkan kontrak, family checks,
+  profile checks, artifact qualification, dan normalized evidence;
+- menambahkan pemeriksaan sensitive material, PHP syntax, Composer lock
+  consistency, dependency vulnerability, unit test, dan artifact verification;
+- menghasilkan hasil granular per pemeriksaan agar kegagalan tidak salah
+  diklasifikasikan hanya sebagai kegagalan artifact.
+
+### Traceability dan dukungan teknologi
+
+- menambahkan matriks machine-readable untuk traceability kontrol governance ke
+  implementation, test, evidence, serta status compliance;
+- menambahkan matriks family, profile, version lane, lifecycle, dan capability
+  sebagai sumber keputusan bersama developer dan platform operator;
+- memperbarui snapshot katalog aktif ke `platform-governance@v1.5.1` tanpa
+  mengubah provenance kontrak profile yang telah dirilis sebelumnya.
+
+### Koreksi batas kapabilitas
+
+- menolak seluruh extension Laravel sampai executor terkait benar-benar tersedia;
+- menghapus input `coverageThreshold` Laravel karena enforcement coverage belum
+  tersedia; coverage tetap dicatat sebagai implementation gap;
+- mencatat runner routing, SAST, SBOM, dan signing sebagai gap atau planned,
+  bukan sebagai kontrol yang sudah compliant.
+
 ### Dokumentasi
 
 - menjelaskan boundary integrasi dengan `platform-provisioning`;
@@ -14,7 +40,6 @@ Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflo
 
 ### Batas
 
-- tidak ada perubahan executable contract, action, workflow, atau `dist/`;
 - renderer dan repository provisioning automation belum tersedia di repository ini.
 
 ## [0.5.3] - 2026-08-31

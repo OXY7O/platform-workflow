@@ -2,18 +2,17 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "additionalProperties": false,
-  "required": ["governanceVersion", "catalogueVersion", "profileKey", "phpVersion", "dependencyMode", "testCommandProfile", "artifactType", "extensions", "workingDirectory", "coverageThreshold", "retentionDays", "evidenceMode"],
+  "required": ["governanceVersion", "catalogueVersion", "profileKey", "phpVersion", "dependencyMode", "testCommandProfile", "artifactType", "extensions", "workingDirectory", "retentionDays", "evidenceMode"],
   "properties": {
-    "governanceVersion": {"const": "v1.1.0"},
-    "catalogueVersion": {"const": "1.1.0"},
+    "governanceVersion": {"const": "v1.5.1"},
+    "catalogueVersion": {"const": "1.4.0"},
     "profileKey": {"const": "php-laravel"},
     "phpVersion": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+$"},
     "dependencyMode": {"const": "composer-frozen"},
     "testCommandProfile": {"enum": ["phpunit", "pest"]},
     "artifactType": {"const": "application-package"},
-    "extensions": {"type": "array", "uniqueItems": true, "items": {"enum": ["database-migration", "openapi-validation", "integration-test", "container-build", "sbom-generation", "artifact-signing", "deploy-kubernetes", "deploy-vm-native", "laravel-queue-worker", "laravel-scheduler", "laravel-octane"]}},
+    "extensions": {"type": "array", "maxItems": 0},
     "workingDirectory": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"},
-    "coverageThreshold": {"type": "number", "minimum": 0, "maximum": 100},
     "retentionDays": {"type": "integer", "minimum": 1, "maximum": 30},
     "evidenceMode": {"const": "safe-metadata"}
   }

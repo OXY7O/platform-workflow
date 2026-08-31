@@ -7,7 +7,6 @@ on:
       php-version: {required: true, type: string}
       test-profile: {required: false, type: string, default: phpunit}
       working-directory: {required: false, type: string, default: "."}
-      coverage-threshold: {required: false, type: number, default: 80}
       retention-days: {required: false, type: number, default: 14}
     outputs:
       readiness:
@@ -29,17 +28,7 @@ permissions:
   contents: read
 
 jobs:
-  family:
-    uses: ./.github/workflows/ci-family-php.yml
-    permissions:
-      contents: read
-    with:
-      contract-json: ${{ inputs.contract-json }}
-      php-version: ${{ inputs.php-version }}
-      working-directory: ${{ inputs.working-directory }}
-
   package:
-    needs: family
     runs-on: ubuntu-24.04
     outputs:
       readiness: ${{ steps.normalize.outputs.readiness }}
@@ -52,6 +41,11 @@ jobs:
     steps:
       - name: Checkout caller source
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Validate caller contract
+        id: contract
+        uses: OXY7O/platform-workflow/actions/validate-caller-contract@ca1a1c4defa907da6c904ef9fb8e90863410be11
+        with:
+          contract: ${{ inputs.contract-json }}
       - name: Configure PHP runtime
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
         with:
@@ -68,7 +62,6 @@ jobs:
         with:
           working-directory: ${{ inputs.working-directory }}
           test-profile: ${{ inputs.test-profile }}
-          coverage-threshold: ${{ inputs.coverage-threshold }}
       - name: Resolve dependency lock digest
         id: lock
         working-directory: ${{ inputs.working-directory }}
@@ -76,7 +69,7 @@ jobs:
       - name: Prepare verified package input
         id: package-input
         run: |
-          value="$(node -e 'JSON.parse(process.argv[1]); console.log(JSON.stringify({workingDirectory:process.argv[2],outputDirectory:process.env.RUNNER_TEMP+"/artifacts",sourceSha:process.env.GITHUB_SHA,workflowSha:process.argv[3],contractDigest:process.argv[4],lockDigest:process.argv[5],retentionDays:Number(process.argv[6])}))' '${{ inputs.contract-json }}' '${{ inputs.working-directory }}' 'ca1a1c4defa907da6c904ef9fb8e90863410be11' '${{ needs.family.outputs.contract-digest }}' '${{ steps.lock.outputs.digest }}' '${{ inputs.retention-days }}')"
+          value="$(node -e 'JSON.parse(process.argv[1]); console.log(JSON.stringify({workingDirectory:process.argv[2],outputDirectory:process.env.RUNNER_TEMP+"/artifacts",sourceSha:process.env.GITHUB_SHA,workflowSha:process.argv[3],contractDigest:process.argv[4],lockDigest:process.argv[5],retentionDays:Number(process.argv[6])}))' '${{ inputs.contract-json }}' '${{ inputs.working-directory }}' 'ca1a1c4defa907da6c904ef9fb8e90863410be11' '${{ steps.contract.outputs.contract-digest }}' '${{ steps.lock.outputs.digest }}' '${{ inputs.retention-days }}')"
           echo "value=$value" >> "$GITHUB_OUTPUT"
       - name: Build verified application package
         id: build
@@ -94,12 +87,42 @@ jobs:
             ${{ steps.build.outputs.manifest-path }}
           retention-days: ${{ inputs.retention-days }}
           if-no-files-found: error
+      - name: Collect granular check results
+        id: checks
+        if: always()
+        shell: bash
+        env:
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          UPLOAD_OUTCOME: ${{ steps.upload.outcome }}
+        run: |
+          node -e '
+            const fs = require("node:fs");
+            const file = process.env.RUNNER_TEMP + "/platform-results/checks.jsonl";
+            const results = fs.existsSync(file)
+              ? fs.readFileSync(file, "utf8").trim().split("\n").filter(Boolean).map(JSON.parse)
+              : [];
+            const expected = ["sensitive-material-guard", "php-syntax", "composer-lock", "dependency-audit", "unit-test"];
+            for (const id of expected) {
+              if (!results.some((result) => result.id === id)) {
+                results.push({id, required: true, status: "not-run", failureCategory: null, safeDiagnostic: null});
+              }
+            }
+            const artifactPassed = process.env.BUILD_OUTCOME === "success" && process.env.UPLOAD_OUTCOME === "success";
+            const artifactFailed = process.env.BUILD_OUTCOME === "failure" || process.env.UPLOAD_OUTCOME === "failure";
+            results.push({
+              id: "artifact-verify",
+              required: true,
+              status: artifactPassed ? "passed" : artifactFailed ? "failed" : "not-run",
+              failureCategory: artifactPassed ? null : "artifact",
+              safeDiagnostic: null,
+            });
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `checks-json=${JSON.stringify(results)}\n`);
+          '
       - name: Normalize result and evidence
         id: normalize
         if: always()
         uses: OXY7O/platform-workflow/actions/normalize-check-results@ca1a1c4defa907da6c904ef9fb8e90863410be11
         with:
-          checks: >-
-            [{"id":"artifact-verify","required":true,"status":"${{ steps.build.outcome == 'success' && 'passed' || 'failed' }}","failureCategory":${{ steps.build.outcome == 'success' && 'null' || '"artifact"' }},"safeDiagnostic":null}]
+          checks: ${{ steps.checks.outputs.checks-json }}
           evidence: >-
-            {"schemaVersion":"1.0","governanceVersion":"v1.1.0","catalogueVersion":"1.1.0","profileKey":"php-laravel","sourceSha":"${{ github.sha }}","workflowSha":"ca1a1c4defa907da6c904ef9fb8e90863410be11","contractDigest":"${{ needs.family.outputs.contract-digest }}","runnerClass":"linux-x64","runnerImage":"ubuntu-24.04","artifact":{"artifactId":"${{ steps.build.outputs.artifact-id }}","artifactName":"${{ steps.build.outputs.artifact-name }}","digest":"${{ steps.build.outputs.digest }}","manifestDigest":"${{ steps.build.outputs.manifest-digest }}","retentionDays":${{ inputs.retention-days }}},"evidenceReference":null}
+            {"schemaVersion":"1.0","governanceVersion":"v1.5.1","catalogueVersion":"1.4.0","profileKey":"php-laravel","sourceSha":"${{ github.sha }}","workflowSha":"ca1a1c4defa907da6c904ef9fb8e90863410be11","contractDigest":"${{ steps.contract.outputs.contract-digest }}","runnerClass":"linux-x64","runnerImage":"ubuntu-24.04","artifact":{"artifactId":"${{ steps.build.outputs.artifact-id }}","artifactName":"${{ steps.build.outputs.artifact-name }}","digest":"${{ steps.build.outputs.digest }}","manifestDigest":"${{ steps.build.outputs.manifest-digest }}","retentionDays":${{ inputs.retention-days }}},"evidenceReference":null}

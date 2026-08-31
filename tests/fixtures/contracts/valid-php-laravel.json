@@ -1,14 +1,13 @@
 {
-  "governanceVersion": "v1.1.0",
-  "catalogueVersion": "1.1.0",
+  "governanceVersion": "v1.5.1",
+  "catalogueVersion": "1.4.0",
   "profileKey": "php-laravel",
   "phpVersion": "8.3",
   "dependencyMode": "composer-frozen",
   "testCommandProfile": "phpunit",
   "artifactType": "application-package",
-  "extensions": ["integration-test"],
+  "extensions": [],
   "workingDirectory": ".",
-  "coverageThreshold": 80,
   "retentionDays": 14,
   "evidenceMode": "safe-metadata"
 }

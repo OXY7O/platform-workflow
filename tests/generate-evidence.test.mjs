@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 const safe = {
-  schemaVersion: "1.0", governanceVersion: "v1.1.0", catalogueVersion: "1.1.0",
+  schemaVersion: "1.0", governanceVersion: "v1.5.1", catalogueVersion: "1.4.0",
   profileKey: "php-laravel", sourceSha: "a".repeat(40), workflowSha: "b".repeat(40),
   contractDigest: `sha256:${"c".repeat(64)}`, runnerClass: "linux-x64",
   runnerImage: "ubuntu-24.04", checks: [], artifact: null, evidenceReference: null
