@@ -8,6 +8,8 @@ caller, membuat repository, menerapkan configuration control, dan melakukan
 handoff. Policy, approval, security classification, serta lifecycle tetap dimiliki
 `platform-governance`.
 
+Kontrak normatif: [Platform Governance v1.5.0](https://github.com/OXY7O/platform-governance/releases/tag/v1.5.0).
+
 ## Caller contract
 
 Repository aplikasi hanya menyimpan thin caller dan input yang tervalidasi.
