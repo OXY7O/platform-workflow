@@ -27,8 +27,10 @@ Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflo
 - menolak seluruh extension Laravel sampai executor terkait benar-benar tersedia;
 - menghapus input `coverageThreshold` Laravel karena enforcement coverage belum
   tersedia; coverage tetap dicatat sebagai implementation gap;
-- mencatat runner routing, SAST, SBOM, dan signing sebagai gap atau planned,
-  bukan sebagai kontrol yang sudah compliant.
+- mencatat coverage, SAST, SBOM, dan signing sebagai gap atau planned, bukan
+  sebagai kontrol yang sudah compliant.
+- mengarahkan seluruh job Laravel ke self-hosted runner berlabel `platform-ci`;
+  status operational compliance tetap menunggu actual workflow evidence.
 
 ### Dokumentasi
 

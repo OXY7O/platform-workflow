@@ -61,8 +61,8 @@ aslinya dan tidak boleh disamarkan sebagai artifact failure.
 - Coverage threshold belum terikat pada report coverage terstandar.
 - SAST, GitHub secret scanning integration, SBOM, provenance, dan signing belum
   memiliki tool, ACT assessment, severity gate, serta evidence contract final.
-- Runner masih GitHub-hosted `ubuntu-24.04`; HUR atau approved self-hosted
-  routing profile belum diterapkan.
+- Seluruh job Laravel diarahkan ke self-hosted runner berlabel `platform-ci`;
+  successful workflow run masih diperlukan sebagai evidence operasional.
 - Extension CI/CD/security tidak dapat dipilih sebelum executor dan negative
   test tersedia.
 

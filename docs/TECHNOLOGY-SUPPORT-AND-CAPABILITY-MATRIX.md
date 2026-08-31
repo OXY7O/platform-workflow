@@ -39,7 +39,7 @@ pernyataan umum bahwa seluruh versi framework/runtime didukung organisasi.
 | Artifact | Deterministic application package dan digest | Implemented |
 | Evidence | Normalized checks dan Safe metadata | Implemented |
 | CI | Coverage report enforcement | Implementation gap |
-| Runner | Approved self-hosted/GitHub-hosted routing | Governance gap |
+| Runner | Self-hosted label `platform-ci` | Implemented; operational evidence pending |
 | Security | SAST, full secret scanning, SBOM, signing | Planned |
 | Deployment | VM container dan Kubernetes | Planned |
 

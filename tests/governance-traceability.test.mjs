@@ -37,7 +37,6 @@ test("declared required Laravel checks have executable traceability records", as
 test("known gaps remain visible instead of being advertised as implemented", () => {
   for (const capabilityId of [
     "CAP-P06-COVERAGE-ENFORCEMENT",
-    "CAP-P09-RUNNER-ROUTING",
     "CAP-P16-SAST",
     "CAP-P16-SBOM-SIGNING",
   ]) {
@@ -45,4 +44,11 @@ test("known gaps remain visible instead of being advertised as implemented", () 
     assert.ok(record, capabilityId);
     assert.notEqual(record.implementationStatus, "implemented", capabilityId);
   }
+});
+
+test("runner routing is implemented but not verified before an actual run", () => {
+  const record = matrix.records.find((item) => item.capabilityId === "CAP-P09-RUNNER-ROUTING");
+  assert.equal(record.implementationStatus, "implemented");
+  assert.equal(record.verificationStatus, "not-verified");
+  assert.match(record.gap, /actual runner evidence/i);
 });

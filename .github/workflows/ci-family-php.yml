@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   php-family:
-    runs-on: ubuntu-24.04
+    runs-on: [self-hosted, platform-ci]
     outputs:
       contract-digest: ${{ steps.contract.outputs.contract-digest }}
       checks-json: ${{ steps.results.outputs.checks-json }}

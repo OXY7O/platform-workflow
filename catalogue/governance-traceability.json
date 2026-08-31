@@ -19,7 +19,7 @@
     {
       "capabilityId": "CAP-P06-IMMUTABLE-PIN",
       "controlReferences": ["P06-CTL-003", "P06-CTL-015"],
-      "implementationReferences": [".github/workflows/ci-family-php.yml", ".github/workflows/ci-profile-php-laravel.yml"],
+      "implementationReferences": [".github/workflows/ci-family-php.yml", ".github/workflows/ci-profile-php-laravel.yml", ".github/workflows/ci-compatibility-php-laravel.yml"],
       "checkIds": [],
       "verificationReferences": ["tests/workflow-contract.test.mjs"],
       "implementationStatus": "implemented",
@@ -132,10 +132,10 @@
       "implementationReferences": [".github/workflows/ci-family-php.yml", ".github/workflows/ci-profile-php-laravel.yml"],
       "checkIds": [],
       "verificationReferences": [],
-      "implementationStatus": "governance-gap",
+      "implementationStatus": "implemented",
       "verificationStatus": "not-verified",
       "complianceStatus": "not-assessed",
-      "gap": "Workflow masih hard-coded GitHub-hosted dan belum mereferensikan HUR atau approved runner profile."
+      "gap": "Konfigurasi label self-hosted:platform-ci sudah tersedia; actual runner evidence masih menunggu successful workflow run."
     },
     {
       "capabilityId": "CAP-P16-SAST",

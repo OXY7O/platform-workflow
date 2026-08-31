@@ -15,6 +15,15 @@ test("both CI workflows expose workflow_call under read-only permission", () => 
   }
 });
 
+test("all Laravel CI jobs route only to the platform-ci self-hosted runner", () => {
+  for (const path of [...paths, ".github/workflows/ci-compatibility-php-laravel.yml"]) {
+    const workflow = load(path);
+    for (const [jobId, job] of Object.entries(workflow.jobs)) {
+      assert.deepEqual(job["runs-on"], ["self-hosted", "platform-ci"], `${path}: ${jobId}`);
+    }
+  }
+});
+
 test("Laravel profile exposes governed artifact outputs", () => {
   const workflow = load(paths[1]);
   for (const output of ["readiness", "failure-category", "artifact-id", "artifact-name", "artifact-digest", "manifest-digest", "evidence-metadata"]) {

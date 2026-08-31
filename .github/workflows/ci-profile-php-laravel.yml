@@ -29,7 +29,7 @@ permissions:
 
 jobs:
   package:
-    runs-on: ubuntu-24.04
+    runs-on: [self-hosted, platform-ci]
     outputs:
       readiness: ${{ steps.normalize.outputs.readiness }}
       failure-category: ${{ steps.normalize.outputs.failure-category }}
@@ -131,6 +131,7 @@ jobs:
           ARTIFACT_DIGEST: ${{ steps.build.outputs.digest }}
           MANIFEST_DIGEST: ${{ steps.build.outputs.manifest-digest }}
           RETENTION_DAYS: ${{ inputs.retention-days }}
+          PLATFORM_RUNNER_NAME: ${{ runner.name }}
         run: |
           # shellcheck disable=SC2016
           node -e '
@@ -151,8 +152,8 @@ jobs:
               sourceSha: process.env.GITHUB_SHA,
               workflowSha: "40b7d0bd8a4c4cf98e7b938518cfad2a9a55094b",
               contractDigest: process.env.CONTRACT_DIGEST,
-              runnerClass: "linux-x64",
-              runnerImage: "ubuntu-24.04",
+              runnerClass: "self-hosted:platform-ci",
+              runnerImage: process.env.PLATFORM_RUNNER_NAME,
               artifact,
               evidenceReference: null,
             };

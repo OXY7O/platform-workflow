@@ -34,7 +34,7 @@ hanya berasal dari assessment, remediation/EXC, dan independent validation.
 | Deterministic artifact | P06-028, P07-001/002/014 | implemented | pilot-verified | not-assessed |
 | Safe evidence | P06-024/035, P10-025 | implemented | local-verified | not-assessed |
 | Coverage enforcement | P06-024/025 | implementation-gap | not-verified | not-assessed |
-| Runner routing | P09-001/002/010/011 | governance-gap | not-verified | not-assessed |
+| Runner routing | P09-001/002/010/011 | implemented | not-verified | not-assessed |
 | SAST | P16-SAP | planned | not-verified | not-assessed |
 | SBOM dan signing | P07-015/016/017, P16-SBM | planned | not-verified | not-assessed |
 
