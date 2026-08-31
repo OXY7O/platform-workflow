@@ -20,7 +20,7 @@
       "availability": "available",
       "lifecycle": "pilot",
       "compatibility": "not-validated",
-      "workflowReference": "OXY7O/platform-workflow/.github/workflows/ci-profile-php-laravel.yml@fba819700a32b78027a8e1aa544d90f747821150",
+      "workflowReference": "OXY7O/platform-workflow/.github/workflows/ci-profile-php-laravel.yml@b24736649dc79aaed47337e91867f23c7ce610c7",
       "exampleRepository": "https://github.com/OXY7O/example-app-laravel",
       "artifactTypes": ["application-package"],
       "extensions": []
