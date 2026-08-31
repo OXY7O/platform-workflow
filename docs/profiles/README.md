@@ -20,4 +20,10 @@ Profile `Available` dapat memiliki lifecycle `pilot` dan compatibility
 `not-validated`. Availability hanya berarti workflow serta example tersedia;
 support dan compliance tetap memerlukan proses governance terpisah.
 
+Dalam governed provisioning, profile hanya dapat dipilih melalui approved bundle.
+Ketersediaan workflow dan example belum cukup: exact combination memerlukan
+certification evidence yang masih valid. Jika belum tersedia, provisioner
+menjalankan sandbox validation. Source example tidak disalin ke repository
+developer; `template-app-*` tetap menjadi golden path source.
+
 Kembali ke [portal Platform Workflow](../../README.md).

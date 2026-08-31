@@ -19,10 +19,14 @@ platform-workflow
   reusable workflow, contract, validator, artifact, safe evidence metadata
         |
 example-app-<profile>
-  contoh implementasi teknis dari sisi consumer
+  permanent compatibility dan certification fixture
         |
-repository aplikasi
-  thin caller dan konfigurasi yang diizinkan
+certification record -----------+
+                                |
+template-app-<profile> --> platform-provisioning
+                                |
+                         repository aplikasi
+                         thin caller dan konfigurasi yang diizinkan
 ```
 
 ## Siapa yang menggunakan repository ini?
@@ -42,6 +46,8 @@ repository aplikasi
 4. Canonical lane dapat menghasilkan artifact; compatibility lane hanya memvalidasi kombinasi versi.
 5. Workflow mengembalikan normalized result dan safe evidence metadata.
 6. Deployment memakai kontrak dan approval terpisah; merge atau status `ci-qualified` bukan izin deployment.
+7. `platform-provisioning` memilih capability hanya melalui approved bundle dan
+   memasang thin caller yang dipin ke commit SHA immutable.
 
 ## Katalog tech stack
 
@@ -74,7 +80,8 @@ Pilih profile Available
   -> baca kontrak dan compatibility
   -> buka example app
   -> jalankan validasi lokal
-  -> salin thin caller
+  -> ajukan governed repository request
+  -> platform-provisioning merender template dan thin caller
   -> pin workflow ke full commit SHA
   -> buka pull request
   -> verifikasi required checks, artifact, dan evidence
@@ -98,6 +105,8 @@ Checklist teknis berada pada landing page masing-masing profile. Gunakan [onboar
 - Secret aplikasi, credential, private key, dan environment file tidak boleh masuk artifact atau evidence.
 - `Available` hanya menyatakan implementasi tersedia; governance support/compliance tetap mengikuti catalogue, TCV, EVD, audit, dan remediation.
 - Tag release membantu discovery, tetapi consumer tetap mem-pin full commit SHA yang disetujui.
+- Repository ini tidak menerima request, memilih security profile, merender
+  template, membuat repository, atau mengelola approval provisioning.
 
 ## Peta repository
 
@@ -117,4 +126,5 @@ Checklist teknis berada pada landing page masing-masing profile. Gunakan [onboar
 - [Handoff artifact](docs/ARTIFACT-HANDOFF.md)
 - [Kategori kegagalan](docs/FAILURE-TAXONOMY.md)
 - [Pemecahan masalah umum](docs/TROUBLESHOOTING.md)
+- [Integrasi dengan Platform Provisioning](docs/PROVISIONING-INTEGRATION.md)
 - [Riwayat perubahan](CHANGELOG.md)

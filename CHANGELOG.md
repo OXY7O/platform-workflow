@@ -2,6 +2,21 @@
 
 Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflow`. Istilah teknis dipertahankan ketika merupakan bagian dari kontrak platform.
 
+## Unreleased
+
+### Dokumentasi
+
+- menjelaskan boundary integrasi dengan `platform-provisioning`;
+- menetapkan approved bundle, immutable thin caller, certification reuse, dan
+  sandbox validation sebagai proses di luar ownership workflow;
+- menegaskan bahwa example adalah certification fixture, bukan template atau
+  sumber repository developer.
+
+### Batas
+
+- tidak ada perubahan executable contract, action, workflow, atau `dist/`;
+- renderer dan repository provisioning automation belum tersedia di repository ini.
+
 ## [0.5.3] - 2026-08-31
 
 ### Dokumentasi dan katalog
