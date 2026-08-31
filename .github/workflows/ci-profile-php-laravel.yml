@@ -95,6 +95,7 @@ jobs:
           BUILD_OUTCOME: ${{ steps.build.outcome }}
           UPLOAD_OUTCOME: ${{ steps.upload.outcome }}
         run: |
+          # shellcheck disable=SC2016 -- JavaScript template literals are intentional.
           node -e '
             const fs = require("node:fs");
             const file = process.env.RUNNER_TEMP + "/platform-results/checks.jsonl";
@@ -131,6 +132,7 @@ jobs:
           MANIFEST_DIGEST: ${{ steps.build.outputs.manifest-digest }}
           RETENTION_DAYS: ${{ inputs.retention-days }}
         run: |
+          # shellcheck disable=SC2016 -- JavaScript template literals are intentional.
           node -e '
             const fs = require("node:fs");
             const uploaded = process.env.UPLOAD_OUTCOME === "success";
