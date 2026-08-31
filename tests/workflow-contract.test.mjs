@@ -24,6 +24,11 @@ test("all Laravel CI jobs route only to the platform-ci self-hosted runner", () 
   }
 });
 
+test("actionlint recognizes the governed custom runner label", () => {
+  const config = load(".github/actionlint.yaml");
+  assert.deepEqual(config["self-hosted-runner"].labels, ["platform-ci"]);
+});
+
 test("Laravel profile exposes governed artifact outputs", () => {
   const workflow = load(paths[1]);
   for (const output of ["readiness", "failure-category", "artifact-id", "artifact-name", "artifact-digest", "manifest-digest", "evidence-metadata"]) {
