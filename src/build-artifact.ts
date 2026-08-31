@@ -43,7 +43,7 @@ export async function buildArtifact(input: BuildArtifactInput): Promise<BuildArt
   });
   const artifactId = `ART-php-laravel-${input.sourceSha.slice(0, 12)}-${input.contractDigest.replace("sha256:", "").slice(0, 12)}`;
   const artifactName = `${artifactId}.json.gz`;
-  const manifest = {schemaVersion: "1.0", artifactId, artifactName, type: "application-package", sourceSha: input.sourceSha, workflowSha: input.workflowSha, governanceVersion: "v1.1.0", catalogueVersion: "1.1.0", profileKey: "php-laravel", contractDigest: input.contractDigest, lockDigest: input.lockDigest, createdAt: input.createdAt ?? "1970-01-01T00:00:00.000Z", retentionDays: input.retentionDays, files: fileRecords};
+  const manifest = {schemaVersion: "1.0", artifactId, artifactName, type: "application-package", sourceSha: input.sourceSha, workflowSha: input.workflowSha, governanceVersion: "v1.5.1", catalogueVersion: "1.4.0", profileKey: "php-laravel", contractDigest: input.contractDigest, lockDigest: input.lockDigest, createdAt: input.createdAt ?? "1970-01-01T00:00:00.000Z", retentionDays: input.retentionDays, files: fileRecords};
   const manifestJson = JSON.stringify(manifest);
   const envelope = JSON.stringify({manifest, files: payload});
   fs.mkdirSync(input.outputDirectory, {recursive: true});

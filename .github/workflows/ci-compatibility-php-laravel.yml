@@ -28,16 +28,16 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - name: Validate compatibility contract
         id: contract
-        uses: OXY7O/platform-workflow/actions/validate-compatibility-contract@94cd54f1bceaa3ee334c10f14c68f768123e828e
+        uses: OXY7O/platform-workflow/actions/validate-compatibility-contract@40e05f3836057235b31b2423a3808e565fccca75
         with: {contract: "${{ inputs.contract-json }}"}
       - name: Configure PHP runtime
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
         with: {php-version: "${{ inputs.php-version }}", tools: composer, coverage: xdebug}
       - name: Recreate frozen dependencies
-        uses: OXY7O/platform-workflow/actions/php-family-check@94cd54f1bceaa3ee334c10f14c68f768123e828e
+        uses: OXY7O/platform-workflow/actions/php-family-check@40e05f3836057235b31b2423a3808e565fccca75
         with: {working-directory: "${{ inputs.working-directory }}", dependency-mode: composer-frozen}
       - name: Run Laravel checks
-        uses: OXY7O/platform-workflow/actions/laravel-profile-check@94cd54f1bceaa3ee334c10f14c68f768123e828e
+        uses: OXY7O/platform-workflow/actions/laravel-profile-check@40e05f3836057235b31b2423a3808e565fccca75
         with: {working-directory: "${{ inputs.working-directory }}", test-profile: "${{ inputs.test-profile }}"}
       - name: Resolve lock digest
         id: lock
@@ -52,5 +52,5 @@ jobs:
         run: |
           echo "readiness=passed" >> "$GITHUB_OUTPUT"
           echo "failure-category=" >> "$GITHUB_OUTPUT"
-          value="$(node -e 'const c=JSON.parse(process.env.CONTRACT_JSON);console.log(JSON.stringify({schemaVersion:"1.0",laneId:c.laneId,frameworkMajor:c.frameworkMajor,phpVersion:c.phpVersion,lifecycle:c.lifecycle,blocking:c.blocking,sourceSha:process.env.GITHUB_SHA,workflowSha:"94cd54f1bceaa3ee334c10f14c68f768123e828e",contractDigest:process.env.CONTRACT_DIGEST,lockDigest:process.env.LOCK_DIGEST,runnerImage:"ubuntu-24.04",conclusion:"passed"}))')"
+          value="$(node -e 'const c=JSON.parse(process.env.CONTRACT_JSON);console.log(JSON.stringify({schemaVersion:"1.0",laneId:c.laneId,frameworkMajor:c.frameworkMajor,phpVersion:c.phpVersion,lifecycle:c.lifecycle,blocking:c.blocking,sourceSha:process.env.GITHUB_SHA,workflowSha:"40e05f3836057235b31b2423a3808e565fccca75",contractDigest:process.env.CONTRACT_DIGEST,lockDigest:process.env.LOCK_DIGEST,runnerImage:"ubuntu-24.04",conclusion:"passed"}))')"
           echo "evidence-metadata=$value" >> "$GITHUB_OUTPUT"

@@ -43,7 +43,7 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - name: Validate caller contract
         id: contract
-        uses: OXY7O/platform-workflow/actions/validate-caller-contract@ca1a1c4defa907da6c904ef9fb8e90863410be11
+        uses: OXY7O/platform-workflow/actions/validate-caller-contract@40e05f3836057235b31b2423a3808e565fccca75
         with:
           contract: ${{ inputs.contract-json }}
       - name: Configure PHP runtime
@@ -53,12 +53,12 @@ jobs:
           tools: composer
           coverage: xdebug
       - name: Recreate frozen dependencies
-        uses: OXY7O/platform-workflow/actions/php-family-check@ca1a1c4defa907da6c904ef9fb8e90863410be11
+        uses: OXY7O/platform-workflow/actions/php-family-check@40e05f3836057235b31b2423a3808e565fccca75
         with:
           working-directory: ${{ inputs.working-directory }}
           dependency-mode: composer-frozen
       - name: Run Laravel profile checks
-        uses: OXY7O/platform-workflow/actions/laravel-profile-check@ca1a1c4defa907da6c904ef9fb8e90863410be11
+        uses: OXY7O/platform-workflow/actions/laravel-profile-check@40e05f3836057235b31b2423a3808e565fccca75
         with:
           working-directory: ${{ inputs.working-directory }}
           test-profile: ${{ inputs.test-profile }}
@@ -69,11 +69,11 @@ jobs:
       - name: Prepare verified package input
         id: package-input
         run: |
-          value="$(node -e 'JSON.parse(process.argv[1]); console.log(JSON.stringify({workingDirectory:process.argv[2],outputDirectory:process.env.RUNNER_TEMP+"/artifacts",sourceSha:process.env.GITHUB_SHA,workflowSha:process.argv[3],contractDigest:process.argv[4],lockDigest:process.argv[5],retentionDays:Number(process.argv[6])}))' '${{ inputs.contract-json }}' '${{ inputs.working-directory }}' 'ca1a1c4defa907da6c904ef9fb8e90863410be11' '${{ steps.contract.outputs.contract-digest }}' '${{ steps.lock.outputs.digest }}' '${{ inputs.retention-days }}')"
+          value="$(node -e 'JSON.parse(process.argv[1]); console.log(JSON.stringify({workingDirectory:process.argv[2],outputDirectory:process.env.RUNNER_TEMP+"/artifacts",sourceSha:process.env.GITHUB_SHA,workflowSha:process.argv[3],contractDigest:process.argv[4],lockDigest:process.argv[5],retentionDays:Number(process.argv[6])}))' '${{ inputs.contract-json }}' '${{ inputs.working-directory }}' '40e05f3836057235b31b2423a3808e565fccca75' '${{ steps.contract.outputs.contract-digest }}' '${{ steps.lock.outputs.digest }}' '${{ inputs.retention-days }}')"
           echo "value=$value" >> "$GITHUB_OUTPUT"
       - name: Build verified application package
         id: build
-        uses: OXY7O/platform-workflow/actions/build-application-package@ca1a1c4defa907da6c904ef9fb8e90863410be11
+        uses: OXY7O/platform-workflow/actions/build-application-package@40e05f3836057235b31b2423a3808e565fccca75
         with:
           build-input: ${{ steps.package-input.outputs.value }}
       - name: Upload qualified package
@@ -121,8 +121,8 @@ jobs:
       - name: Normalize result and evidence
         id: normalize
         if: always()
-        uses: OXY7O/platform-workflow/actions/normalize-check-results@ca1a1c4defa907da6c904ef9fb8e90863410be11
+        uses: OXY7O/platform-workflow/actions/normalize-check-results@40e05f3836057235b31b2423a3808e565fccca75
         with:
           checks: ${{ steps.checks.outputs.checks-json }}
           evidence: >-
-            {"schemaVersion":"1.0","governanceVersion":"v1.5.1","catalogueVersion":"1.4.0","profileKey":"php-laravel","sourceSha":"${{ github.sha }}","workflowSha":"ca1a1c4defa907da6c904ef9fb8e90863410be11","contractDigest":"${{ steps.contract.outputs.contract-digest }}","runnerClass":"linux-x64","runnerImage":"ubuntu-24.04","artifact":{"artifactId":"${{ steps.build.outputs.artifact-id }}","artifactName":"${{ steps.build.outputs.artifact-name }}","digest":"${{ steps.build.outputs.digest }}","manifestDigest":"${{ steps.build.outputs.manifest-digest }}","retentionDays":${{ inputs.retention-days }}},"evidenceReference":null}
+            {"schemaVersion":"1.0","governanceVersion":"v1.5.1","catalogueVersion":"1.4.0","profileKey":"php-laravel","sourceSha":"${{ github.sha }}","workflowSha":"40e05f3836057235b31b2423a3808e565fccca75","contractDigest":"${{ steps.contract.outputs.contract-digest }}","runnerClass":"linux-x64","runnerImage":"ubuntu-24.04","artifact":{"artifactId":"${{ steps.build.outputs.artifact-id }}","artifactName":"${{ steps.build.outputs.artifact-name }}","digest":"${{ steps.build.outputs.digest }}","manifestDigest":"${{ steps.build.outputs.manifest-digest }}","retentionDays":${{ inputs.retention-days }}},"evidenceReference":null}

@@ -58,9 +58,17 @@ test("PHP family classifies syntax failure as a quality failure", () => {
 });
 
 test("PHP family rejects sensitive material before dependency execution", () => {
-  const result = run("scripts/php-family-ci.sh", ["tests/fixtures/laravel-sensitive", "composer-frozen"]);
-  assert.notEqual(result.status, 0);
-  assert.match(result.stdout, /"id":"sensitive-material-guard".*"failureCategory":"security"/);
+  fs.mkdirSync("tests/tmp", {recursive: true});
+  const fixture = fs.mkdtempSync(path.resolve("tests/tmp/laravel-sensitive-"));
+  try {
+    fs.cpSync("tests/fixtures/laravel-valid", fixture, {recursive: true});
+    fs.writeFileSync(path.join(fixture, ".env"), "APP_KEY=test-only\n");
+    const result = run("scripts/php-family-ci.sh", [path.relative(process.cwd(), fixture), "composer-frozen"]);
+    assert.notEqual(result.status, 0);
+    assert.match(result.stdout, /"id":"sensitive-material-guard".*"failureCategory":"security"/);
+  } finally {
+    fs.rmSync(fixture, {recursive: true, force: true});
+  }
 });
 
 test("Laravel executor classifies a failing test preset", () => {
