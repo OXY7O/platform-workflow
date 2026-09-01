@@ -45,6 +45,33 @@ test("all Laravel CI jobs run inside approved immutable PHP containers", () => {
   }
 });
 
+test("all Laravel CI jobs use version-isolated persistent Composer cache volumes", () => {
+  for (const path of [...paths, ".github/workflows/ci-compatibility-php-laravel.yml"]) {
+    const workflow = load(path);
+    for (const [jobId, job] of Object.entries(workflow.jobs)) {
+      assert.equal(job.env.COMPOSER_CACHE_DIR, "/var/cache/platform/composer", `${path}: ${jobId}`);
+      assert.equal(job.env.COMPOSER_ALLOW_SUPERUSER, "1", `${path}: ${jobId}`);
+      assert.deepEqual(
+        job.container.volumes,
+        ["platform-ci-composer-php-${{ inputs.php-version }}:/var/cache/platform/composer"],
+        `${path}: ${jobId}`,
+      );
+    }
+  }
+});
+
+test("runner cache maintenance preserves approved images and bounds transient cache", () => {
+  const script = fs.readFileSync("scripts/maintain-runner-cache.sh", "utf8");
+  for (const version of ["8.2", "8.3", "8.4", "8.5"]) {
+    assert.match(script, new RegExp(`php:${version}-cli-bookworm@sha256:`));
+  }
+  assert.match(script, /node:24-bookworm@sha256:/u);
+  assert.match(script, /docker image prune --force --filter "until=168h"/u);
+  assert.match(script, /docker builder prune --force --filter "until=168h" --keep-storage "10GB"/u);
+  assert.doesNotMatch(script, /docker (?:image |volume )?prune[^\n]*--all/u);
+  assert.doesNotMatch(script, /docker volume prune/u);
+});
+
 test("actionlint recognizes the governed custom runner label", () => {
   const config = load(".github/actionlint.yaml");
   assert.deepEqual(config["self-hosted-runner"].labels, ["platform-ci"]);

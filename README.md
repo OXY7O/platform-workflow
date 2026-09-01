@@ -71,6 +71,9 @@ Lihat [indeks profile](docs/profiles/README.md) untuk status dan batas setiap pr
 3. Baca lifecycle runtime dan compatibility matrix pada halaman profile.
 4. Pastikan artifact type yang dihasilkan sesuai kebutuhan handoff berikutnya.
 5. Periksa batas runner, security, secret, dan deployment.
+
+Operasi cache self-hosted runner dijelaskan dalam
+[`docs/RUNNER-CACHE-OPERATIONS.md`](docs/RUNNER-CACHE-OPERATIONS.md).
 6. Bila tidak ada profile yang sesuai, ajukan profile baru melalui governance; jangan membuat variasi workflow sendiri tanpa review.
 
 ## Alur onboarding

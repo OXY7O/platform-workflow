@@ -64,6 +64,8 @@ aslinya dan tidak boleh disamarkan sebagai artifact failure.
 - Seluruh job Laravel diarahkan ke self-hosted runner berlabel `platform-ci` dan berjalan di dalam container PHP resmi yang dipin dengan digest immutable;
 - host runner hanya menyediakan Linux, Docker, dan konektivitas keluar; PHP, Composer, extension, dan tooling aplikasi tidak dipasang secara native pada host;
 - penarikan image pertama dapat lebih lama, sedangkan eksekusi berikutnya memanfaatkan cache image lokal runner;
+- cache unduhan Composer memakai named volume persisten yang dipisahkan per versi PHP; `vendor`, workspace, artifact, evidence, dan secret tidak pernah dimasukkan ke cache;
+- lockfile tetap menjadi sumber integritas. Cache hanya mempercepat unduhan dan tidak menggantikan `composer install` serta validasi dependency;
   successful workflow run masih diperlukan sebagai evidence operasional.
 - Extension CI/CD/security tidak dapat dipilih sebelum executor dan negative
   test tersedia.
