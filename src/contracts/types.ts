@@ -27,8 +27,8 @@ export type FailureCategory =
   | "platform-internal";
 
 export interface CallerInput {
-  governanceVersion: "v1.1.0";
-  catalogueVersion: "1.1.0";
+  governanceVersion: "v1.5.1";
+  catalogueVersion: "1.4.0";
   profileKey: "php-laravel";
   phpVersion: string;
   dependencyMode: "composer-frozen";
@@ -36,7 +36,6 @@ export interface CallerInput {
   artifactType: "application-package";
   extensions: string[];
   workingDirectory: string;
-  coverageThreshold: number;
   retentionDays: number;
   evidenceMode: "safe-metadata";
 }
@@ -51,8 +50,8 @@ export interface CheckResult {
 
 export interface SafeEvidence {
   schemaVersion: "1.0";
-  governanceVersion: "v1.1.0";
-  catalogueVersion: "1.1.0";
+  governanceVersion: "v1.5.1";
+  catalogueVersion: "1.4.0";
   profileKey: "php-laravel";
   sourceSha: string;
   workflowSha: string;

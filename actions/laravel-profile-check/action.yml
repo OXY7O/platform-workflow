@@ -8,10 +8,6 @@ inputs:
     description: Controlled Composer test preset
     required: false
     default: phpunit
-  coverage-threshold:
-    description: Minimum accepted coverage percentage
-    required: false
-    default: "80"
 runs:
   using: composite
   steps:
@@ -20,5 +16,4 @@ runs:
       env:
         INPUT_WORKING_DIRECTORY: ${{ inputs.working-directory }}
         INPUT_TEST_PROFILE: ${{ inputs.test-profile }}
-        INPUT_COVERAGE_THRESHOLD: ${{ inputs.coverage-threshold }}
-      run: '"$GITHUB_ACTION_PATH/../../scripts/laravel-profile-ci.sh" "$INPUT_WORKING_DIRECTORY" "$INPUT_TEST_PROFILE" "$INPUT_COVERAGE_THRESHOLD"'
+      run: '"$GITHUB_ACTION_PATH/../../scripts/laravel-profile-ci.sh" "$INPUT_WORKING_DIRECTORY" "$INPUT_TEST_PROFILE"'

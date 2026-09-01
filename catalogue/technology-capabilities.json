@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.0",
+  "catalogueVersion": "0.1.0",
+  "governanceBaseline": "platform-governance@v1.5.1",
+  "updatedAt": "2026-09-01",
+  "families": [
+    {
+      "familyKey": "php",
+      "displayName": "PHP",
+      "profiles": [
+        {
+          "profileKey": "php-laravel",
+          "displayName": "PHP Laravel",
+          "availability": "available",
+          "lifecycle": "pilot",
+          "compatibility": "not-validated",
+          "operationalCompliance": "not-assessed",
+          "workflowRelease": "v0.5.3",
+          "workflowRevision": "pending-blueprint-release",
+          "exampleRepository": "OXY7O/example-app-laravel",
+          "selectableExtensions": [],
+          "versionLanes": [
+            {"combinationId":"php-laravel-13-php-8.3","phpVersion":"8.3","laravelMajor":13,"channel":"canonical","executionMode":"canonical-artifact","blocking":true,"eligibleForNewProjects":true,"verification":"pilot-verified"},
+            {"combinationId":"php-laravel-13-php-8.4","phpVersion":"8.4","laravelMajor":13,"channel":"compatibility","executionMode":"compatibility-only","blocking":true,"eligibleForNewProjects":false,"verification":"not-verified"},
+            {"combinationId":"php-laravel-13-php-8.5","phpVersion":"8.5","laravelMajor":13,"channel":"compatibility","executionMode":"compatibility-only","blocking":true,"eligibleForNewProjects":false,"verification":"not-verified"},
+            {"combinationId":"php-laravel-12-php-8.2","phpVersion":"8.2","laravelMajor":12,"channel":"maintenance","executionMode":"compatibility-only","blocking":true,"eligibleForNewProjects":false,"verification":"not-verified"},
+            {"combinationId":"php-laravel-12-php-8.3","phpVersion":"8.3","laravelMajor":12,"channel":"maintenance","executionMode":"compatibility-only","blocking":true,"eligibleForNewProjects":false,"verification":"not-verified"},
+            {"combinationId":"php-laravel-12-php-8.4","phpVersion":"8.4","laravelMajor":12,"channel":"maintenance","executionMode":"compatibility-only","blocking":true,"eligibleForNewProjects":false,"verification":"not-verified"},
+            {"combinationId":"php-laravel-12-php-8.5","phpVersion":"8.5","laravelMajor":12,"channel":"maintenance","executionMode":"compatibility-only","blocking":true,"eligibleForNewProjects":false,"verification":"not-verified"},
+            {"combinationId":"php-laravel-13-php-8.6","phpVersion":"8.6","laravelMajor":13,"channel":"preview","executionMode":"compatibility-only","blocking":false,"eligibleForNewProjects":false,"verification":"not-verified"},
+            {"combinationId":"php-laravel-8-php-7.4","phpVersion":"7.4","laravelMajor":8,"channel":"legacy","executionMode":"exception-only","blocking":false,"eligibleForNewProjects":false,"verification":"not-verified"}
+          ],
+          "capabilities": [
+            {"capabilityKey":"ci.typed-contract","category":"ci","status":"implemented"},
+            {"capabilityKey":"ci.frozen-dependency","category":"ci","status":"implemented"},
+            {"capabilityKey":"ci.php-syntax","category":"ci","status":"implemented"},
+            {"capabilityKey":"ci.dependency-audit","category":"security-minimum","status":"implemented"},
+            {"capabilityKey":"ci.sensitive-material-guard","category":"security-minimum","status":"implemented"},
+            {"capabilityKey":"ci.unit-test","category":"ci","status":"implemented"},
+            {"capabilityKey":"ci.coverage-enforcement","category":"ci","status":"implementation-gap"},
+            {"capabilityKey":"artifact.application-package","category":"artifact","status":"implemented"},
+            {"capabilityKey":"evidence.safe-metadata","category":"evidence","status":"implemented"},
+            {"capabilityKey":"runner.approved-routing","category":"runner","status":"implemented"},
+            {"capabilityKey":"security.sast","category":"security","status":"planned"},
+            {"capabilityKey":"security.sbom","category":"security","status":"planned"},
+            {"capabilityKey":"security.artifact-signing","category":"security","status":"planned"},
+            {"capabilityKey":"deployment.vm-container","category":"deployment","status":"planned"},
+            {"capabilityKey":"deployment.kubernetes","category":"deployment","status":"planned"}
+          ]
+        }
+      ]
+    }
+  ]
+}

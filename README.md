@@ -2,7 +2,7 @@
 
 [![Versi release](https://img.shields.io/badge/release-v0.5.3-0969da?label=Versi%20release)](https://github.com/OXY7O/platform-workflow/releases/tag/v0.5.3)
 [![Status CI](https://github.com/OXY7O/platform-workflow/actions/workflows/validate-platform-workflow.yml/badge.svg)](https://github.com/OXY7O/platform-workflow/actions/workflows/validate-platform-workflow.yml)
-[![Governance baseline](https://img.shields.io/badge/governance-v1.5.0-8250df?label=Governance%20baseline)](https://github.com/OXY7O/platform-governance/releases/tag/v1.5.0)
+[![Governance baseline](https://img.shields.io/badge/governance-v1.5.1-8250df?label=Governance%20baseline)](https://github.com/OXY7O/platform-governance/releases/tag/v1.5.1)
 ![Tanpa deployment](https://img.shields.io/badge/deployment-tidak%20tersedia-6b7280?label=Tanpa%20deployment)
 
 Pusat implementasi reusable GitHub Actions untuk berbagai tech stack. Repository ini menerjemahkan policy, lifecycle, control, dan evidence requirement dari `platform-governance` menjadi workflow yang dapat digunakan repository aplikasi melalui thin caller.
@@ -71,6 +71,9 @@ Lihat [indeks profile](docs/profiles/README.md) untuk status dan batas setiap pr
 3. Baca lifecycle runtime dan compatibility matrix pada halaman profile.
 4. Pastikan artifact type yang dihasilkan sesuai kebutuhan handoff berikutnya.
 5. Periksa batas runner, security, secret, dan deployment.
+
+Operasi cache self-hosted runner dijelaskan dalam
+[`docs/RUNNER-CACHE-OPERATIONS.md`](docs/RUNNER-CACHE-OPERATIONS.md).
 6. Bila tidak ada profile yang sesuai, ajukan profile baru melalui governance; jangan membuat variasi workflow sendiri tanpa review.
 
 ## Alur onboarding
@@ -122,6 +125,9 @@ Checklist teknis berada pada landing page masing-masing profile. Gunakan [onboar
 
 ## Dokumentasi umum
 
+- [Blueprint Laravel CI](docs/LARAVEL-CI-BLUEPRINT.md)
+- [Governance Traceability Matrix](docs/GOVERNANCE-TRACEABILITY-MATRIX.md)
+- [Technology Support and Capability Matrix](docs/TECHNOLOGY-SUPPORT-AND-CAPABILITY-MATRIX.md)
 - [Indeks profile](docs/profiles/README.md)
 - [Handoff artifact](docs/ARTIFACT-HANDOFF.md)
 - [Kategori kegagalan](docs/FAILURE-TAXONOMY.md)

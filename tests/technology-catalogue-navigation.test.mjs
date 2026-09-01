@@ -4,6 +4,8 @@ import fs from "node:fs";
 
 test("machine catalogue separates availability from governance compliance", () => {
   const catalogue = JSON.parse(fs.readFileSync("catalogue/technology-stack.json", "utf8"));
+  assert.equal(catalogue.governanceVersion, "v1.5.1");
+  assert.equal(catalogue.catalogueVersion, "1.4.0");
   const laravel = catalogue.profiles["php-laravel"];
   assert.equal(laravel.availability, "available");
   assert.equal(laravel.lifecycle, "pilot");

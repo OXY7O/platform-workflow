@@ -67,7 +67,9 @@ for (const file of [
   "contracts/dotnet-application-manifest.schema.json",
   "contracts/dotnet-compatibility-input.schema.json",
   "contracts/dotnet-compatibility-catalogue.schema.json",
-  "catalogue/technology-stack.json"
+  "catalogue/technology-stack.json",
+  "catalogue/governance-traceability.json",
+  "catalogue/technology-capabilities.json"
 ]) JSON.parse(fs.readFileSync(file, "utf8"));
 
 JSON.parse(fs.readFileSync("catalogue/go-service.json", "utf8"));

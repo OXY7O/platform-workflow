@@ -17,7 +17,8 @@ evidence, troubleshooting, dan contoh implementasi.
 | Availability | `Available` |
 | Governance lifecycle | `pilot` |
 | Compatibility state | `not-validated` |
-| Governance baseline | `platform-governance@v1.2.0` |
+| Governance baseline aktif | `platform-governance@v1.5.1` |
+| Kontrak profile diperkenalkan | `platform-governance@v1.1.0` |
 | Deployment | Tidak tersedia |
 
 `Available` berarti reusable workflow dan example dapat dipakai untuk pilot.
@@ -81,12 +82,16 @@ Canonical caller hanya dapat menetapkan:
 - dependency mode `composer-frozen`;
 - test profile `phpunit` atau `pest`;
 - working directory relatif;
-- coverage threshold 0–100;
 - retention 1–30 hari;
-- extension dari allowlist.
+- daftar extension kosong sampai executor terkait tersedia dan diverifikasi.
 
 Caller tidak dapat mengirim arbitrary shell command, absolute path, path
 traversal, environment, atau `secrets: inherit`.
+
+Coverage belum menjadi bagian dari contract input karena enforcement terstandar
+belum tersedia. Statusnya `implementation-gap` dan tidak boleh diklaim sebagai
+required check yang sudah dijalankan. Input baru boleh ditambahkan setelah
+executor dan evidence coverage lulus verifikasi.
 
 Compatibility caller lebih sempit: lane identity, versi Laravel/PHP, working
 directory, frozen dependency mode, test profile, lifecycle, eligibility, dan

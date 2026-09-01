@@ -1,0 +1,163 @@
+{
+  "schemaVersion": "1.0",
+  "traceabilityVersion": "0.1.0",
+  "governanceBaseline": "platform-governance@v1.5.1",
+  "scope": "php-laravel-ci",
+  "updatedAt": "2026-09-01",
+  "records": [
+    {
+      "capabilityId": "CAP-P06-TYPED-CALLER-CONTRACT",
+      "controlReferences": ["P06-CTL-002", "P06-CTL-003", "P06-CTL-017", "P06-CTL-033"],
+      "implementationReferences": ["contracts/workflow-input.schema.json", "src/validate-contract.ts"],
+      "checkIds": [],
+      "verificationReferences": ["tests/validate-contract.test.mjs", "example-app-laravel"],
+      "implementationStatus": "implemented",
+      "verificationStatus": "pilot-verified",
+      "complianceStatus": "not-assessed",
+      "gap": null
+    },
+    {
+      "capabilityId": "CAP-P06-IMMUTABLE-PIN",
+      "controlReferences": ["P06-CTL-003", "P06-CTL-015"],
+      "implementationReferences": [".github/workflows/ci-family-php.yml", ".github/workflows/ci-profile-php-laravel.yml", ".github/workflows/ci-compatibility-php-laravel.yml"],
+      "checkIds": [],
+      "verificationReferences": ["tests/workflow-contract.test.mjs"],
+      "implementationStatus": "implemented",
+      "verificationStatus": "local-verified",
+      "complianceStatus": "not-assessed",
+      "gap": "Release SHA dan example verification harus diperbarui setelah perubahan blueprint dirilis."
+    },
+    {
+      "capabilityId": "CAP-P06-MINIMUM-PERMISSION",
+      "controlReferences": ["P06-CTL-010", "P10-CTL-008"],
+      "implementationReferences": [".github/workflows/ci-family-php.yml", ".github/workflows/ci-profile-php-laravel.yml"],
+      "checkIds": [],
+      "verificationReferences": ["tests/workflow-contract.test.mjs"],
+      "implementationStatus": "implemented",
+      "verificationStatus": "local-verified",
+      "complianceStatus": "not-assessed",
+      "gap": null
+    },
+    {
+      "capabilityId": "CAP-P10-SENSITIVE-MATERIAL-GUARD",
+      "controlReferences": ["P06-CTL-011", "P10-CTL-024", "P16-SDC-001"],
+      "implementationReferences": ["scripts/php-family-ci.sh", "src/build-artifact.ts"],
+      "checkIds": ["sensitive-material-guard"],
+      "verificationReferences": ["tests/executor-scripts.test.mjs", "tests/build-artifact.test.mjs"],
+      "implementationStatus": "implemented",
+      "verificationStatus": "local-verified",
+      "complianceStatus": "not-assessed",
+      "gap": "Guard ini bukan pengganti GitHub secret scanning atau scanner kredensial komprehensif."
+    },
+    {
+      "capabilityId": "CAP-P06-PHP-SYNTAX",
+      "controlReferences": ["P06-CTL-023", "P06-CTL-024"],
+      "implementationReferences": ["scripts/php-family-ci.sh"],
+      "checkIds": ["php-syntax"],
+      "verificationReferences": ["tests/executor-scripts.test.mjs"],
+      "implementationStatus": "implemented",
+      "verificationStatus": "local-verified",
+      "complianceStatus": "not-assessed",
+      "gap": null
+    },
+    {
+      "capabilityId": "CAP-P06-FROZEN-DEPENDENCY",
+      "controlReferences": ["P06-CTL-019", "P06-CTL-020", "P06-CTL-022"],
+      "implementationReferences": ["scripts/php-family-ci.sh"],
+      "checkIds": ["composer-lock"],
+      "verificationReferences": ["tests/executor-scripts.test.mjs", "example-app-laravel"],
+      "implementationStatus": "implemented",
+      "verificationStatus": "pilot-verified",
+      "complianceStatus": "not-assessed",
+      "gap": null
+    },
+    {
+      "capabilityId": "CAP-P16-DEPENDENCY-AUDIT",
+      "controlReferences": ["P06-CTL-021", "P06-CTL-022", "P16-DSP-001"],
+      "implementationReferences": ["scripts/php-family-ci.sh"],
+      "checkIds": ["dependency-audit"],
+      "verificationReferences": ["tests/executor-scripts.test.mjs"],
+      "implementationStatus": "implemented",
+      "verificationStatus": "local-verified",
+      "complianceStatus": "not-assessed",
+      "gap": "Example verification dan policy severity formal belum direkam."
+    },
+    {
+      "capabilityId": "CAP-P06-UNIT-TEST",
+      "controlReferences": ["P06-CTL-023", "P06-CTL-024"],
+      "implementationReferences": ["scripts/laravel-profile-ci.sh"],
+      "checkIds": ["unit-test"],
+      "verificationReferences": ["tests/executor-scripts.test.mjs", "example-app-laravel"],
+      "implementationStatus": "implemented",
+      "verificationStatus": "pilot-verified",
+      "complianceStatus": "not-assessed",
+      "gap": null
+    },
+    {
+      "capabilityId": "CAP-P07-DETERMINISTIC-ARTIFACT",
+      "controlReferences": ["P06-CTL-028", "P07-CTL-001", "P07-CTL-002", "P07-CTL-014"],
+      "implementationReferences": ["src/build-artifact.ts", ".github/workflows/ci-profile-php-laravel.yml"],
+      "checkIds": ["artifact-verify"],
+      "verificationReferences": ["tests/build-artifact.test.mjs", "example-app-laravel"],
+      "implementationStatus": "implemented",
+      "verificationStatus": "pilot-verified",
+      "complianceStatus": "not-assessed",
+      "gap": null
+    },
+    {
+      "capabilityId": "CAP-P15-SAFE-EVIDENCE",
+      "controlReferences": ["P06-CTL-024", "P06-CTL-035", "P10-CTL-025"],
+      "implementationReferences": ["src/generate-evidence.ts", "src/normalize-results.ts"],
+      "checkIds": [],
+      "verificationReferences": ["tests/generate-evidence.test.mjs", "tests/normalize-results.test.mjs"],
+      "implementationStatus": "implemented",
+      "verificationStatus": "local-verified",
+      "complianceStatus": "not-assessed",
+      "gap": "EVD formal tetap membutuhkan evidence storage dan assessment aktual."
+    },
+    {
+      "capabilityId": "CAP-P06-COVERAGE-ENFORCEMENT",
+      "controlReferences": ["P06-CTL-024", "P06-CTL-025"],
+      "implementationReferences": [],
+      "checkIds": [],
+      "verificationReferences": [],
+      "implementationStatus": "implementation-gap",
+      "verificationStatus": "not-verified",
+      "complianceStatus": "not-assessed",
+      "gap": "Contract dan executor coverage belum tersedia; threshold tidak dapat dipilih sampai report dan enforcement terstandar diverifikasi."
+    },
+    {
+      "capabilityId": "CAP-P09-RUNNER-ROUTING",
+      "controlReferences": ["P09-CTL-001", "P09-CTL-002", "P09-CTL-010", "P09-CTL-011"],
+      "implementationReferences": [".github/workflows/ci-family-php.yml", ".github/workflows/ci-profile-php-laravel.yml"],
+      "checkIds": [],
+      "verificationReferences": [],
+      "implementationStatus": "implemented",
+      "verificationStatus": "not-verified",
+      "complianceStatus": "not-assessed",
+      "gap": "Konfigurasi label self-hosted:platform-ci sudah tersedia; actual runner evidence masih menunggu successful workflow run."
+    },
+    {
+      "capabilityId": "CAP-P16-SAST",
+      "controlReferences": ["P16-SAP-001"],
+      "implementationReferences": [],
+      "checkIds": [],
+      "verificationReferences": [],
+      "implementationStatus": "planned",
+      "verificationStatus": "not-verified",
+      "complianceStatus": "not-assessed",
+      "gap": "Tool, ruleset, severity gate, ACT assessment, dan evidence contract belum dipilih."
+    },
+    {
+      "capabilityId": "CAP-P16-SBOM-SIGNING",
+      "controlReferences": ["P07-CTL-015", "P07-CTL-016", "P07-CTL-017", "P16-SBM-001"],
+      "implementationReferences": [],
+      "checkIds": [],
+      "verificationReferences": [],
+      "implementationStatus": "planned",
+      "verificationStatus": "not-verified",
+      "complianceStatus": "not-assessed",
+      "gap": "SBOM, provenance, signing identity, registry, dan verification gate belum diimplementasikan."
+    }
+  ]
+}

@@ -12,7 +12,7 @@ const actions = [
   {
     path: "actions/laravel-profile-check/action.yml",
     command: /scripts\/laravel-profile-ci\.sh/,
-    inputs: ["working-directory", "test-profile", "coverage-threshold"],
+    inputs: ["working-directory", "test-profile"],
   },
 ];
 

@@ -24,6 +24,33 @@ test("README is a cross-stack workflow portal", () => {
   assert.doesNotMatch(header, /Profil PHP\/Laravel/);
 });
 
+test("README exposes the Laravel CI blueprint and both traceability views", () => {
+  const readme = fs.readFileSync("README.md", "utf8");
+  for (const path of [
+    "docs/LARAVEL-CI-BLUEPRINT.md",
+    "docs/GOVERNANCE-TRACEABILITY-MATRIX.md",
+    "docs/TECHNOLOGY-SUPPORT-AND-CAPABILITY-MATRIX.md",
+  ]) {
+    assert.match(readme, new RegExp(escape(path)), path);
+  }
+});
+
+test("traceability documentation prevents compliance overclaim", () => {
+  const governance = fs.readFileSync("docs/GOVERNANCE-TRACEABILITY-MATRIX.md", "utf8");
+  const technology = fs.readFileSync("docs/TECHNOLOGY-SUPPORT-AND-CAPABILITY-MATRIX.md", "utf8");
+  const blueprint = fs.readFileSync("docs/LARAVEL-CI-BLUEPRINT.md", "utf8");
+
+  for (const text of ["implemented", "pilot-verified", "not-assessed", "governance-gap", "implementation-gap"]) {
+    assert.match(governance, new RegExp(escape(text)), text);
+  }
+  for (const text of ["Canonical", "Maintenance", "Legacy", "Planned", "PHP Laravel"]) {
+    assert.match(technology, new RegExp(escape(text)), text);
+  }
+  for (const text of ["Security minimum", "Tidak termasuk", "example-app-laravel", "platform-provisioning"]) {
+    assert.match(blueprint, new RegExp(escape(text)), text);
+  }
+});
+
 test("PHP Laravel detail preserves technical depth and onboarding", () => {
   const profile = read("docs/profiles/php-laravel/README.md");
   for (const text of [
