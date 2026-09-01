@@ -24,6 +24,27 @@ test("all Laravel CI jobs route only to the platform-ci self-hosted runner", () 
   }
 });
 
+test("all Laravel CI jobs run inside approved immutable PHP containers", () => {
+  const approvedDigests = [
+    "sha256:6ca4b01d84082465358c5d541a2bef0edd9d0be494802aeb40f2d7c7a8d73adb",
+    "sha256:177529735599a8244b2c903522f029839dce1c2ac4be122fdc00ada4b45a20e4",
+    "sha256:9cc9310a457019cd6b682109eb3c5dd8bf73498e7d3b9ee5c33d0d0b83d0faf3",
+    "sha256:b80dfc7d2bc0fc97755620a0dfb3d5e8e9cbf70a2970ea2d5c9dc64154b31422",
+  ];
+
+  for (const path of [...paths, ".github/workflows/ci-compatibility-php-laravel.yml"]) {
+    const workflow = load(path);
+    for (const [jobId, job] of Object.entries(workflow.jobs)) {
+      assert.equal(typeof job.container?.image, "string", `${path}: ${jobId}`);
+      assert.match(job.container.image, /^\$\{\{ .+ \}\}$/u, `${path}: ${jobId}`);
+      assert.doesNotMatch(job.container.image, /:latest(?:@|$)/u, `${path}: ${jobId}`);
+      for (const digest of approvedDigests) {
+        assert.ok(job.container.image.includes(digest), `${path}: ${jobId} missing ${digest}`);
+      }
+    }
+  }
+});
+
 test("actionlint recognizes the governed custom runner label", () => {
   const config = load(".github/actionlint.yaml");
   assert.deepEqual(config["self-hosted-runner"].labels, ["platform-ci"]);

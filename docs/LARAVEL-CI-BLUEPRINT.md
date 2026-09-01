@@ -61,7 +61,9 @@ aslinya dan tidak boleh disamarkan sebagai artifact failure.
 - Coverage threshold belum terikat pada report coverage terstandar.
 - SAST, GitHub secret scanning integration, SBOM, provenance, dan signing belum
   memiliki tool, ACT assessment, severity gate, serta evidence contract final.
-- Seluruh job Laravel diarahkan ke self-hosted runner berlabel `platform-ci`;
+- Seluruh job Laravel diarahkan ke self-hosted runner berlabel `platform-ci` dan berjalan di dalam container PHP resmi yang dipin dengan digest immutable;
+- host runner hanya menyediakan Linux, Docker, dan konektivitas keluar; PHP, Composer, extension, dan tooling aplikasi tidak dipasang secara native pada host;
+- penarikan image pertama dapat lebih lama, sedangkan eksekusi berikutnya memanfaatkan cache image lokal runner;
   successful workflow run masih diperlukan sebagai evidence operasional.
 - Extension CI/CD/security tidak dapat dipilih sebelum executor dan negative
   test tersedia.

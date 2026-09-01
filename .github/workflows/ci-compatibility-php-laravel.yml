@@ -17,6 +17,8 @@ permissions:
 jobs:
   compatibility:
     runs-on: [self-hosted, platform-ci]
+    container:
+      image: ${{ inputs.php-version == '8.2' && 'php:8.2-cli-bookworm@sha256:6ca4b01d84082465358c5d541a2bef0edd9d0be494802aeb40f2d7c7a8d73adb' || inputs.php-version == '8.3' && 'php:8.3-cli-bookworm@sha256:177529735599a8244b2c903522f029839dce1c2ac4be122fdc00ada4b45a20e4' || inputs.php-version == '8.4' && 'php:8.4-cli-bookworm@sha256:9cc9310a457019cd6b682109eb3c5dd8bf73498e7d3b9ee5c33d0d0b83d0faf3' || inputs.php-version == '8.5' && 'php:8.5-cli-bookworm@sha256:b80dfc7d2bc0fc97755620a0dfb3d5e8e9cbf70a2970ea2d5c9dc64154b31422' || '' }}
     outputs:
       readiness: "${{ steps.result.outputs.readiness }}"
       failure-category: "${{ steps.result.outputs.failure-category }}"
@@ -30,7 +32,7 @@ jobs:
         id: contract
         uses: OXY7O/platform-workflow/actions/validate-compatibility-contract@40b7d0bd8a4c4cf98e7b938518cfad2a9a55094b
         with: {contract: "${{ inputs.contract-json }}"}
-      - name: Configure PHP runtime
+      - name: Configure PHP tooling in job container
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
         with: {php-version: "${{ inputs.php-version }}", tools: composer, coverage: xdebug}
       - name: Recreate frozen dependencies
