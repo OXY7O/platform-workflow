@@ -54,6 +54,14 @@ test("Laravel evidence identifies the approved runtime digest", () => {
   assert.doesNotMatch(source, /"runnerImage":"ubuntu-24\.04"/);
 });
 
+test("Laravel package enables coverage only in its governed test job", () => {
+  const family = load(paths[0]);
+  const profile = load(paths[1]);
+
+  assert.equal(profile.jobs.package.env.XDEBUG_MODE, "coverage");
+  assert.equal(family.jobs["php-family"].env?.XDEBUG_MODE, undefined);
+});
+
 test("all external actions are pinned to a full commit SHA", () => {
   for (const path of paths) {
     const workflow = load(path);

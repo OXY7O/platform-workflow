@@ -41,6 +41,8 @@ jobs:
   package:
     needs: family
     runs-on: ubuntu-24.04
+    env:
+      XDEBUG_MODE: coverage
     container:
       image: ghcr.io/oxy7o/platform-ci-php@sha256:e406cd0def2e69f3ca9800ab68ede80ad7f3a5fd7b23dc20b1927371d867db69
     outputs:
