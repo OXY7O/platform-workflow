@@ -16,6 +16,11 @@ Belum ada perubahan.
   runtime sebelum check dijalankan;
 - mencatat runtime logical ID, release, katalog sumber, dan digest pada katalog
   tech stack serta safe evidence metadata.
+- menyelaraskan kontrak caller dan manifest artefak Laravel ke
+  `platform-governance@v1.5.0` dan catalogue `1.2.0`;
+- mengaktifkan Xdebug coverage hanya pada job package yang memerlukannya;
+- mem-pin katalog PHP/Laravel ke implementasi immutable
+  `1d51c025059c9bc3bca4fd2ed6c09b9627129399` yang telah lulus uji nyata.
 
 ### Dokumentasi
 
@@ -25,10 +30,19 @@ Belum ada perubahan.
 - menegaskan bahwa example adalah certification fixture, bukan template atau
   sumber repository developer.
 
+### Verifikasi
+
+- 95 pengujian repository, lint, typecheck, validasi kontrak, dan audit
+  dependency lulus;
+- canonical family, canonical package, coverage, artifact, serta enam lane
+  kompatibilitas lulus pada `OXY7O/example-app-laravel`;
+- status governance tetap `pilot` dan compatibility tetap `not-validated`
+  sampai TCV, evidence formal, audit organisasi, dan remediation diselesaikan.
+
 ### Batas
 
-- tidak ada perubahan executable contract, action, workflow, atau `dist/`;
-- renderer dan repository provisioning automation belum tersedia di repository ini.
+- perubahan v0.6.0 mencakup CI, artifact, safe evidence, dan runtime PHP;
+- deployment, renderer, dan repository provisioning automation belum tersedia.
 
 ## [0.5.3] - 2026-08-31
 

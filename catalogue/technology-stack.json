@@ -20,7 +20,7 @@
       "availability": "available",
       "lifecycle": "pilot",
       "compatibility": "not-validated",
-      "workflowReference": "OXY7O/platform-workflow/.github/workflows/ci-profile-php-laravel.yml@6cd3458cceec36d738265a8b5ebefa5d4e19766c",
+      "workflowReference": "OXY7O/platform-workflow/.github/workflows/ci-profile-php-laravel.yml@1d51c025059c9bc3bca4fd2ed6c09b9627129399",
       "exampleRepository": "https://github.com/OXY7O/example-app-laravel",
       "runtimeLogicalId": "php-ci/8.3",
       "runtimeRelease": "0.1.1",

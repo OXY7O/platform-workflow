@@ -9,6 +9,7 @@ test("machine catalogue separates availability from governance compliance", () =
   assert.equal(laravel.lifecycle, "pilot");
   assert.equal(laravel.compatibility, "not-validated");
   assert.match(laravel.workflowReference, /@[a-f0-9]{40}$/);
+  assert.match(laravel.workflowReference, /ci-profile-php-laravel\.yml@1d51c025059c9bc3bca4fd2ed6c09b9627129399$/);
   assert.equal(laravel.exampleRepository, "https://github.com/OXY7O/example-app-laravel");
   assert.equal(laravel.runtimeLogicalId, "php-ci/8.3");
   assert.equal(laravel.runtimeRelease, "0.1.1");
