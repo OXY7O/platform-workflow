@@ -4,6 +4,11 @@ import fs from "node:fs";
 
 const validInput = JSON.parse(fs.readFileSync("tests/fixtures/contracts/valid-php-laravel.json", "utf8"));
 
+test("PHP Laravel contract uses the current governance baseline", () => {
+  assert.equal(validInput.governanceVersion, "v1.5.0");
+  assert.equal(validInput.catalogueVersion, "1.2.0");
+});
+
 test("accepts the governed Laravel caller contract", async () => {
   const {validateCaller} = await import("../lib/validate-contract.js");
   assert.equal(validateCaller(validInput).profileKey, "php-laravel");

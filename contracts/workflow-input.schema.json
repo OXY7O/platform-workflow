@@ -4,8 +4,8 @@
   "additionalProperties": false,
   "required": ["governanceVersion", "catalogueVersion", "profileKey", "phpVersion", "dependencyMode", "testCommandProfile", "artifactType", "extensions", "workingDirectory", "coverageThreshold", "retentionDays", "evidenceMode"],
   "properties": {
-    "governanceVersion": {"const": "v1.1.0"},
-    "catalogueVersion": {"const": "1.1.0"},
+    "governanceVersion": {"const": "v1.5.0"},
+    "catalogueVersion": {"const": "1.2.0"},
     "profileKey": {"const": "php-laravel"},
     "phpVersion": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+$"},
     "dependencyMode": {"const": "composer-frozen"},
