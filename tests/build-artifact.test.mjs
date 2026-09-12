@@ -17,6 +17,8 @@ test("builds the same package digest from the same source", async () => {
   assert.equal(first.digest, second.digest);
   assert.equal(first.readiness, "ci-qualified");
   const manifest = JSON.parse(fs.readFileSync(first.manifestPath, "utf8"));
+  assert.equal(manifest.governanceVersion, "v1.5.0");
+  assert.equal(manifest.catalogueVersion, "1.2.0");
   assert.equal(manifest.files.some((file) => file.path === ".env.example"), false);
   assert.equal(manifest.files.some((file) => file.path.startsWith("tests/")), false);
 });

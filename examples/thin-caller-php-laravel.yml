@@ -13,7 +13,7 @@ jobs:
       contents: read
     with:
       contract-json: >-
-        {"governanceVersion":"v1.1.0","catalogueVersion":"1.1.0","profileKey":"php-laravel","phpVersion":"8.3","dependencyMode":"composer-frozen","testCommandProfile":"phpunit","artifactType":"application-package","extensions":[],"workingDirectory":".","coverageThreshold":80,"retentionDays":14,"evidenceMode":"safe-metadata"}
+        {"governanceVersion":"v1.5.0","catalogueVersion":"1.2.0","profileKey":"php-laravel","phpVersion":"8.3","dependencyMode":"composer-frozen","testCommandProfile":"phpunit","artifactType":"application-package","extensions":[],"workingDirectory":".","coverageThreshold":80,"retentionDays":14,"evidenceMode":"safe-metadata"}
       php-version: "8.3"
       test-profile: phpunit
       working-directory: "."
