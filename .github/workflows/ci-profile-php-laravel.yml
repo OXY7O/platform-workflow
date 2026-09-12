@@ -41,6 +41,8 @@ jobs:
   package:
     needs: family
     runs-on: ubuntu-24.04
+    container:
+      image: ghcr.io/oxy7o/platform-ci-php@sha256:e406cd0def2e69f3ca9800ab68ede80ad7f3a5fd7b23dc20b1927371d867db69
     outputs:
       readiness: ${{ steps.normalize.outputs.readiness }}
       failure-category: ${{ steps.normalize.outputs.failure-category }}
@@ -52,12 +54,6 @@ jobs:
     steps:
       - name: Checkout caller source
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-      - name: Configure PHP runtime
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
-        with:
-          php-version: ${{ inputs.php-version }}
-          tools: composer
-          coverage: xdebug
       - name: Recreate frozen dependencies
         uses: OXY7O/platform-workflow/actions/php-family-check@ca1a1c4defa907da6c904ef9fb8e90863410be11
         with:
@@ -102,4 +98,4 @@ jobs:
           checks: >-
             [{"id":"artifact-verify","required":true,"status":"${{ steps.build.outcome == 'success' && 'passed' || 'failed' }}","failureCategory":${{ steps.build.outcome == 'success' && 'null' || '"artifact"' }},"safeDiagnostic":null}]
           evidence: >-
-            {"schemaVersion":"1.0","governanceVersion":"v1.1.0","catalogueVersion":"1.1.0","profileKey":"php-laravel","sourceSha":"${{ github.sha }}","workflowSha":"ca1a1c4defa907da6c904ef9fb8e90863410be11","contractDigest":"${{ needs.family.outputs.contract-digest }}","runnerClass":"linux-x64","runnerImage":"ubuntu-24.04","artifact":{"artifactId":"${{ steps.build.outputs.artifact-id }}","artifactName":"${{ steps.build.outputs.artifact-name }}","digest":"${{ steps.build.outputs.digest }}","manifestDigest":"${{ steps.build.outputs.manifest-digest }}","retentionDays":${{ inputs.retention-days }}},"evidenceReference":null}
+            {"schemaVersion":"1.0","governanceVersion":"v1.5.0","catalogueVersion":"1.2.0","profileKey":"php-laravel","sourceSha":"${{ github.sha }}","workflowSha":"ca1a1c4defa907da6c904ef9fb8e90863410be11","contractDigest":"${{ needs.family.outputs.contract-digest }}","runnerClass":"linux-x64","runnerImage":"ghcr.io/oxy7o/platform-ci-php@sha256:e406cd0def2e69f3ca9800ab68ede80ad7f3a5fd7b23dc20b1927371d867db69","artifact":{"artifactId":"${{ steps.build.outputs.artifact-id }}","artifactName":"${{ steps.build.outputs.artifact-name }}","digest":"${{ steps.build.outputs.digest }}","manifestDigest":"${{ steps.build.outputs.manifest-digest }}","retentionDays":${{ inputs.retention-days }}},"evidenceReference":null}

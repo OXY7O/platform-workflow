@@ -10,6 +10,27 @@ test("machine catalogue separates availability from governance compliance", () =
   assert.equal(laravel.compatibility, "not-validated");
   assert.match(laravel.workflowReference, /@[a-f0-9]{40}$/);
   assert.equal(laravel.exampleRepository, "https://github.com/OXY7O/example-app-laravel");
+  assert.equal(laravel.runtimeLogicalId, "php-ci/8.3");
+  assert.equal(laravel.runtimeRelease, "0.1.1");
+  assert.equal(
+    laravel.runtimeImageReference,
+    "ghcr.io/oxy7o/platform-ci-php@sha256:e406cd0def2e69f3ca9800ab68ede80ad7f3a5fd7b23dc20b1927371d867db69",
+  );
+  assert.equal(
+    laravel.runtimeCatalogue,
+    "https://github.com/OXY7O/platform-runtime-images/blob/v0.1.1/catalogue/php-ci.json",
+  );
+});
+
+test("Laravel documentation exposes the approved runtime traceability", () => {
+  const readme = fs.readFileSync("README.md", "utf8");
+  const profile = fs.readFileSync("docs/profiles/php-laravel/README.md", "utf8");
+  for (const source of [readme, profile]) {
+    assert.match(source, /platform-runtime-images/);
+    assert.match(source, /php-ci\/8\.3/);
+    assert.match(source, /v0\.1\.1/);
+    assert.match(source, /sha256:e406cd0def2e69f3ca9800ab68ede80ad7f3a5fd7b23dc20b1927371d867db69/);
+  }
 });
 
 test("Go Service exposes its released workflow and example without a compliance claim", () => {

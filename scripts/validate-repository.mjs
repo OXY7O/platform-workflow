@@ -70,6 +70,21 @@ for (const file of [
   "catalogue/technology-stack.json"
 ]) JSON.parse(fs.readFileSync(file, "utf8"));
 
+const technologyCatalogue = JSON.parse(fs.readFileSync("catalogue/technology-stack.json", "utf8"));
+const laravelRuntime = technologyCatalogue.profiles?.["php-laravel"]?.runtimeImageReference;
+if (!/^ghcr\.io\/oxy7o\/platform-ci-php@sha256:[a-f0-9]{64}$/.test(laravelRuntime ?? "")) {
+  errors.push("catalogue/technology-stack.json: PHP/Laravel runtime must use an approved immutable GHCR digest");
+}
+for (const [file, job] of [
+  [".github/workflows/ci-family-php.yml", "php-family"],
+  [".github/workflows/ci-profile-php-laravel.yml", "package"],
+]) {
+  const workflow = parse(fs.readFileSync(file, "utf8"));
+  if (workflow.jobs?.[job]?.container?.image !== laravelRuntime) {
+    errors.push(`${file}: ${job} runtime must match the PHP/Laravel catalogue digest`);
+  }
+}
+
 JSON.parse(fs.readFileSync("catalogue/go-service.json", "utf8"));
 JSON.parse(fs.readFileSync("catalogue/dotnet-webapi.json", "utf8"));
 
