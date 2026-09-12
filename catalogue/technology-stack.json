@@ -22,6 +22,10 @@
       "compatibility": "not-validated",
       "workflowReference": "OXY7O/platform-workflow/.github/workflows/ci-profile-php-laravel.yml@6cd3458cceec36d738265a8b5ebefa5d4e19766c",
       "exampleRepository": "https://github.com/OXY7O/example-app-laravel",
+      "runtimeLogicalId": "php-ci/8.3",
+      "runtimeRelease": "0.1.1",
+      "runtimeImageReference": "ghcr.io/oxy7o/platform-ci-php@sha256:e406cd0def2e69f3ca9800ab68ede80ad7f3a5fd7b23dc20b1927371d867db69",
+      "runtimeCatalogue": "https://github.com/OXY7O/platform-runtime-images/blob/v0.1.1/catalogue/php-ci.json",
       "artifactTypes": ["application-package"],
       "extensions": ["database-migration", "openapi-validation", "integration-test", "container-build", "sbom-generation", "artifact-signing", "deploy-kubernetes", "deploy-vm-native", "laravel-queue-worker", "laravel-scheduler", "laravel-octane"]
     },

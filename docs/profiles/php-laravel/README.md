@@ -17,7 +17,10 @@ evidence, troubleshooting, dan contoh implementasi.
 | Availability | `Available` |
 | Governance lifecycle | `pilot` |
 | Compatibility state | `not-validated` |
-| Governance baseline | `platform-governance@v1.2.0` |
+| Governance baseline | `platform-governance@v1.5.0` |
+| Runtime logical ID | `php-ci/8.3` |
+| Runtime release | [`platform-runtime-images@v0.1.1`](https://github.com/OXY7O/platform-runtime-images/releases/tag/v0.1.1) |
+| Runtime image | `ghcr.io/oxy7o/platform-ci-php@sha256:e406cd0def2e69f3ca9800ab68ede80ad7f3a5fd7b23dc20b1927371d867db69` |
 | Deployment | Tidak tersedia |
 
 `Available` berarti reusable workflow dan example dapat dipakai untuk pilot.
@@ -56,6 +59,11 @@ legacy dinilai melalui exception dan migration plan.
 
 Consumer mulai dari [thin caller](THIN-CALLER.md). Action internal tidak dipanggil
 satu per satu oleh repository aplikasi.
+
+Canonical family dan packaging job berjalan di runtime yang sama dan immutable.
+Workflow tidak memasang PHP atau Composer secara native pada runner. Compatibility
+lane tetap menggunakan runtime per versinya karena tujuannya menguji kombinasi
+PHP/Laravel tambahan dan tidak menghasilkan artifact.
 
 ## Compatibility matrix
 

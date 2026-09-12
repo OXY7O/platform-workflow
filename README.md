@@ -1,6 +1,6 @@
 # OXY7O Platform Workflow
 
-[![Versi release](https://img.shields.io/badge/release-v0.5.3-0969da?label=Versi%20release)](https://github.com/OXY7O/platform-workflow/releases/tag/v0.5.3)
+[![Versi release](https://img.shields.io/badge/release-v0.6.0-0969da?label=Versi%20release)](https://github.com/OXY7O/platform-workflow/releases/tag/v0.6.0)
 [![Status CI](https://github.com/OXY7O/platform-workflow/actions/workflows/validate-platform-workflow.yml/badge.svg)](https://github.com/OXY7O/platform-workflow/actions/workflows/validate-platform-workflow.yml)
 [![Governance baseline](https://img.shields.io/badge/governance-v1.5.0-8250df?label=Governance%20baseline)](https://github.com/OXY7O/platform-governance/releases/tag/v1.5.0)
 ![Tanpa deployment](https://img.shields.io/badge/deployment-tidak%20tersedia-6b7280?label=Tanpa%20deployment)
@@ -48,6 +48,11 @@ template-app-<profile> --> platform-provisioning
 6. Deployment memakai kontrak dan approval terpisah; merge atau status `ci-qualified` bukan izin deployment.
 7. `platform-provisioning` memilih capability hanya melalui approved bundle dan
    memasang thin caller yang dipin ke commit SHA immutable.
+
+Canonical PHP/Laravel memakai runtime [`php-ci/8.3`](https://github.com/OXY7O/platform-runtime-images/blob/v0.1.1/catalogue/php-ci.json)
+dari `platform-runtime-images@v0.1.1`. Workflow mengunci image langsung ke
+`ghcr.io/oxy7o/platform-ci-php@sha256:e406cd0def2e69f3ca9800ab68ede80ad7f3a5fd7b23dc20b1927371d867db69`;
+tag release hanya untuk discovery dan bukan referensi eksekusi.
 
 ## Katalog tech stack
 

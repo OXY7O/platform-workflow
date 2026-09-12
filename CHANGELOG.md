@@ -4,6 +4,19 @@ Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflo
 
 ## Unreleased
 
+Belum ada perubahan.
+
+## [0.6.0] - 2026-09-12
+
+### Runtime PHP/Laravel
+
+- canonical PHP family dan Laravel packaging memakai image
+  `platform-runtime-images@v0.1.1` yang dikunci ke digest GHCR approved;
+- menghapus instalasi PHP native dari canonical jobs dan memverifikasi identitas
+  runtime sebelum check dijalankan;
+- mencatat runtime logical ID, release, katalog sumber, dan digest pada katalog
+  tech stack serta safe evidence metadata.
+
 ### Dokumentasi
 
 - menjelaskan boundary integrasi dengan `platform-provisioning`;
