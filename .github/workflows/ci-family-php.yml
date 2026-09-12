@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - name: Validate caller contract
         id: contract
-        uses: OXY7O/platform-workflow/actions/validate-caller-contract@ca1a1c4defa907da6c904ef9fb8e90863410be11
+        uses: OXY7O/platform-workflow/actions/validate-caller-contract@4058870b25de8a9432762f144381d6c416644e2c
         with:
           contract: ${{ inputs.contract-json }}
       - name: Verify approved PHP runtime
@@ -41,7 +41,7 @@ jobs:
           [[ "$actual" == "8.3" ]]
           php-ci-doctor --json
       - name: Run PHP family checks
-        uses: OXY7O/platform-workflow/actions/php-family-check@ca1a1c4defa907da6c904ef9fb8e90863410be11
+        uses: OXY7O/platform-workflow/actions/php-family-check@4058870b25de8a9432762f144381d6c416644e2c
         with:
           working-directory: ${{ inputs.working-directory }}
           dependency-mode: composer-frozen
