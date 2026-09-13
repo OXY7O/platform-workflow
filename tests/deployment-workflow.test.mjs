@@ -16,6 +16,17 @@ test("development deployment is callable, serialized, and least privileged", () 
   assert.match(workflow.concurrency.group, /repository.*development/i);
 });
 
+test("development deployment repairs persistent self-hosted workspace ownership before checkout", () => {
+  const workflow = load();
+  const [prepare, checkout] = workflow.jobs.deploy.steps;
+
+  assert.equal(prepare.name, "Prepare reusable runner workspace");
+  assert.match(prepare.run, /docker run --rm/);
+  assert.match(prepare.run, /chown -R/);
+  assert.doesNotMatch(prepare.run, /sudo/);
+  assert.match(checkout.uses, /^actions\/checkout@/);
+});
+
 test("workflow explicitly maps environment secrets and never inherits them", () => {
   const source = fs.readFileSync(file, "utf8");
   for (const name of ["DEPLOY_SSH_PRIVATE_KEY", "DEPLOY_KNOWN_HOSTS", "DEPLOY_TARGET_HOST", "DEPLOY_TARGET_USER", "REGISTRY_PULL_TOKEN"]) assert.match(source, new RegExp(name));
