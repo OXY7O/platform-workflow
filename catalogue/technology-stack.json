@@ -26,6 +26,17 @@
       "runtimeRelease": "0.1.1",
       "runtimeImageReference": "ghcr.io/oxy7o/platform-ci-php@sha256:e406cd0def2e69f3ca9800ab68ede80ad7f3a5fd7b23dc20b1927371d867db69",
       "runtimeCatalogue": "https://github.com/OXY7O/platform-runtime-images/blob/v0.1.1/catalogue/php-ci.json",
+      "capabilities": {
+        "ociPublication": {
+          "availability": "pilot",
+          "workflowReference": "OXY7O/platform-workflow/.github/workflows/build-oci-php-laravel.yml@8bf39037eda60b7ca453224eaf7e4d426b525db6"
+        },
+        "containerHostDevelopment": {
+          "availability": "pilot",
+          "actualVerification": "pending",
+          "workflowReference": "OXY7O/platform-workflow/.github/workflows/deploy-container-host-development.yml@5671d5b4ee22bede1e24b9c276254bee3494a2d1"
+        }
+      },
       "artifactTypes": ["application-package"],
       "extensions": ["database-migration", "openapi-validation", "integration-test", "container-build", "sbom-generation", "artifact-signing", "deploy-kubernetes", "deploy-vm-native", "laravel-queue-worker", "laravel-scheduler", "laravel-octane"]
     },

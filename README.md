@@ -3,7 +3,7 @@
 [![Versi release](https://img.shields.io/badge/release-v0.6.0-0969da?label=Versi%20release)](https://github.com/OXY7O/platform-workflow/releases/tag/v0.6.0)
 [![Status CI](https://github.com/OXY7O/platform-workflow/actions/workflows/validate-platform-workflow.yml/badge.svg)](https://github.com/OXY7O/platform-workflow/actions/workflows/validate-platform-workflow.yml)
 [![Governance baseline](https://img.shields.io/badge/governance-v1.5.0-8250df?label=Governance%20baseline)](https://github.com/OXY7O/platform-governance/releases/tag/v1.5.0)
-![Tanpa deployment](https://img.shields.io/badge/deployment-tidak%20tersedia-6b7280?label=Tanpa%20deployment)
+![Deployment pilot](https://img.shields.io/badge/deployment-development%20pilot-f59e0b?label=Deployment)
 
 Pusat implementasi reusable GitHub Actions untuk berbagai tech stack. Repository ini menerjemahkan policy, lifecycle, control, dan evidence requirement dari `platform-governance` menjadi workflow yang dapat digunakan repository aplikasi melalui thin caller.
 
@@ -45,7 +45,7 @@ template-app-<profile> --> platform-provisioning
 3. Repository aplikasi hanya memiliki thin caller dan input yang tervalidasi.
 4. Canonical lane dapat menghasilkan artifact; compatibility lane hanya memvalidasi kombinasi versi.
 5. Workflow mengembalikan normalized result dan safe evidence metadata.
-6. Deployment memakai kontrak dan approval terpisah; merge atau status `ci-qualified` bukan izin deployment.
+6. Deployment development memakai kontrak, GitHub Environment, immutable digest, dan evidence terpisah; merge atau status `ci-qualified` bukan izin deployment.
 7. `platform-provisioning` memilih capability hanya melalui approved bundle dan
    memasang thin caller yang dipin ke commit SHA immutable.
 
@@ -105,7 +105,7 @@ Checklist teknis berada pada landing page masing-masing profile. Gunakan [onboar
 
 ## Batas kontrol
 
-- Repository ini tidak melakukan deployment ke development, staging, atau production.
+- Deployment hanya tersedia sebagai pilot container-host untuk `development`; staging dan production belum tersedia.
 - Caller tidak boleh mengirim arbitrary command, path traversal, absolute path, atau `secrets: inherit`.
 - Secret aplikasi, credential, private key, dan environment file tidak boleh masuk artifact atau evidence.
 - `Available` hanya menyatakan implementasi tersedia; governance support/compliance tetap mengikuti catalogue, TCV, EVD, audit, dan remediation.
@@ -132,4 +132,6 @@ Checklist teknis berada pada landing page masing-masing profile. Gunakan [onboar
 - [Kategori kegagalan](docs/FAILURE-TAXONOMY.md)
 - [Pemecahan masalah umum](docs/TROUBLESHOOTING.md)
 - [Integrasi dengan Platform Provisioning](docs/PROVISIONING-INTEGRATION.md)
+- [Deployment container-host development](docs/deployment/container-host-development.md)
+- [Traceability capability](docs/TRACEABILITY.md)
 - [Riwayat perubahan](CHANGELOG.md)
