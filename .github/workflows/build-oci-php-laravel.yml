@@ -103,9 +103,11 @@ jobs:
         run: |
           image_reference="${IMAGE_REPOSITORY}@${IMAGE_DIGEST}"
           evidence="$(node -e 'console.log(JSON.stringify({schemaVersion:"1.0",governanceVersion:"v1.5.0",catalogueVersion:"1.2.0",profileKey:"php-laravel",artifactId:process.env.ARTIFACT_ID,sourceSha:process.env.SOURCE_SHA,contractDigest:process.env.CONTRACT_DIGEST,imageReference:process.env.IMAGE_REPOSITORY+"@"+process.env.IMAGE_DIGEST,imageDigest:process.env.IMAGE_DIGEST,provenanceReference:process.env.PROVENANCE_REFERENCE,sbomReference:process.env.IMAGE_REPOSITORY+"@"+process.env.IMAGE_DIGEST}))')"
-          echo "image-reference=$image_reference" >> "$GITHUB_OUTPUT"
-          echo "sbom-reference=$image_reference" >> "$GITHUB_OUTPUT"
-          echo "evidence-metadata=$evidence" >> "$GITHUB_OUTPUT"
+          {
+            echo "image-reference=$image_reference"
+            echo "sbom-reference=$image_reference"
+            echo "evidence-metadata=$evidence"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Rotate local BuildKit cache
         if: always()

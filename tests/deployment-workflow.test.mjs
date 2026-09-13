@@ -39,3 +39,9 @@ test("all actions are pinned and workflow exposes controlled outputs", () => {
   for (const step of workflow.jobs.deploy.steps) if (step.uses) assert.match(step.uses, /^[^@]+@[0-9a-f]{40}$/);
   for (const name of ["deployment-attempt-id", "terminal-status", "active-digest", "rollback-status", "evidence-metadata"]) assert.ok(workflow.on.workflow_call.outputs[name], name);
 });
+
+test("actionlint recognizes the approved self-hosted runner label", () => {
+  const config = fs.readFileSync(".github/actionlint.yaml", "utf8");
+  assert.match(config, /self-hosted-runner:/);
+  assert.match(config, /- platform-ci/);
+});
