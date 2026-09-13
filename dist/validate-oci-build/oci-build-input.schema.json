@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "governanceVersion", "catalogueVersion", "profileKey", "sourceSha", "artifactId", "imageRepository", "dockerfilePath", "contextPath", "platforms", "retentionDays", "evidenceMode"],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "governanceVersion": {"const": "v1.5.0"},
+    "catalogueVersion": {"const": "1.2.0"},
+    "profileKey": {"const": "php-laravel"},
+    "sourceSha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "artifactId": {"type": "string", "pattern": "^ART-[A-Z0-9-]{8,80}$"},
+    "imageRepository": {"type": "string", "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*(?::[0-9]+)?/[a-z0-9._/-]+$"},
+    "dockerfilePath": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"},
+    "contextPath": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9._/-]+$"},
+    "platforms": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["linux/amd64", "linux/arm64"]}},
+    "retentionDays": {"type": "integer", "minimum": 1, "maximum": 90},
+    "evidenceMode": {"const": "safe-metadata"}
+  }
+}
