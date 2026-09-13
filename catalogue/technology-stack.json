@@ -29,12 +29,12 @@
       "capabilities": {
         "ociPublication": {
           "availability": "pilot",
-          "workflowReference": "OXY7O/platform-workflow/.github/workflows/build-oci-php-laravel.yml@8bf39037eda60b7ca453224eaf7e4d426b525db6"
+          "workflowReference": "OXY7O/platform-workflow/.github/workflows/build-oci-php-laravel.yml@00f95fc276c9374ce03fdd22f066d7f78a7a12a1"
         },
         "containerHostDevelopment": {
           "availability": "pilot",
           "actualVerification": "pending",
-          "workflowReference": "OXY7O/platform-workflow/.github/workflows/deploy-container-host-development.yml@e0e3bfd35de9b56a8a72462eafb544ca80a841f9"
+          "workflowReference": "OXY7O/platform-workflow/.github/workflows/deploy-container-host-development.yml@00f95fc276c9374ce03fdd22f066d7f78a7a12a1"
         }
       },
       "artifactTypes": ["application-package"],
