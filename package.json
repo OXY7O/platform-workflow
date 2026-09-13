@@ -13,7 +13,8 @@
     "bundle:deployment-evidence": "ncc build lib/action-generate-deployment-evidence.js -o dist/generate-deployment-evidence",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "eslint src tests scripts/*.mjs",
-    "validate:repository": "node scripts/validate-repository.mjs",
+    "validate:public-boundary": "node scripts/validate-public-execution-boundary.mjs",
+    "validate:repository": "node scripts/validate-repository.mjs && npm run validate:public-boundary",
     "test": "npm run build && node --test tests/**/*.test.mjs"
   },
   "dependencies": {

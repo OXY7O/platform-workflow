@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/OXY7O/platform-workflow/contracts/public-execution-boundary.schema.json",
+  "title": "Public repository execution boundary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["repositoryVisibility", "approvedRunnerLabels", "forbiddenRunnerLabels"],
+  "properties": {
+    "repositoryVisibility": {"const": "public"},
+    "approvedRunnerLabels": {"const": ["ubuntu-24.04"]},
+    "forbiddenRunnerLabels": {"const": ["self-hosted", "platform-ci"]}
+  }
+}

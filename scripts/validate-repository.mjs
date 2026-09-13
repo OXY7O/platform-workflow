@@ -79,6 +79,7 @@ for (const file of [
   "contracts/dotnet-compatibility-input.schema.json",
   "contracts/dotnet-compatibility-catalogue.schema.json",
   "contracts/oci-build-input.schema.json",
+  "contracts/public-execution-boundary.schema.json",
   "contracts/container-host-deployment.schema.json",
   "contracts/deployment-result.schema.json",
   "catalogue/technology-stack.json"
