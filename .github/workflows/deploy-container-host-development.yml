@@ -47,7 +47,7 @@ jobs:
 
       - name: Validate deployment contract
         id: contract
-        uses: OXY7O/platform-workflow/actions/validate-container-host-deployment@3f623499c1616c1aa5264d74e05747c6c56f705f
+        uses: OXY7O/platform-workflow/actions/validate-container-host-deployment@00f95fc276c9374ce03fdd22f066d7f78a7a12a1
         with:
           contract-json: ${{ inputs.contract-json }}
 
@@ -70,7 +70,7 @@ jobs:
       - name: Execute controlled container-host deployment
         id: executor
         continue-on-error: true
-        uses: OXY7O/platform-workflow/actions/container-host-deploy@c77ccfa8a1aa2013d62c71477914a6cdee105c62
+        uses: OXY7O/platform-workflow/actions/container-host-deploy@00f95fc276c9374ce03fdd22f066d7f78a7a12a1
         env:
           DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
           DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
@@ -108,7 +108,7 @@ jobs:
       - name: Generate safe deployment evidence
         if: always()
         id: evidence
-        uses: OXY7O/platform-workflow/actions/generate-deployment-evidence@bd89e1306d157f3664575a2aa05d130f7edca030
+        uses: OXY7O/platform-workflow/actions/generate-deployment-evidence@00f95fc276c9374ce03fdd22f066d7f78a7a12a1
         with:
           result-json: ${{ steps.evidence-input.outputs.result-json }}
 

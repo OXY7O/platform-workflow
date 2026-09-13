@@ -55,7 +55,7 @@ jobs:
 
       - name: Validate OCI build contract
         id: contract
-        uses: OXY7O/platform-workflow/actions/validate-oci-build@2f912d690a4294114587d912a668f217225ba6ed
+        uses: OXY7O/platform-workflow/actions/validate-oci-build@00f95fc276c9374ce03fdd22f066d7f78a7a12a1
         with:
           contract-json: ${{ inputs.contract-json }}
 
