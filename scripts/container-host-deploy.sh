@@ -22,6 +22,7 @@ compose_real=$(realpath "$compose_path")
 [[ "$compose_real" == "$repo_root"/* ]] || { printf 'compose path must remain in repository\n' >&2; exit 2; }
 
 temporary_dir=$(mktemp -d "${TMPDIR:-/tmp}/platform-deploy.XXXXXX")
+# shellcheck disable=SC2329 # Invoked indirectly by the EXIT trap below.
 cleanup() { chmod -R u+w "$temporary_dir" 2>/dev/null || true; rm -rf -- "$temporary_dir"; }
 trap cleanup EXIT
 key_file="$temporary_dir/id_deploy"
