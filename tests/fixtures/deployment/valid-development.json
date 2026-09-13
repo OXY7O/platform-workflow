@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0",
+  "governanceVersion": "v1.5.0",
+  "catalogueVersion": "1.2.0",
+  "profileKey": "php-laravel",
+  "environment": "development",
+  "targetId": "laravel-development-container-host",
+  "sourceSha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "workflowSha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "artifactId": "ART-LARAVEL-20260913-0001",
+  "imageReference": "ghcr.io/oxy7o/example-app-laravel@sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "imageDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "composePath": "deploy/compose.yaml",
+  "services": ["web"],
+  "healthPath": "/up",
+  "healthTimeoutSeconds": 60,
+  "healthRetries": 10,
+  "lkgImageDigest": null,
+  "promotionReference": null,
+  "evidenceMode": "safe-metadata"
+}
