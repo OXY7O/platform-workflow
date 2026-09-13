@@ -36,6 +36,17 @@ test("OCI publication validates its caller and builds without deployment", () =>
   assert.equal(JSON.stringify(workflow).includes("secrets: inherit"), false);
 });
 
+test("OCI publication repairs persistent self-hosted workspace ownership before checkout", () => {
+  const workflow = load();
+  const [prepare, checkout] = workflow.jobs.publish.steps;
+
+  assert.equal(prepare.name, "Prepare reusable runner workspace");
+  assert.match(prepare.run, /docker run --rm/);
+  assert.match(prepare.run, /chown -R/);
+  assert.doesNotMatch(prepare.run, /sudo/);
+  assert.match(checkout.uses, /^actions\/checkout@/);
+});
+
 test("OCI publication pins every external action to a full commit SHA", () => {
   const workflow = load();
   for (const step of workflow.jobs.publish.steps) {
