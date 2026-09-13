@@ -22,10 +22,26 @@ inputs:
   attempt-id:
     description: Governed deployment attempt identifier
     required: true
+outputs:
+  terminal-status:
+    value: ${{ steps.deploy.outputs.terminalStatus }}
+  active-digest:
+    value: ${{ steps.deploy.outputs.activeDigest }}
+  health-status:
+    value: ${{ steps.deploy.outputs.healthStatus }}
+  previous-lkg-digest:
+    value: ${{ steps.deploy.outputs.previousLkgDigest }}
+  resulting-lkg-digest:
+    value: ${{ steps.deploy.outputs.resultingLkgDigest }}
+  rollback-status:
+    value: ${{ steps.deploy.outputs.rollbackStatus }}
+  failure-category:
+    value: ${{ steps.deploy.outputs.failureCategory }}
 runs:
   using: composite
   steps:
     - name: Execute controlled deployment
+      id: deploy
       shell: bash
       env:
         DEPLOY_SSH_PRIVATE_KEY: ${{ env.DEPLOY_SSH_PRIVATE_KEY }}
@@ -33,11 +49,14 @@ runs:
         DEPLOY_TARGET_HOST: ${{ env.DEPLOY_TARGET_HOST }}
         DEPLOY_TARGET_USER: ${{ env.DEPLOY_TARGET_USER }}
         DEPLOY_ATTEMPT_ID: ${{ inputs.attempt-id }}
-      run: >-
-        "$GITHUB_ACTION_PATH/../../scripts/container-host-deploy.sh"
-        '${{ inputs.image-reference }}'
-        '${{ inputs.compose-path }}'
-        '${{ inputs.services }}'
-        '${{ inputs.health-timeout-seconds }}'
-        '${{ inputs.health-retries }}'
-        '${{ inputs.lkg-image-digest }}'
+      run: |
+        set +e
+        result=$("$GITHUB_ACTION_PATH/../../scripts/container-host-deploy.sh" \
+          '${{ inputs.image-reference }}' '${{ inputs.compose-path }}' '${{ inputs.services }}' \
+          '${{ inputs.health-timeout-seconds }}' '${{ inputs.health-retries }}' '${{ inputs.lkg-image-digest }}')
+        status=$?
+        set -e
+        while IFS= read -r line; do
+          [[ "$line" =~ ^(terminalStatus|activeDigest|healthStatus|previousLkgDigest|resultingLkgDigest|rollbackStatus|failureCategory)= ]] && echo "$line" >> "$GITHUB_OUTPUT"
+        done <<< "$result"
+        exit "$status"
