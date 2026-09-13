@@ -1,0 +1,131 @@
+name: Deploy Laravel to development container host
+
+on:
+  workflow_call:
+    inputs:
+      contract-json:
+        description: Governed container-host deployment contract
+        required: true
+        type: string
+      authorization-reference:
+        description: Approved development environment authorization reference
+        required: true
+        type: string
+    outputs:
+      deployment-attempt-id:
+        value: ${{ jobs.deploy.outputs.deployment-attempt-id }}
+      terminal-status:
+        value: ${{ jobs.deploy.outputs.terminal-status }}
+      active-digest:
+        value: ${{ jobs.deploy.outputs.active-digest }}
+      rollback-status:
+        value: ${{ jobs.deploy.outputs.rollback-status }}
+      evidence-metadata:
+        value: ${{ jobs.deploy.outputs.evidence-metadata }}
+
+permissions:
+  contents: read
+  packages: read
+
+concurrency:
+  group: ${{ github.repository }}-development-container-host
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, platform-ci]
+    environment: development
+    outputs:
+      deployment-attempt-id: ${{ steps.identity.outputs.attempt-id }}
+      terminal-status: ${{ steps.executor.outputs.terminal-status }}
+      active-digest: ${{ steps.executor.outputs.active-digest }}
+      rollback-status: ${{ steps.executor.outputs.rollback-status }}
+      evidence-metadata: ${{ steps.evidence.outputs.evidence-json }}
+    steps:
+      - name: Checkout caller source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+
+      - name: Validate deployment contract
+        id: contract
+        uses: OXY7O/platform-workflow/actions/validate-container-host-deployment@3f623499c1616c1aa5264d74e05747c6c56f705f
+        with:
+          contract-json: ${{ inputs.contract-json }}
+
+      - name: Establish deployment attempt identity
+        id: identity
+        env:
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          echo "attempt-id=DPA-$(date -u +%Y%m%d)-${RUN_ID}${RUN_ATTEMPT}" >> "$GITHUB_OUTPUT"
+          echo "started-at=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
+      - name: Authenticate registry pull
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.REGISTRY_PULL_TOKEN }}
+
+      - name: Execute controlled container-host deployment
+        id: executor
+        continue-on-error: true
+        uses: OXY7O/platform-workflow/actions/container-host-deploy@c77ccfa8a1aa2013d62c71477914a6cdee105c62
+        env:
+          DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          DEPLOY_TARGET_HOST: ${{ secrets.DEPLOY_TARGET_HOST }}
+          DEPLOY_TARGET_USER: ${{ secrets.DEPLOY_TARGET_USER }}
+        with:
+          image-reference: ${{ steps.contract.outputs.image-reference }}
+          compose-path: ${{ fromJSON(steps.contract.outputs.canonical-contract).composePath }}
+          services: ${{ join(fromJSON(steps.contract.outputs.canonical-contract).services, ',') }}
+          health-timeout-seconds: ${{ fromJSON(steps.contract.outputs.canonical-contract).healthTimeoutSeconds }}
+          health-retries: ${{ fromJSON(steps.contract.outputs.canonical-contract).healthRetries }}
+          lkg-image-digest: ${{ fromJSON(steps.contract.outputs.canonical-contract).lkgImageDigest }}
+          attempt-id: ${{ steps.identity.outputs.attempt-id }}
+
+      - name: Assemble controlled evidence input
+        if: always()
+        id: evidence-input
+        env:
+          CONTRACT: ${{ steps.contract.outputs.canonical-contract }}
+          CONTRACT_DIGEST: ${{ steps.contract.outputs.contract-digest }}
+          ATTEMPT_ID: ${{ steps.identity.outputs.attempt-id }}
+          AUTHORIZATION_REFERENCE: ${{ inputs.authorization-reference }}
+          TERMINAL_STATUS: ${{ steps.executor.outputs.terminal-status || 'failed' }}
+          ACTIVE_DIGEST: ${{ steps.executor.outputs.active-digest }}
+          HEALTH_STATUS: ${{ steps.executor.outputs.health-status || 'not-run' }}
+          PREVIOUS_LKG: ${{ steps.executor.outputs.previous-lkg-digest }}
+          RESULTING_LKG: ${{ steps.executor.outputs.resulting-lkg-digest }}
+          ROLLBACK_STATUS: ${{ steps.executor.outputs.rollback-status || 'unavailable' }}
+          FAILURE_CATEGORY: ${{ steps.executor.outputs.failure-category || 'platform' }}
+          STARTED_AT: ${{ steps.identity.outputs.started-at }}
+        run: |
+          result=$(node -e 'const c=JSON.parse(process.env.CONTRACT); const ok=process.env.TERMINAL_STATUS==="succeeded"; console.log(JSON.stringify({attemptId:process.env.ATTEMPT_ID,repository:process.env.GITHUB_REPOSITORY,environment:c.environment,targetId:c.targetId,sourceSha:c.sourceSha,workflowSha:c.workflowSha,artifactId:c.artifactId,imageDigest:c.imageDigest,authorizationReference:process.env.AUTHORIZATION_REFERENCE,startedAt:process.env.STARTED_AT,completedAt:new Date().toISOString(),terminalStatus:process.env.TERMINAL_STATUS,failureCategory:ok?null:process.env.FAILURE_CATEGORY,healthStatus:process.env.HEALTH_STATUS,previousLkgDigest:process.env.PREVIOUS_LKG||null,resultingLkgDigest:process.env.RESULTING_LKG||null,rollbackStatus:process.env.ROLLBACK_STATUS,governanceVersion:c.governanceVersion,contractDigest:process.env.CONTRACT_DIGEST}))')
+          echo "result-json=$result" >> "$GITHUB_OUTPUT"
+
+      - name: Generate safe deployment evidence
+        if: always()
+        id: evidence
+        uses: OXY7O/platform-workflow/actions/generate-deployment-evidence@bd89e1306d157f3664575a2aa05d130f7edca030
+        with:
+          result-json: ${{ steps.evidence-input.outputs.result-json }}
+
+      - name: Persist safe evidence
+        if: always()
+        env:
+          EVIDENCE_JSON: ${{ steps.evidence.outputs.evidence-json }}
+        run: printf '%s\n' "$EVIDENCE_JSON" > deployment-evidence.json
+
+      - name: Upload safe deployment evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ${{ steps.identity.outputs.attempt-id }}-safe-evidence
+          path: deployment-evidence.json
+          if-no-files-found: error
+
+      - name: Enforce deployment result
+        if: steps.executor.outcome != 'success'
+        run: exit 1

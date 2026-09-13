@@ -41,6 +41,21 @@ export interface CallerInput {
   evidenceMode: "safe-metadata";
 }
 
+export interface OciBuildInput {
+  schemaVersion: "1.0";
+  governanceVersion: "v1.5.0";
+  catalogueVersion: "1.2.0";
+  profileKey: "php-laravel";
+  sourceSha: string;
+  artifactId: string;
+  imageRepository: string;
+  dockerfilePath: string;
+  contextPath: string;
+  platforms: ("linux/amd64" | "linux/arm64")[];
+  retentionDays: number;
+  evidenceMode: "safe-metadata";
+}
+
 export interface CheckResult {
   id: string;
   required: boolean;

@@ -17,10 +17,10 @@ test("README is a cross-stack workflow portal", () => {
 
   const header = readme.split("\n").slice(0, 12).join("\n");
   assert.equal((header.match(/!\[/g) ?? []).length, 4);
-  assert.match(header, /Versi release/);
+  assert.match(header, /Versi kandidat/);
   assert.match(header, /Status CI/);
   assert.match(header, /Governance baseline/);
-  assert.match(header, /Tanpa deployment/);
+  assert.match(header, /Deployment pilot/);
   assert.doesNotMatch(header, /Profil PHP\/Laravel/);
 });
 
@@ -34,6 +34,17 @@ test("PHP Laravel detail preserves technical depth and onboarding", () => {
   ]) {
     assert.match(profile, new RegExp(escape(text)));
   }
+});
+
+test("Laravel container-host CD has navigable operator guidance", () => {
+  const readme = read("README.md");
+  const profile = read("docs/profiles/php-laravel/README.md");
+  const guide = read("docs/deployment/container-host-development.md");
+  const traceability = read("docs/TRACEABILITY.md");
+  for (const text of ["Docker Compose", "GitHub Environment", "DEPLOY_SSH_PRIVATE_KEY", "DEPLOY_KNOWN_HOSTS", "private GHCR", "/up", "LKG", "rollback", "manual", "otomatis", "pilot"]) assert.match(guide, new RegExp(escape(text), "i"));
+  assert.match(readme, /container-host-development/);
+  assert.match(profile, /container-host-development/);
+  for (const control of ["P04", "P06", "P07", "P08", "P09", "P10"]) assert.match(traceability, new RegExp(control));
 });
 
 test("Go Service detail documents its complete technical contract and released example", () => {

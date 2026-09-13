@@ -1,0 +1,3 @@
+services:
+  web:
+    image: ${PLATFORM_IMAGE_REFERENCE:?immutable image reference required}

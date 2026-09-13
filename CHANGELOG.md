@@ -2,9 +2,19 @@
 
 Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflow`. Istilah teknis dipertahankan ketika merupakan bagian dari kontrak platform.
 
-## Unreleased
+## [0.7.0] - Belum dirilis
 
-Belum ada perubahan.
+### Laravel container-host CD
+
+- menambahkan kontrak build OCI dan publication ke private GHCR dengan immutable
+  digest, SBOM, serta provenance;
+- menambahkan kontrak deployment development, executor Docker Compose melalui
+  wrapper terkontrol, health check `/up`, LKG, dan rollback;
+- menambahkan safe deployment evidence yang menolak secret, network detail,
+  raw command, dan nilai environment;
+- menambahkan reusable workflow development dengan least privilege, explicit
+  secret mapping, concurrency serialization, dan evidence pada setiap hasil;
+- capability masih `pilot` dan actual verification masih `pending`.
 
 ## [0.6.0] - 2026-09-12
 

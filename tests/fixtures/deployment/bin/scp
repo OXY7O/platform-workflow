@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+printf 'scp %s\n' "$*" >> "$TEST_LOG"
+exit "${FAKE_SCP_EXIT:-0}"
