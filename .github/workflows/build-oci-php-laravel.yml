@@ -35,7 +35,7 @@ permissions:
 
 jobs:
   publish:
-    runs-on: [self-hosted, platform-ci]
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write
@@ -50,16 +50,6 @@ jobs:
       sbom-reference: ${{ steps.outputs.outputs.sbom-reference }}
       evidence-metadata: ${{ steps.outputs.outputs.evidence-metadata }}
     steps:
-      - name: Prepare reusable runner workspace
-        env:
-          WORKSPACE_HELPER_IMAGE: ghcr.io/oxy7o/platform-ci-php@sha256:e406cd0def2e69f3ca9800ab68ede80ad7f3a5fd7b23dc20b1927371d867db69
-        run: |
-          owner="$(id -u):$(id -g)"
-          docker run --rm --user 0:0 --entrypoint /bin/sh \
-            --volume "$GITHUB_WORKSPACE:/workspace" \
-            "$WORKSPACE_HELPER_IMAGE" \
-            -c 'chown -R "$1" /workspace' _ "$owner"
-
       - name: Checkout caller source
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
 
@@ -90,8 +80,8 @@ jobs:
           tags: ${{ steps.contract.outputs.image-repository }}:sha-${{ fromJSON(inputs.contract-json).sourceSha }}
           provenance: false
           sbom: true
-          cache-from: type=local,src=/var/cache/platform/buildkit/laravel
-          cache-to: type=local,dest=/var/cache/platform/buildkit/laravel-next,mode=max
+          cache-from: type=gha,scope=php-laravel-oci
+          cache-to: type=gha,scope=php-laravel-oci,mode=max
 
       - name: Attest build provenance
         id: attest

@@ -21,7 +21,7 @@ evidence, troubleshooting, dan contoh implementasi.
 | Runtime logical ID | `php-ci/8.3` |
 | Runtime release | [`platform-runtime-images@v0.1.1`](https://github.com/OXY7O/platform-runtime-images/releases/tag/v0.1.1) |
 | Runtime image | `ghcr.io/oxy7o/platform-ci-php@sha256:e406cd0def2e69f3ca9800ab68ede80ad7f3a5fd7b23dc20b1927371d867db69` |
-| OCI publication | Pilot; private GHCR, SBOM, provenance, immutable digest |
+| OCI publication | Pilot; GitHub-hosted runner, GHCR, SBOM, provenance, immutable digest |
 | Deployment | Pilot; container host development saja, belum terverifikasi aktual |
 
 `Available` berarti reusable workflow dan example dapat dipakai untuk pilot.
@@ -59,6 +59,11 @@ legacy dinilai melalui exception dan migration plan.
 | `ci-compatibility-php-laravel.yml` | Uji kombinasi Laravel/PHP tambahan | Tidak |
 | `build-oci-php-laravel.yml` | Build dan publish OCI setelah CI qualified | OCI image |
 | `deploy-container-host-development.yml` | Deploy digest ke container host development | Safe evidence |
+
+OCI publication berjalan pada GitHub-hosted runner tanpa credential deployment
+atau akses jaringan internal. Status `ci-qualified` dan artifact yang berhasil
+diterbitkan tetap bukan authorization deployment; delivery internal diproses
+melalui control plane private `platform-provisioning`.
 
 Consumer mulai dari [thin caller](THIN-CALLER.md). Action internal tidak dipanggil
 satu per satu oleh repository aplikasi.
