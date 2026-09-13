@@ -11,12 +11,6 @@ on:
         description: Approved development environment authorization reference
         required: true
         type: string
-    secrets:
-      DEPLOY_SSH_PRIVATE_KEY: {required: true}
-      DEPLOY_KNOWN_HOSTS: {required: true}
-      DEPLOY_TARGET_HOST: {required: true}
-      DEPLOY_TARGET_USER: {required: true}
-      REGISTRY_PULL_TOKEN: {required: true}
     outputs:
       deployment-attempt-id:
         value: ${{ jobs.deploy.outputs.deployment-attempt-id }}
