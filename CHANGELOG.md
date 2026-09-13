@@ -2,7 +2,7 @@
 
 Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflow`. Istilah teknis dipertahankan ketika merupakan bagian dari kontrak platform.
 
-## Unreleased
+## [0.7.0] - Belum dirilis
 
 ### Laravel container-host CD
 

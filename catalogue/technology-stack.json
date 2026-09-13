@@ -34,7 +34,7 @@
         "containerHostDevelopment": {
           "availability": "pilot",
           "actualVerification": "pending",
-          "workflowReference": "OXY7O/platform-workflow/.github/workflows/deploy-container-host-development.yml@5671d5b4ee22bede1e24b9c276254bee3494a2d1"
+          "workflowReference": "OXY7O/platform-workflow/.github/workflows/deploy-container-host-development.yml@e0e3bfd35de9b56a8a72462eafb544ca80a841f9"
         }
       },
       "artifactTypes": ["application-package"],

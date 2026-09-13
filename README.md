@@ -1,6 +1,6 @@
 # OXY7O Platform Workflow
 
-[![Versi release](https://img.shields.io/badge/release-v0.6.0-0969da?label=Versi%20release)](https://github.com/OXY7O/platform-workflow/releases/tag/v0.6.0)
+[![Versi kandidat](https://img.shields.io/badge/kandidat-v0.7.0-f59e0b?label=Versi)](CHANGELOG.md)
 [![Status CI](https://github.com/OXY7O/platform-workflow/actions/workflows/validate-platform-workflow.yml/badge.svg)](https://github.com/OXY7O/platform-workflow/actions/workflows/validate-platform-workflow.yml)
 [![Governance baseline](https://img.shields.io/badge/governance-v1.5.0-8250df?label=Governance%20baseline)](https://github.com/OXY7O/platform-governance/releases/tag/v1.5.0)
 ![Deployment pilot](https://img.shields.io/badge/deployment-development%20pilot-f59e0b?label=Deployment)

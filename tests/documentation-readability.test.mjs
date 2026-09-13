@@ -17,7 +17,7 @@ test("README is a cross-stack workflow portal", () => {
 
   const header = readme.split("\n").slice(0, 12).join("\n");
   assert.equal((header.match(/!\[/g) ?? []).length, 4);
-  assert.match(header, /Versi release/);
+  assert.match(header, /Versi kandidat/);
   assert.match(header, /Status CI/);
   assert.match(header, /Governance baseline/);
   assert.match(header, /Deployment pilot/);
