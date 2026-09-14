@@ -21,14 +21,14 @@ jobs:
       module-digest: ${{ steps.module.outputs.digest }}
     steps:
       - name: Checkout caller source
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: Validate Go Service contract
         id: contract
         uses: OXY7O/platform-workflow/actions/validate-go-service-contract@c9314ac3fd75042b5e8d569a38d851419c83f258
         with:
           contract-json: ${{ inputs.contract-json }}
       - name: Configure Go runtime
-        uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
         with:
           go-version: ${{ steps.contract.outputs.go-version }}
           cache: true
