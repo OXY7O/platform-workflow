@@ -20,7 +20,7 @@ test("README is a cross-stack workflow portal", () => {
   assert.match(header, /Versi kandidat/);
   assert.match(header, /Status CI/);
   assert.match(header, /Governance baseline/);
-  assert.match(header, /Deployment pilot/);
+  assert.match(header, /Boundary delivery/);
   assert.doesNotMatch(header, /Profil PHP\/Laravel/);
 });
 
