@@ -32,9 +32,10 @@
           "workflowReference": "OXY7O/platform-workflow/.github/workflows/build-oci-php-laravel.yml@00f95fc276c9374ce03fdd22f066d7f78a7a12a1"
         },
         "containerHostDevelopment": {
-          "availability": "pilot",
+          "availability": "private-control-plane",
           "actualVerification": "pending",
-          "workflowReference": "OXY7O/platform-workflow/.github/workflows/deploy-container-host-development.yml@00f95fc276c9374ce03fdd22f066d7f78a7a12a1"
+          "deliveryControlPlane": "OXY7O/platform-provisioning",
+          "workflowReference": null
         }
       },
       "artifactTypes": ["application-package"],

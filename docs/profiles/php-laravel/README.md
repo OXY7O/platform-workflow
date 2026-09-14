@@ -58,12 +58,13 @@ legacy dinilai melalui exception dan migration plan.
 | `ci-profile-php-laravel.yml` | Canonical CI Laravel | Tepat satu `application-package` |
 | `ci-compatibility-php-laravel.yml` | Uji kombinasi Laravel/PHP tambahan | Tidak |
 | `build-oci-php-laravel.yml` | Build dan publish OCI setelah CI qualified | OCI image |
-| `deploy-container-host-development.yml` | Deploy digest ke container host development | Safe evidence |
 
 OCI publication berjalan pada GitHub-hosted runner tanpa credential deployment
 atau akses jaringan internal. Status `ci-qualified` dan artifact yang berhasil
 diterbitkan tetap bukan authorization deployment; delivery internal diproses
 melalui control plane private `platform-provisioning`.
+
+Kontrak penyerahannya dijelaskan pada [boundary delivery privat](../../PRIVATE-DELIVERY-HANDOFF.md).
 
 Consumer mulai dari [thin caller](THIN-CALLER.md). Action internal tidak dipanggil
 satu per satu oleh repository aplikasi.
@@ -182,5 +183,5 @@ Example adalah materi pembelajaran dan validasi, bukan starter production.
 - [Failure taxonomy](../../FAILURE-TAXONOMY.md)
 - [Example App Laravel](https://github.com/OXY7O/example-app-laravel)
 - [Kembali ke katalog](../README.md)
-- [Panduan container-host development](../../deployment/container-host-development.md)
+- [Boundary delivery privat](../../PRIVATE-DELIVERY-HANDOFF.md)
 - [Traceability governance](../../TRACEABILITY.md)

@@ -132,6 +132,6 @@ Checklist teknis berada pada landing page masing-masing profile. Gunakan [onboar
 - [Kategori kegagalan](docs/FAILURE-TAXONOMY.md)
 - [Pemecahan masalah umum](docs/TROUBLESHOOTING.md)
 - [Integrasi dengan Platform Provisioning](docs/PROVISIONING-INTEGRATION.md)
-- [Deployment container-host development](docs/deployment/container-host-development.md)
+- [Boundary penyerahan ke delivery privat](docs/PRIVATE-DELIVERY-HANDOFF.md)
 - [Traceability capability](docs/TRACEABILITY.md)
 - [Riwayat perubahan](CHANGELOG.md)

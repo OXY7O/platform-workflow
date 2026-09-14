@@ -36,14 +36,14 @@ test("PHP Laravel detail preserves technical depth and onboarding", () => {
   }
 });
 
-test("Laravel container-host CD has navigable operator guidance", () => {
+test("Laravel exposes a navigable private delivery boundary", () => {
   const readme = read("README.md");
   const profile = read("docs/profiles/php-laravel/README.md");
-  const guide = read("docs/deployment/container-host-development.md");
+  const guide = read("docs/PRIVATE-DELIVERY-HANDOFF.md");
   const traceability = read("docs/TRACEABILITY.md");
-  for (const text of ["Docker Compose", "GitHub Environment", "DEPLOY_SSH_PRIVATE_KEY", "DEPLOY_KNOWN_HOSTS", "private GHCR", "/up", "LKG", "rollback", "manual", "otomatis", "pilot"]) assert.match(guide, new RegExp(escape(text), "i"));
-  assert.match(readme, /container-host-development/);
-  assert.match(profile, /container-host-development/);
+  for (const text of ["immutable", "attestation", "GitHub Environment", "self-hosted runner", "LKG", "rollback", "platform-provisioning"]) assert.match(guide, new RegExp(escape(text), "i"));
+  assert.match(readme, /PRIVATE-DELIVERY-HANDOFF/);
+  assert.match(profile, /PRIVATE-DELIVERY-HANDOFF/);
   for (const control of ["P04", "P06", "P07", "P08", "P09", "P10"]) assert.match(traceability, new RegExp(control));
 });
 

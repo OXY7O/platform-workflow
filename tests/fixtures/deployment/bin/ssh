@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-printf 'ssh %s\n' "$*" >> "$TEST_LOG"
-if [[ -n "${FAKE_SSH_RESULT:-}" ]]; then printf '%s\n' "$FAKE_SSH_RESULT"; else
-  printf '%s\n' 'terminalStatus=succeeded' 'activeDigest=sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc' 'healthStatus=healthy' 'previousLkgDigest=' 'resultingLkgDigest=sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc' 'rollbackStatus=not-required' 'failureCategory='
-fi
-exit "${FAKE_SSH_EXIT:-0}"
