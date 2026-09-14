@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0",
+  "repositories": {
+    "platform-workflow": {"requiredCheck": "validate"},
+    "platform-runtime-images": {"requiredCheck": "validate-php-83"},
+    "example-app-laravel": {"requiredCheck": "validate-demo-repository"},
+    "example-app-go": {"requiredCheck": "ci / family / family"},
+    "example-app-dotnet": {"requiredCheck": "ci / family / family"}
+  },
+  "repository": {
+    "visibility": "public",
+    "defaultBranch": "main",
+    "mergeMethods": ["squash"],
+    "deleteHeadBranchOnMerge": true,
+    "signedWebCommits": true,
+    "autoMerge": true
+  },
+  "mainRuleset": {
+    "enforcement": "active",
+    "protectedBranchDeletionAllowed": false,
+    "forcePushAllowed": false,
+    "linearHistory": true,
+    "approvals": 1,
+    "codeOwnerReview": true,
+    "dismissStaleReviews": true,
+    "lastPushApproval": true,
+    "conversationResolution": true,
+    "strictRequiredChecks": true
+  },
+  "security": {
+    "secretScanning": true,
+    "pushProtection": true,
+    "dependabotSecurityUpdates": true,
+    "codeqlDefaultSetup": true,
+    "privateVulnerabilityReporting": true
+  },
+  "publicRunnerBoundary": {
+    "allowedRunner": "ubuntu-24.04",
+    "internalRunnerLabelsAllowed": false,
+    "deploymentCredentialsAllowed": false
+  }
+}

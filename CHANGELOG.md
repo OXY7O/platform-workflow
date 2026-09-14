@@ -2,6 +2,16 @@
 
 Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflow`. Istilah teknis dipertahankan ketika merupakan bagian dari kontrak platform.
 
+## [0.7.1] - 2026-09-14
+
+### Diperbaiki
+
+- memperbarui checkout dan Docker Buildx ke generasi action Node.js 24;
+- menambahkan permission `artifact-metadata: write` untuk metadata OCI;
+- menghapus sisa rotasi cache lokal karena workflow publik memakai GitHub
+  Actions cache melalui BuildKit;
+- mempertahankan seluruh boundary, input contract, dan output v0.7.0.
+
 ## [0.7.0] - 2026-09-14
 
 ### Boundary eksekusi publik

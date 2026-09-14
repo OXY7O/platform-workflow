@@ -1,0 +1,23 @@
+name: Usulan capability
+description: Ajukan reusable capability atau penyempurnaan profile
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Masalah dan pengguna terdampak
+    validations:
+      required: true
+  - type: textarea
+    id: governance
+    attributes:
+      label: Referensi governance dan boundary
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Kriteria penerimaan dan evidence
+    validations:
+      required: true

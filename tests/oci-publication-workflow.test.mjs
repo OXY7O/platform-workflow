@@ -15,7 +15,8 @@ test("OCI publication is a callable GitHub-hosted workflow with explicit permiss
     contents: "read",
     packages: "write",
     "id-token": "write",
-    attestations: "write"
+    attestations: "write",
+    "artifact-metadata": "write"
   });
 });
 
@@ -44,6 +45,13 @@ test("OCI publication uses GitHub cache without self-hosted workspace recovery",
   assert.equal(steps.some((step) => step.name === "Prepare reusable runner workspace"), false);
   assert.equal(build.with["cache-from"], "type=gha,scope=php-laravel-oci");
   assert.equal(build.with["cache-to"], "type=gha,scope=php-laravel-oci,mode=max");
+  assert.equal(JSON.stringify(steps).includes("/var/cache/platform/buildkit"), false);
+});
+
+test("OCI publication uses the Node.js 24 generation of checkout and Buildx actions", () => {
+  const source = fs.readFileSync(workflowPath, "utf8");
+  assert.match(source, /actions\/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1/);
+  assert.match(source, /docker\/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e/);
 });
 
 test("OCI publication pins every external action to a full commit SHA", () => {
