@@ -22,8 +22,9 @@ test("machine catalogue separates availability from governance compliance", () =
     "https://github.com/OXY7O/platform-runtime-images/blob/v0.1.1/catalogue/php-ci.json",
   );
   assert.equal(laravel.capabilities.ociPublication.availability, "pilot");
-  assert.equal(laravel.capabilities.containerHostDevelopment.availability, "pilot");
-  assert.match(laravel.capabilities.containerHostDevelopment.workflowReference, /deploy-container-host-development\.yml/);
+  assert.equal(laravel.capabilities.containerHostDevelopment.availability, "private-control-plane");
+  assert.equal(laravel.capabilities.containerHostDevelopment.deliveryControlPlane, "OXY7O/platform-provisioning");
+  assert.equal(laravel.capabilities.containerHostDevelopment.workflowReference, null);
 });
 
 test("Laravel documentation exposes the approved runtime traceability", () => {

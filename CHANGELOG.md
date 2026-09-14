@@ -2,19 +2,29 @@
 
 Dokumen ini menjelaskan perubahan yang berdampak pada pengguna `platform-workflow`. Istilah teknis dipertahankan ketika merupakan bagian dari kontrak platform.
 
-## [0.7.0] - Belum dirilis
+## [0.7.0] - 2026-09-14
 
-### Laravel container-host CD
+### Boundary eksekusi publik
 
-- menambahkan kontrak build OCI dan publication ke private GHCR dengan immutable
-  digest, SBOM, serta provenance;
-- menambahkan kontrak deployment development, executor Docker Compose melalui
-  wrapper terkontrol, health check `/up`, LKG, dan rollback;
-- menambahkan safe deployment evidence yang menolak secret, network detail,
-  raw command, dan nilai environment;
-- menambahkan reusable workflow development dengan least privilege, explicit
-  secret mapping, concurrency serialization, dan evidence pada setiap hasil;
-- capability masih `pilot` dan actual verification masih `pending`.
+- menetapkan seluruh workflow publik hanya berjalan pada GitHub-hosted runner;
+- melarang self-hosted runner internal, `pull_request_target`, secret inheritance,
+  field deployment sensitif, dan reusable workflow yang tidak dipin ke full SHA;
+- memindahkan executor, credential, target internal, LKG, rollback, serta safe
+  deployment evidence ke control plane privat `platform-provisioning`.
+
+### Publikasi OCI Laravel
+
+- membangun dan menerbitkan OCI dengan immutable digest, SBOM, provenance, serta
+  attestation pada GitHub-hosted runner;
+- menggunakan GitHub Actions cache melalui BuildKit tanpa workspace recovery
+  atau akses jaringan privat;
+- mempertahankan status `pilot`; hasil CI dan OCI bukan authorization deployment.
+
+### Repository publik
+
+- menambahkan Apache License 2.0, panduan kontribusi, kode etik, kebijakan
+  keamanan, dukungan, CODEOWNERS, issue form, dan Dependabot;
+- mendokumentasikan kontrak penyerahan artifact publik ke delivery privat.
 
 ## [0.6.0] - 2026-09-12
 

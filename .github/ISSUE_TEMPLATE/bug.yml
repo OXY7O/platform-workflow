@@ -1,0 +1,26 @@
+name: Laporan bug
+description: Laporkan perilaku yang dapat direproduksi
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Jangan masukkan secret atau data internal.
+  - type: input
+    id: version
+    attributes:
+      label: Versi atau workflow SHA
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Perilaku aktual dan langkah reproduksi
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Perilaku yang diharapkan
+    validations:
+      required: true

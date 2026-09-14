@@ -9,7 +9,7 @@ masih memerlukan pengujian aktual dan evidence sebelum dinyatakan terverifikasi.
 | P06 | Workflow reusable dan caller immutable | dua reusable workflow dengan full-SHA pin | implemented |
 | P07 | Artifact immutable, SBOM, provenance, dan LKG | OCI publication serta digest-based rollback | pilot |
 | P08 | Environment dan deployment terkontrol | GitHub Environment `development` dan target catalogue | pilot |
-| P09 | Runner dan network boundary | self-hosted `platform-ci`, strict known hosts, allowlisted wrapper | pilot |
+| P09 | Runner dan network boundary | GitHub-hosted untuk publikasi public; self-hosted `platform-ci` hanya melalui delivery plane private | pilot |
 | P10 | Secret scoped dan evidence aman | explicit environment secrets dan allowlist-only evidence | implemented |
 
 Capability staging dan production belum diimplementasikan. Status di atas tidak

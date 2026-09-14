@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Pertanyaan penggunaan
+    url: https://github.com/orgs/OXY7O/discussions
+    about: Gunakan Discussions untuk pertanyaan dan ide.
+  - name: Laporan keamanan
+    url: https://github.com/OXY7O/platform-workflow/security/advisories/new
+    about: Laporkan kerentanan secara privat.

@@ -6,11 +6,11 @@ import {parse} from "yaml";
 const workflowPath = ".github/workflows/build-oci-php-laravel.yml";
 const load = () => parse(fs.readFileSync(workflowPath, "utf8"));
 
-test("OCI publication is a callable self-hosted workflow with explicit permissions", () => {
+test("OCI publication is a callable GitHub-hosted workflow with explicit permissions", () => {
   const workflow = load();
   assert.ok(workflow.on.workflow_call);
   assert.deepEqual(workflow.permissions, {contents: "read"});
-  assert.deepEqual(workflow.jobs.publish["runs-on"], ["self-hosted", "platform-ci"]);
+  assert.equal(workflow.jobs.publish["runs-on"], "ubuntu-24.04");
   assert.deepEqual(workflow.jobs.publish.permissions, {
     contents: "read",
     packages: "write",
@@ -36,15 +36,14 @@ test("OCI publication validates its caller and builds without deployment", () =>
   assert.equal(JSON.stringify(workflow).includes("secrets: inherit"), false);
 });
 
-test("OCI publication repairs persistent self-hosted workspace ownership before checkout", () => {
+test("OCI publication uses GitHub cache without self-hosted workspace recovery", () => {
   const workflow = load();
-  const [prepare, checkout] = workflow.jobs.publish.steps;
+  const steps = workflow.jobs.publish.steps;
+  const build = steps.find((step) => step.uses?.startsWith("docker/build-push-action@"));
 
-  assert.equal(prepare.name, "Prepare reusable runner workspace");
-  assert.match(prepare.run, /docker run --rm/);
-  assert.match(prepare.run, /chown -R/);
-  assert.doesNotMatch(prepare.run, /sudo/);
-  assert.match(checkout.uses, /^actions\/checkout@/);
+  assert.equal(steps.some((step) => step.name === "Prepare reusable runner workspace"), false);
+  assert.equal(build.with["cache-from"], "type=gha,scope=php-laravel-oci");
+  assert.equal(build.with["cache-to"], "type=gha,scope=php-laravel-oci,mode=max");
 });
 
 test("OCI publication pins every external action to a full commit SHA", () => {

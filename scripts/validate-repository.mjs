@@ -18,18 +18,7 @@ for (const name of workflowFiles) {
   }
 
   if (/secrets:\s*inherit/.test(source)) errors.push(`${file}: secrets inheritance is prohibited`);
-  if (/\b(deploy|deployment)\b/i.test(name) && name !== "deploy-container-host-development.yml") {
-    errors.push(`${file}: unregistered deployment workflow`);
-  }
-  if (name === "deploy-container-host-development.yml") {
-    const workflow = parse(source);
-    const job = workflow.jobs?.deploy;
-    if (job?.environment !== "development") errors.push(`${file}: only the development environment is allowed`);
-    if (workflow.permissions?.contents !== "read" || workflow.permissions?.packages !== "read") errors.push(`${file}: deployment permissions must remain read-only`);
-    if (workflow.concurrency?.["cancel-in-progress"] !== false) errors.push(`${file}: deployment attempts must not cancel one another`);
-    if (!job?.steps?.some((step) => step.if === "always()" && /generate-deployment-evidence/.test(step.uses ?? ""))) errors.push(`${file}: safe evidence must run on every outcome`);
-    if (/production|staging|pull_request_target|secrets:\s*inherit/i.test(source)) errors.push(`${file}: prohibited deployment scope or secret inheritance`);
-  }
+  if (/\b(deploy|deployment)\b/i.test(name)) errors.push(`${file}: deployment workflows belong to the private delivery control plane`);
   if (name === "ci-compatibility-php-laravel.yml") {
     const workflow=parse(source); const serialized=JSON.stringify(workflow);
     if (/upload-artifact|build-application-package/i.test(serialized)) errors.push(`${file}: compatibility workflow must be artifactless`);
@@ -79,8 +68,7 @@ for (const file of [
   "contracts/dotnet-compatibility-input.schema.json",
   "contracts/dotnet-compatibility-catalogue.schema.json",
   "contracts/oci-build-input.schema.json",
-  "contracts/container-host-deployment.schema.json",
-  "contracts/deployment-result.schema.json",
+  "contracts/public-execution-boundary.schema.json",
   "catalogue/technology-stack.json"
 ]) JSON.parse(fs.readFileSync(file, "utf8"));
 
