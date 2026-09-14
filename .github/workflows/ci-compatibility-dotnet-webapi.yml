@@ -30,14 +30,14 @@ jobs:
       evidence-metadata: ${{ steps.normalize.outputs.evidence-metadata }}
     steps:
       - name: Checkout caller source
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: Validate preview compatibility contract
         id: contract
         uses: OXY7O/platform-workflow/actions/validate-dotnet-compatibility-contract@1d2b41de856a485075a52c21be2222688fa3428e
         with:
           contract-json: ${{ inputs.contract-json }}
       - name: Configure exact .NET 11 preview SDK
-        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
           dotnet-version: |
             10.0.110

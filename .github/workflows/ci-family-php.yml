@@ -27,7 +27,7 @@ jobs:
       checks-json: ${{ steps.results.outputs.checks-json }}
     steps:
       - name: Checkout caller source
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: Validate caller contract
         id: contract
         uses: OXY7O/platform-workflow/actions/validate-caller-contract@4058870b25de8a9432762f144381d6c416644e2c
@@ -41,7 +41,7 @@ jobs:
           [[ "$actual" == "8.3" ]]
           php-ci-doctor --json
       - name: Run PHP family checks
-        uses: OXY7O/platform-workflow/actions/php-family-check@4058870b25de8a9432762f144381d6c416644e2c
+        uses: OXY7O/platform-workflow/actions/php-family-check@94cd54f1bceaa3ee334c10f14c68f768123e828e
         with:
           working-directory: ${{ inputs.working-directory }}
           dependency-mode: composer-frozen
