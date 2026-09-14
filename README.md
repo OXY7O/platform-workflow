@@ -3,7 +3,7 @@
 [![Versi kandidat](https://img.shields.io/badge/kandidat-v0.7.0-f59e0b?label=Versi)](CHANGELOG.md)
 [![Status CI](https://github.com/OXY7O/platform-workflow/actions/workflows/validate-platform-workflow.yml/badge.svg)](https://github.com/OXY7O/platform-workflow/actions/workflows/validate-platform-workflow.yml)
 [![Governance baseline](https://img.shields.io/badge/governance-v1.5.0-8250df?label=Governance%20baseline)](https://github.com/OXY7O/platform-governance/releases/tag/v1.5.0)
-![Deployment pilot](https://img.shields.io/badge/deployment-development%20pilot-f59e0b?label=Deployment)
+![Boundary delivery](https://img.shields.io/badge/delivery-private%20control%20plane-2563eb?label=Boundary)
 
 Pusat implementasi reusable GitHub Actions untuk berbagai tech stack. Repository ini menerjemahkan policy, lifecycle, control, dan evidence requirement dari `platform-governance` menjadi workflow yang dapat digunakan repository aplikasi melalui thin caller.
 
