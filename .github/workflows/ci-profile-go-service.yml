@@ -45,14 +45,14 @@ jobs:
       evidence-metadata: ${{ steps.normalize.outputs.evidence-metadata }}
     steps:
       - name: Checkout caller source
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: Validate Go Service contract
         id: contract
         uses: OXY7O/platform-workflow/actions/validate-go-service-contract@c9314ac3fd75042b5e8d569a38d851419c83f258
         with:
           contract-json: ${{ inputs.contract-json }}
       - name: Configure canonical Go 1.26.7
-        uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
         with:
           go-version: 1.26.7
           cache: true
@@ -88,7 +88,7 @@ jobs:
           build-input: ${{ steps.artifact-input.outputs.value }}
       - name: Upload qualified Go binary
         if: steps.build.outputs.readiness == 'ci-qualified'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: ${{ steps.build.outputs.artifact-name }}
           path: |
@@ -112,7 +112,7 @@ jobs:
       matrix: ${{ steps.matrix.outputs.matrix-json }}
     steps:
       - name: Checkout caller source
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: Generate governed Go compatibility matrix
         id: matrix
         uses: OXY7O/platform-workflow/actions/generate-go-compatibility-matrix@c9314ac3fd75042b5e8d569a38d851419c83f258
